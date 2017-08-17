@@ -68,8 +68,9 @@ const routesConfig = {
     { path: 'login', component: LoginPage },
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
-    { path: '*', component: NotFound },
+    { path: 'create-skill', component: require('browser/pages/CreateSkillPage').default },
     // ⚠️ Hook for cli! Do not remove 💀
+    { path: '*', component: NotFound },
   ]
 }
 

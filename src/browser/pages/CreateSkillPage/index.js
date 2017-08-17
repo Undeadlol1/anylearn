@@ -1,0 +1,1 @@
+export { default, CreateSkillPage } from './CreateSkillPage.jsx'
