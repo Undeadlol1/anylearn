@@ -68,8 +68,13 @@ const routesConfig = {
     { path: 'login', component: LoginPage },
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
+<<<<<<< HEAD
     { path: 'create-skill', component: require('browser/pages/CreateSkillPage').default },
     // ⚠️ Hook for cli! Do not remove 💀
+=======
+    // ⚠️ Hook for cli! Do not remove 💀
+    // 404 page must go after everything else
+>>>>>>> 3c0d627a05422a9ccc472713453dee937b98cd4e
     { path: '*', component: NotFound },
   ]
 }
