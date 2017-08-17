@@ -5,6 +5,7 @@ import store from 'browser/redux/store'
 import Dialog from 'material-ui/Dialog'
 import { stringify } from 'query-string'
 import React, { Component } from 'react'
+import { withRouter } from 'react-router'
 import FlatButton from 'material-ui/FlatButton'
 import { TextField } from 'redux-form-material-ui'
 import { Form, Field, reduxForm } from 'redux-form'
@@ -17,7 +18,14 @@ import { parseJSON } from'browser/redux/actions/actionHelpers'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { insertMood, toggleDialog } from 'browser/redux/actions/MoodActions'
 
+@withRouter
 export class MoodsInsert extends Component {
+
+	changeRoute = () => {
+		console.log('this.props: ', this.props);
+		this.props.router.push('/create-skill')
+	}
+
 	render() {
 		const { props } = this
 		const { insertMood, handleSubmit, dialogIsOpen, toggleDialog, asyncValidating, className } = props
@@ -35,7 +43,7 @@ export class MoodsInsert extends Component {
 					{/* BUTTON */}
                     <FloatingActionButton
                         secondary={true}
-                        onClick={toggleDialog}
+                        onClick={this.changeRoute}
                     >
                         <ContentAdd />
                     </FloatingActionButton>
