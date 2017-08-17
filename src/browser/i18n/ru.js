@@ -50,4 +50,11 @@ export default {
     skip: 'пропустить',
     dont_like_it_dont_show_again: 'мне не нравится (вы больше не увидите это видео)',
     add_this_video: 'добавить это видео',
+    // anylearn specific
+    novice: 'новичок',
+    scholar: 'ученик',
+    trainee: 'практикант',
+    master: 'мастер',
+    skill_name: 'Название навыка',
+    skill_logo_not_required: 'Логотип навыка (не обязательно)',
 }

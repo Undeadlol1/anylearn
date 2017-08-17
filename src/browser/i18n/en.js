@@ -49,4 +49,13 @@ export default {
     skip: 'skip',
     dont_like_it_dont_show_again: 'i don\'t like it (you will never see this again here)',
     add_this_video: 'add this video',
+    // anylearn specific
+    novice: 'novice',
+    scholar: 'scholar',
+    trainee: 'trainee',
+    master: 'master',
+    skill_name: 'Skill name',
+    skill_logo_not_required: 'Skill logo (not required)',
+
+
 }
