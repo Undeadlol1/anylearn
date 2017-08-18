@@ -8,14 +8,14 @@ import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { translate as t } from 'browser/containers/Translator'
-import { EditorState, ContentState, convertFromHTML } from 'draft-js'
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
 // project files
 import Loading from 'browser/components/Loading'
 import PageWrapper from 'browser/components/PageWrapper'
 import { first, second, third, fourth } from 'browser/templates'
+import { WysiwygEditor } from 'browser/components/WysiwygEditor'
 
 const defaultTexts = [first, second, third, fourth]
-// anylearn specific
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 
 class CreateSkillPage extends PureComponent {
@@ -28,6 +28,10 @@ class CreateSkillPage extends PureComponent {
 		pristine: true,
 		validating: false,
 		tabs: null, // TODO comment
+		editor0: '',
+		editor1: '',
+		editor2: '',
+		editor3: '',
 	}
 
 	componentDidMount() {
@@ -42,38 +46,34 @@ class CreateSkillPage extends PureComponent {
 	}
 
 	onLogoChange = (event, logo) => {
-		// if (logo.length == 0) this.setState({ logoError: t('cannot_be_empty') })
 		this.setState({logo})
 	}
 
+	// TODO submit is activated before tabs are visited (on pressing enter key)
 	handleSubmit = event => {
 		event.preventDefault()
 		console.log('SUBMIT IS CALLED!!');
-		// TODO submit is activated before tabs are visited (on pressing enter key)
+		const { state, props } = this
+		const payload = {
+			name: state.name,
+			logo: state.logo,
+			stage0: state.editor0 || convertFromHTML(first),
+			stage1: state.editor1 || convertFromHTML(second),
+			stage2: state.editor2 || convertFromHTML(third),
+			stage3: state.editor3 || convertFromHTML(fourth),
+		}
 	}
 
-	onEditorStateChange = some => {
-		console.log('some: ', some._immutable.toJS());
-
+	onEditorStateChange = (editorIndex, contentState) => {
+		this.setState({
+			['editor' + editorIndex]: contentState
+		})
 	}
 
 	renderTabs = () => {
 		const tabs = tabNames.map((tab, index) => {
-			let defaultState
-			if (process.env.BROWSER) {
-				const blocksFromHTML = convertFromHTML(defaultTexts[index])
-				defaultState = process.env.BROWSER ?
-								EditorState.createWithContent(ContentState.createFromBlockArray(
-									blocksFromHTML.contentBlocks,
-									blocksFromHTML.entityMap
-								))
-							: undefined
-			}
 			return <Tab label={tabNames[index]} key={index}>
-						<Editor
-							defaultEditorState={defaultState}
-							onEditorStateChange={this.onEditorStateChange}
-						/>
+						<WysiwygEditor defaultState={defaultTexts[index]} onChange={this.onEditorStateChange.bind(this, index)} />
 					</Tab>
 		})
 		return 	<Tabs className="CreateSkillPage__tabs">
@@ -91,7 +91,6 @@ class CreateSkillPage extends PureComponent {
 						<form onSubmit={this.handleSubmit}>
 							<TextField
 								fullWidth
-								autoFocus
 								required
 								name="name"
 								value={state.name}
@@ -127,4 +126,6 @@ connect(
 	(state, ownProps) => ({
 		...ownProps
 	}),
+	// dispatchToProps
+    (dispatch, ownProps) => ({})
 )(CreateSkillPage)
