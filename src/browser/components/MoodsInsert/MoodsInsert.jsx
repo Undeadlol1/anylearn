@@ -22,7 +22,6 @@ import { insertMood, toggleDialog } from 'browser/redux/actions/MoodActions'
 export class MoodsInsert extends Component {
 
 	changeRoute = () => {
-		console.log('this.props: ', this.props);
 		this.props.router.push('/create-skill')
 	}
 
