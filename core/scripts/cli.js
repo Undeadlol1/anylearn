@@ -72,7 +72,7 @@ fs.readFile(imagePath, "utf8", (err, ascii) => {
                 .then(({name}) => createReeduxModule(name))
                 break;
             case updateText:
-                // shell.exec('git remote add upstream https://github.com/developer-expirience/boilerplate')
+                shell.exec('git remote add upstream https://github.com/developer-expirience/boilerplate')
                 shell.exec('git pull upstream master --allow-unrelated-histories')
                 shell.exec('yarn')
                 shell.echo('😎  all done 😎')
