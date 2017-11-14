@@ -7,6 +7,8 @@ import global, { initialState as globalState } from './GlobalReducer'
 import user, { initialState as userState } from './UserReducer'
 import mood, { initialState as moodState } from './MoodReducer'
 import node, { initialState as nodeState } from './NodeReducer'
+import skill, { initialState as skillState } from 'browser/redux/skill/skillReducer'
+// ⚠️ First hook for cli! Do not remove 💀 
 // ⚠️ First hook for cli! Do not remove 💀
 
 export const initialState = {
@@ -14,6 +16,8 @@ export const initialState = {
     user: userState,
     mood: moodState,
     node: nodeState,
+skill: skillState,
+// ⚠️ Second hook for cli! Do not remove 💀 
 // ⚠️ Second hook for cli! Do not remove 💀
 }
 
@@ -25,5 +29,7 @@ export default combineReducers({
     form,
     toastr,
     routing,
+skill,
+// ⚠️ Third hook for cli! Do not remove 💀 
 // ⚠️ Third hook for cli! Do not remove 💀
 })
