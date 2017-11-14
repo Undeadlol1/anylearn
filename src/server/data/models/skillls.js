@@ -2,29 +2,37 @@
 module.exports = function(sequelize, DataTypes) {
   var Skills = sequelize.define('Skills', {
     name: {
-        type: DataTypes.STRING,
-        allowNull: false,
         unique: true,
-        // TODO index
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     slug: {
-        type: DataTypes.STRING,
-        allowNull: false,
         unique: true,
-        // TODO index
+        allowNull: false,
+        type: DataTypes.STRING,
     },
     UserId: {
       allowNull: false,
       type: DataTypes.INTEGER
     },
     RevisionId: {
-      allowNull: false, // TODO
+      allowNull: false,
       type: DataTypes.INTEGER
     },
+    // TODO do we need this?
+    image: {
+      allowNull: true,
+      type: DataTypes.STRING,
+      validate: {
+        isUrl: true,
+        notEmpty: true,
+      }
+    },
+    // TODO do we even use this?
     rating: {
       allowNull: false,
       defaultValue: 0,
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
     },
   }, {
     classMethods: {

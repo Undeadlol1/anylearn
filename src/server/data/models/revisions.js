@@ -20,11 +20,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     // TODO do we need this?
     image: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING,
       validate: {
         isUrl: true,
-        notNull: true,
         notEmpty: true,
       }
     },

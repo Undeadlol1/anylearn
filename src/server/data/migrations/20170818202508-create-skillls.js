@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: function(queryInterface, Sequelize) {
-    return queryInterface.createTable('skillls', {
+    return queryInterface.createTable('skills', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,7 +9,36 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name: {
-        type: Sequelize.STRING
+        unique: true,
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      slug: {
+        unique: true,
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      UserId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },  
+      // TODO do we need this?
+      image: {
+        allowNull: true,
+        type: Sequelize.STRING,
+        validate: {
+          isUrl: true,
+          notEmpty: true,
+        }
+      },
+      RevisionId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      rating: {
+        allowNull: false,
+        defaultValue: 0,
+        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,
@@ -22,6 +51,6 @@ module.exports = {
     });
   },
   down: function(queryInterface, Sequelize) {
-    return queryInterface.dropTable('skillls');
+    return queryInterface.dropTable('skills');
   }
 };
