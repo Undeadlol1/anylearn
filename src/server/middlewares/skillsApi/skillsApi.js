@@ -1,6 +1,8 @@
 import slugify from 'slug'
 import { Router } from 'express'
-import { Skills } from 'server/data/models'
+import sequelize from 'sequelize'
+import generateUuid from 'uuid/v4'
+import { Skills, Revisions } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
 
 const limit = 12
@@ -11,13 +13,10 @@ export default Router()
   .get('/:page?', async (req, res) => {
     try {
       const page = req.params.page
-      const offset = page ? limit * (page -1) : 0
       const totalSkillss = await Skills.count()
+      const offset = page ? limit * (page -1) : 0
       const totalPages = Math.ceil(totalSkillss / limit)
-      const skills = await Skills.findAll({
-        limit,
-        offset,
-      })
+      const skills = await Skills.findAll({limit, offset})
       res.json({ skills, totalPages })
     }
     catch (error) {
@@ -27,9 +26,10 @@ export default Router()
   })
 
   // get single skill
-  .get('/skill/:skillsId', async ({params}, res) => {
+  .get('/skill/:slug', async ({params}, res) => {
     try {
-      const skill = await Skills.findById(params.skillsId)
+      const slug = params && params.slug
+      const skill = await Skills.findOne({where: {slug}})
       res.json(skill)
     } catch (error) {
       console.log(error)
@@ -55,9 +55,27 @@ export default Router()
 
   // create skill
   .post('/', mustLogin, async ({user, body}, res) => {
+    /*
+      1) create skill
+      2) create revision for skill
+      3) ???
+      4) PROFIT
+    */
     try {
       const UserId = user.id
-      const skill = await Skills.create({...body, UserId})
+      const slug = slugify(body.name)
+      const SkillId = generateUuid()
+      const RevisionId = generateUuid()
+
+      const revision =  await Revisions.create({
+                          ...body,
+                          UserId,
+                          active: true,
+                          id: RevisionId,
+                          parentId: SkillId,
+                        })
+      const skill = await Skills.create({...body, RevisionId, slug, UserId})
+
       res.json(skill)
     } catch (error) {
       console.log(error)
