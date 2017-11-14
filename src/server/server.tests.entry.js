@@ -158,11 +158,11 @@ describe('fixture data setup', function() {
             const profiles = await Profile.findAll({raw: true})
             const decisions = await Decision.findAll({raw: true})
 
-            expect(users).to.have.length(10)
-            expect(locals).to.have.length(10)
-            expect(moods).to.have.length(10)
-            expect(nodes).to.have.length(100) // 10 moods * 10 nodes
-            expect(profiles).to.have.length(10)
+            expect(users).to.have.length(10, '10 users')
+            expect(locals).to.have.length(10, '10 local profiles')
+            expect(moods).to.have.length(10, '10 moods')
+            expect(nodes).to.have.length(100, '100 nodes') // 10 moods * 10 nodes
+            expect(profiles).to.have.length(10, '10 profiles')
             // expect(decisions).to.have.length(1000) // 10 moods * 10 nodes * 10 decisions
 
             moods.forEach(mood => {
