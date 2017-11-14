@@ -15,7 +15,7 @@ describe('<MoodsInsert />', () => {
     dialogIsOpen: false,
   }
   const wrapper = shallow(<MoodsInsert {...props} />)
-  console.log('wrapper', wrapper.debug())
+  
   // it('has <div>', () => {
   //   const el = wrapper.find('div')
   //   console.log('el', el.debug())
