@@ -99,6 +99,7 @@ app.use('/api/decisions', decisionsApi)
 app.use('/api/externals', externalsApi)
 app.use('/api/skills', require('./middlewares/skillsApi').default)
 app.use('/api/revisions', require('./middlewares/revisionsApi').default)
+app.use('/api/votes', require('./middlewares/votesApi').default) 
 // ⚠️ Hook for cli! Do not remove 💀
 
 // SPA

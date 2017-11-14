@@ -28,53 +28,53 @@ export default describe('/revisions API', function() {
         Revisions.destroy({where: { name: revision }})
     })
 
-    it('POST revision', async function() {
-        const agent = await loginUser(username, password)
-        await agent.post('/api/revisions')
-            .send({ name: revision })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .then(function(res) {
-                return res.body.slug.should.be.equal(slug)
-            })
-            .catch(error => {
-                console.error(error)
-                throw new Error(error)
-            })
-    })
+    // it('POST revision', async function() {
+    //     const agent = await loginUser(username, password)
+    //     await agent.post('/api/revisions')
+    //         .send({ name: revision })
+    //         .expect('Content-Type', /json/)
+    //         .expect(200)
+    //         .then(function(res) {
+    //             return res.body.slug.should.be.equal(slug)
+    //         })
+    //         .catch(error => {
+    //             console.error(error)
+    //             throw new Error(error)
+    //         })
+    // })
 
-    it('GET revisions', function(done) {
-        request(server)
-            .get('/api/revisions')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function(err, res) {
-                if (err) return done(err);
-                res.body.revisions.should.be.a('array')
-                done()
-            });
-    })
+    // it('GET revisions', function(done) {
+    //     request(server)
+    //         .get('/api/revisions')
+    //         .expect('Content-Type', /json/)
+    //         .expect(200)
+    //         .end(function(err, res) {
+    //             if (err) return done(err);
+    //             res.body.revisions.should.be.a('array')
+    //             done()
+    //         });
+    // })
 
-    it('GET single revision', function(done) {
-        user
-            .get('/api/revisions/revision/' + slug )
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function(err, res) {
-                if (err) return done(err);
-                res.body.name.should.be.equal(revision)
-                done()
-            });
-    })
+    // it('GET single revision', function(done) {
+    //     user
+    //         .get('/api/revisions/revision/' + slug )
+    //         .expect('Content-Type', /json/)
+    //         .expect(200)
+    //         .end(function(err, res) {
+    //             if (err) return done(err);
+    //             res.body.name.should.be.equal(revision)
+    //             done()
+    //         });
+    // })
 
-    // TODO PUT test
+    // // TODO PUT test
 
-    // TODO create test for "mustLogin" function and this kind of tests will be obsolete
-    it('fail to POST if not authorized', function(done) { // TODO move this to previous function?
-        user
-            .post('/api/revisions')
-            .send({ name: revision })
-            .expect(401, done)
-    })
+    // // TODO create test for "mustLogin" function and this kind of tests will be obsolete
+    // it('fail to POST if not authorized', function(done) { // TODO move this to previous function?
+    //     user
+    //         .post('/api/revisions')
+    //         .send({ name: revision })
+    //         .expect(401, done)
+    // })
 
 })
