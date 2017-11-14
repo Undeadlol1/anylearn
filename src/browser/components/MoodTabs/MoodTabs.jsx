@@ -19,21 +19,21 @@ export class MoodTabs extends PureComponent {
 					<Tab label={t('popular')}>
 						<MoodsList
 							selector="popular"
-							moods={props.popular.get('moods')}
+							/* moods={props.popular.get('moods')} */
 							totalPages={props.popular.get('totalPages')}
 							currentPage={props.popular.get('currentPage')} />
 					</Tab>
 					 <Tab label={t('new')}>
 						<MoodsList
 							selector="new"
-							moods={props.new.get('moods')}
+							/* moods={props.new.get('moods')} */
 							totalPages={props.new.get('totalPages')}
 							currentPage={props.new.get('currentPage')} />
 					</Tab>
 					<Tab label={t('random')}>
 						<MoodsList
 							selector="random"
-							moods={props.random.get('moods')}
+							/* moods={props.random.get('moods')} */
 							totalPages={props.random.get('totalPages')}
 							currentPage={props.random.get('currentPage')} />
 					</Tab>

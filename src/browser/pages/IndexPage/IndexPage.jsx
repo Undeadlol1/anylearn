@@ -21,7 +21,7 @@ class IndexPage extends PureComponent {
 					loading={props.loading}
 				>
 					<Grid fluid>
-						<WelcomeCard />
+						{/* <WelcomeCard /> */}
 						<MoodsInsert />
 						<MoodTabs />
 					</Grid>
