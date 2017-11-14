@@ -23,8 +23,8 @@ class CreateSkillPage extends PureComponent {
 	state = {
 		name: '',
 		nameError: '',
-		logo: '',
-		logoError: '',
+		image: '',
+		imageError: '',
 		pristine: true,
 		validating: false,
 		tabs: null, // TODO comment
@@ -45,8 +45,8 @@ class CreateSkillPage extends PureComponent {
 		this.setState({name})
 	}
 
-	onLogoChange = (event, logo) => {
-		this.setState({logo})
+	onLogoChange = (event, image) => {
+		this.setState({image})
 	}
 
 	// TODO submit is activated before tabs are visited (on pressing enter key)
@@ -54,14 +54,24 @@ class CreateSkillPage extends PureComponent {
 		event.preventDefault()
 		console.log('SUBMIT IS CALLED!!');
 		const { state, props } = this
+		console.log('state.editor0', state.editor0)
+		const 	firstHtml = convertFromHTML(first),
+				secondHtml = convertFromHTML(second),
+				thirdHtml = convertFromHTML(third),
+				fourthHtml = convertFromHTML(fourth)
+		const text = JSON.stringify({
+			stage0: convertToRaw(state.editor0 || ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
+			stage1: convertToRaw(state.editor1 || ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
+			stage2: convertToRaw(state.editor2 || ContentState.createFromBlockArray(thirdHtml.contentBlocks, thirdHtml.entityMap)),
+			stage3: convertToRaw(state.editor3 || ContentState.createFromBlockArray(fourthHtml.contentBlocks, fourthHtml.entityMap)),
+		})
 		const payload = {
+			text,
 			name: state.name,
-			logo: state.logo,
-			stage0: state.editor0 || convertFromHTML(first),
-			stage1: state.editor1 || convertFromHTML(second),
-			stage2: state.editor2 || convertFromHTML(third),
-			stage3: state.editor3 || convertFromHTML(fourth),
+			image: state.image,
 		}
+		// console.log('state', convertToRaw(payload.stage0))
+		console.log('payload: ', payload);
 	}
 
 	onEditorStateChange = (editorIndex, contentState) => {
@@ -101,9 +111,9 @@ class CreateSkillPage extends PureComponent {
 							<TextField
 								fullWidth
 								type="url"
-								name="logo"
-								value={state.logo}
-								errorText={state.logoError}
+								name="image"
+								value={state.image}
+								errorText={state.imageError}
 								onChange={this.onLogoChange}
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} />
