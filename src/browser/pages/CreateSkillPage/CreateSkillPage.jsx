@@ -108,7 +108,7 @@ class CreateSkillPage extends PureComponent {
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} />
 							{this.state.tabs}
-							<center><RaisedButton type="submit" label={t('submit')} /></center>
+							<center><RaisedButton primary={true} type="submit" label={t('submit')} /></center>
 						</form>
 					</Grid>
 				</PageWrapper>
@@ -123,9 +123,6 @@ export { CreateSkillPage }
 
 export default
 connect(
-	(state, ownProps) => ({
-		...ownProps
-	}),
-	// dispatchToProps
+	(state, ownProps) => ({...ownProps}),
     (dispatch, ownProps) => ({})
 )(CreateSkillPage)
