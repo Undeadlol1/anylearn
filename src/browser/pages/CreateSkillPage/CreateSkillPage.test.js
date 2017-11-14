@@ -25,8 +25,8 @@ describe('<IndexPage />', () => {
   })
 
   it('has <Tabs>', () => {
-    expect(wrapper.find('Tabs')).to.have.length(1);
-    expect(wrapper.find('Tab')).to.have.length(4);
+    expect(wrapper.find('Connect(MoodTabs)')).to.have.length(1);
+    // expect(wrapper.find('Tab')).to.have.length(4);
   })
 
 })

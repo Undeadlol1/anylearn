@@ -24,9 +24,9 @@ describe('<IndexPage />', () => {
     expect(wrapper.find('Styled(Grid)')).to.have.length(1);
   });
 
-  it('has <WelcomeCard>', () => {
-    expect(wrapper.find('WelcomeCard')).to.have.length(1);
-  });
+  // it('has <WelcomeCard>', () => {
+  //   expect(wrapper.find('WelcomeCard')).to.have.length(1);
+  // });
 
   it('has <MoodsInsert>', () => {
     // TODO 'ReduxForm' does not seems right

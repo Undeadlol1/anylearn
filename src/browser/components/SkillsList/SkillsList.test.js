@@ -12,15 +12,11 @@ describe('<SkillsList />', () => {
 
   const props = {}
   const wrapper = shallow(<SkillsList {...props} />)
-
-  it('has <div>', () => {
-    const el = wrapper.find('div')
+  
+  it('has <section>', () => {
+    const el = wrapper.find('section')
     expect(el).to.have.length(1)
     expect(el).to.have.className('SkillsList')
-  })
-
-  it('failes the test', () => {
-    assert(false)
   })
 
 })
