@@ -3,10 +3,11 @@ module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('skills', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        unique: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        validate: { isUUID: 4 },
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
         unique: true,
@@ -33,7 +34,7 @@ module.exports = {
       },
       RevisionId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID
       },
       rating: {
         allowNull: false,

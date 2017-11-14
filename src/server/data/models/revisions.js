@@ -1,6 +1,13 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
   var Revisions = sequelize.define('Revisions', {
+    id: {
+      unique: true,
+      primaryKey: true,
+      type: DataTypes.UUID,
+      validate: { isUUID: 4 },
+      defaultValue: DataTypes.UUIDV4,
+    },
     name: {
         allowNull: false,
         type: DataTypes.STRING,
@@ -29,11 +36,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     parentId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.UUID,
     },
     previousId: {
       allowNull: true, // ?????
-      type: DataTypes.INTEGER,
+      type: DataTypes.UUID,
     },
     // TODO do we need this?
     rating: {

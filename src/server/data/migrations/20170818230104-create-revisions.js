@@ -3,10 +3,11 @@ module.exports = {
   up: function(queryInterface, Sequelize) {
     return queryInterface.createTable('revisions', {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        unique: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
+        validate: { isUUID: 4 },
+        defaultValue: Sequelize.UUIDV4,
       },
       name: {
         allowNull: false,
@@ -36,11 +37,11 @@ module.exports = {
       },
       parentId: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.UUID,
       },
       previousId: {
         allowNull: true, // ?????
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       // TODO do we need this?
       rating: {
