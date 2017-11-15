@@ -9,6 +9,7 @@ import NotFound from './pages/NotFound';
 import store from 'browser/redux/store'
 import { fetchUser } from 'browser/redux/actions/UserActions'
 import { fetchMoods, fetchMood } from 'browser/redux/actions/MoodActions'
+import { fetchSkills, fetchSkill } from 'browser/redux/skill/SkillActions'
 import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeActions'
 
 /**
@@ -23,17 +24,18 @@ const routesConfig = {
     // fetch data
     onEnter({params}, replace, done) {
       // check if fetching is needed
-      const newMoods = store.getState().mood.getIn(['new', 'moods'])
-      if (newMoods.size) return done()
-      else {
+      // console.log('store.getState().skill: ', store.getState().skill.toJS());
+      // const newSkills = store.getState().skill.getIn(['new', 'skills'])
+      // if (newSkills.size) return done()
+      // else {
         Promise
         .all([
-          store.dispatch(fetchMoods('new')),
-          store.dispatch(fetchMoods('random')),
-          store.dispatch(fetchMoods('popular')),
+          store.dispatch(fetchSkills('new')),
+          store.dispatch(fetchSkills('random')),
+          store.dispatch(fetchSkills('popular')),
         ])
         .then(() => done())
-      }
+      // }
     }
   },
   childRoutes: [
@@ -69,7 +71,22 @@ const routesConfig = {
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
     { path: 'create-skill', component: require('browser/pages/CreateSkillPage').default },
-    // ⚠️ Hook for cli! Do not remove 💀
+    { path: 'skill', component: require('browser/pages/SkillPage').default },
+    {
+      path: 'skill/(:skillSlug)',
+      component: require('browser/pages/SkillPage').default,
+      onEnter({params}, replace, done) {
+        // check if fetching is needed
+        const fetchedSkillSlug = store.getState().skill.get('slug')
+        if (fetchedSkillSlug == params.skillSlug) return done()
+        else {
+          store
+          .dispatch(fetchSkill(params.skillSlug))
+          .then(() => done())
+        }
+      }
+    },
+// ⚠️ Hook for cli! Do not remove 💀
     // 404 page must go after everything else
     { path: '*', component: NotFound },
   ]

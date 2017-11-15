@@ -1,0 +1,1 @@
+export { default, SkillPage } from './SkillPage.jsx'

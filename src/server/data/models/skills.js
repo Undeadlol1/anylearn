@@ -30,10 +30,10 @@ module.exports = function(sequelize, DataTypes) {
     image: {
       allowNull: true,
       type: DataTypes.STRING,
-      validate: {
-        isUrl: true,
-        notEmpty: true,
-      }
+      // validate: {
+      //   isUrl: true,
+      //   // notEmpty: true,
+      // }
     },
     // TODO do we even use this?
     rating: {

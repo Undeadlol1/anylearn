@@ -7,11 +7,12 @@ import { Editor } from 'react-draft-wysiwyg'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
-import { translate as t } from 'browser/containers/Translator'
-import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
+import { ContentState, convertFromHTML, convertToRaw } from 'draft-js'
 // project files
 import Loading from 'browser/components/Loading'
 import PageWrapper from 'browser/components/PageWrapper'
+import { insertSkill } from 'browser/redux/skill/SkillActions'
+import { translate as t } from 'browser/containers/Translator'
 import { first, second, third, fourth } from 'browser/templates'
 import { WysiwygEditor } from 'browser/components/WysiwygEditor'
 
@@ -42,7 +43,11 @@ class CreateSkillPage extends PureComponent {
 
 	onNameChange = (event, name) => {
 		if (name.length == 0) this.setState({ nameError: t('cannot_be_empty') })
-		this.setState({name})
+		this.setState({
+			name,
+			pristine: false,
+			nameError: this.props.UserId ? '' : t('please_login')
+		})
 	}
 
 	onLogoChange = (event, image) => {
@@ -54,16 +59,18 @@ class CreateSkillPage extends PureComponent {
 		event.preventDefault()
 		console.log('SUBMIT IS CALLED!!');
 		const { state, props } = this
-		console.log('state.editor0', state.editor0)
+		const { editor0, editor1, editor2, editor3 } = state
 		const 	firstHtml = convertFromHTML(first),
 				secondHtml = convertFromHTML(second),
 				thirdHtml = convertFromHTML(third),
 				fourthHtml = convertFromHTML(fourth)
+				console.log('editor0: ', editor0);
+				console.log('editor1: ', editor1);
 		const text = JSON.stringify({
-			stage0: convertToRaw(state.editor0 || ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
-			stage1: convertToRaw(state.editor1 || ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
-			stage2: convertToRaw(state.editor2 || ContentState.createFromBlockArray(thirdHtml.contentBlocks, thirdHtml.entityMap)),
-			stage3: convertToRaw(state.editor3 || ContentState.createFromBlockArray(fourthHtml.contentBlocks, fourthHtml.entityMap)),
+			stage0: editor0 || convertToRaw(ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
+			stage1: editor1 || convertToRaw(ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
+			stage2: editor2 || convertToRaw(ContentState.createFromBlockArray(thirdHtml.contentBlocks, thirdHtml.entityMap)),
+			stage3: editor3 || convertToRaw(ContentState.createFromBlockArray(fourthHtml.contentBlocks, fourthHtml.entityMap)),
 		})
 		const payload = {
 			text,
@@ -71,12 +78,20 @@ class CreateSkillPage extends PureComponent {
 			image: state.image,
 		}
 		// console.log('state', convertToRaw(payload.stage0))
+		
 		console.log('payload: ', payload);
+		props
+			.insertSkill(payload)
+			.then(() => {
+				console.log('then!')
+				this.props.router.push('/')
+			})
 	}
 
 	onEditorStateChange = (editorIndex, contentState) => {
 		this.setState({
-			['editor' + editorIndex]: contentState
+			pristine: false,
+			['editor' + editorIndex]: contentState,
 		})
 	}
 
@@ -118,7 +133,13 @@ class CreateSkillPage extends PureComponent {
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} />
 							{this.state.tabs}
-							<center><RaisedButton primary={true} type="submit" label={t('submit')} /></center>
+							<center>
+								<RaisedButton
+									type="submit"
+									primary={true}
+									label={t('submit')}
+									disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
+							</center>
 						</form>
 					</Grid>
 				</PageWrapper>
@@ -126,13 +147,18 @@ class CreateSkillPage extends PureComponent {
 }
 
 CreateSkillPage.propTypes = {
-	// prop: PropTypes.object,
+	UserId: PropTypes.number,
 }
 
 export { CreateSkillPage }
 
 export default
 connect(
-	(state, ownProps) => ({...ownProps}),
-    (dispatch, ownProps) => ({})
+	(state, ownProps) => ({
+		UserId: state.user.get('id'),
+		...ownProps
+	}),
+    (dispatch, ownProps) => ({
+		insertSkill: payload => dispatch(insertSkill(payload))
+	})
 )(CreateSkillPage)

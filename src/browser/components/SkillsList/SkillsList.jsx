@@ -20,22 +20,24 @@ export class SkillsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
+		console.log('props.skills: ', props.skills.toJS());
 		if(props.skills.size) {
 			return props.skills.map( skill => {
-					const src = skill.get('image')
-								? skill.get('image')
-								: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
-					return	<Col className="SkillsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={3} key={skill.get('id')}>
-								<Paper zDepth={5}>
-									<Link to={`/skill/${skill.get('slug')}`}>
-										<Card>
-											<CardMedia overlay={<CardTitle title={skill.get('name')} />}>
-												<img alt={skill.get('name') + translate('things_image')} src={src} />
-											</CardMedia>
-										</Card>
-									</Link>
-								</Paper>
-							</Col>
+				console.log('skill', skill)
+				const src = skill.get('image')
+							? skill.get('image')
+							: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
+				return	<Col className="SkillsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={3} key={skill.get('id')}>
+							<Paper zDepth={5}>
+								<Link to={`/skill/${skill.get('slug')}`}>
+									<Card>
+										<CardMedia overlay={<CardTitle title={skill.get('name')} />}>
+											<img alt={skill.get('name') + translate('things_image')} src={src} />
+										</CardMedia>
+									</Card>
+								</Link>
+							</Paper>
+						</Col>
 			})
 		}
 		else return	<Col xs={12} className={'SkillsList__empty'}>

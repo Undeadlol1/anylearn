@@ -15,25 +15,29 @@ export class MoodTabs extends PureComponent {
 	render() {
 		const { props } = this
 		const classNames = cx('MoodTabs', props.className)
+		console.log('props.skills: ', props.skills.toJS());
 		return 	<Tabs className={classNames}>
 					<Tab label={t('popular')}>
 						<MoodsList
 							selector="popular"
-							/* moods={props.popular.get('moods')} */
+							// TODO this is a problem
+							skills={props.skills}
 							totalPages={props.popular.get('totalPages')}
 							currentPage={props.popular.get('currentPage')} />
 					</Tab>
 					 <Tab label={t('new')}>
 						<MoodsList
 							selector="new"
-							/* moods={props.new.get('moods')} */
+							// TODO this is a problem
+							skills={props.skills}
 							totalPages={props.new.get('totalPages')}
 							currentPage={props.new.get('currentPage')} />
 					</Tab>
 					<Tab label={t('random')}>
 						<MoodsList
 							selector="random"
-							/* moods={props.random.get('moods')} */
+							// TODO this is a problem
+							skills={props.skills}
 							totalPages={props.random.get('totalPages')}
 							currentPage={props.random.get('currentPage')} />
 					</Tab>
@@ -43,8 +47,9 @@ export class MoodTabs extends PureComponent {
 
 export default connect(
 	// state to props
-	({ mood }, ownProps) => {
+	({ skill, mood }, ownProps) => {
 		return {
+			skills: skill.get('skills'),
 			new: mood.get('new'),
 			random: mood.get('random'),
 			popular: mood.get('popular'),

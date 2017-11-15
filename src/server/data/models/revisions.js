@@ -29,10 +29,10 @@ module.exports = function(sequelize, DataTypes) {
     image: {
       allowNull: true,
       type: DataTypes.STRING,
-      validate: {
-        isUrl: true,
-        notEmpty: true,
-      }
+      // validate: {
+      //   isUrl: true,
+      //   notEmpty: true,
+      // }
     },
     parentId: {
       allowNull: false,

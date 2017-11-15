@@ -4,6 +4,7 @@ import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
 import { Skills, Revisions } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
+import { error } from 'util';
 
 const limit = 12
 
@@ -13,14 +14,19 @@ export default Router()
   .get('/:page?', async (req, res) => {
     try {
       const page = req.params.page
-      const totalSkillss = await Skills.count()
+      // console.log('page: ', page);
+      const totalSkills = await Skills.count()
+      // console.log('totalSkills: ', totalSkills);
       const offset = page ? limit * (page -1) : 0
-      const totalPages = Math.ceil(totalSkillss / limit)
+      // console.log('offset: ', offset);
+      const totalPages = Math.ceil(totalSkills / limit)
+      // console.log('totalPages: ', totalPages);
       const skills = await Skills.findAll({limit, offset})
+      // console.log('skills: ', skills.dataValues);
       res.json({ skills, totalPages })
     }
     catch (error) {
-      console.log(error);
+     // console.log(error);
       res.status(500).end(error)
     }
   })
@@ -29,8 +35,9 @@ export default Router()
   .get('/skill/:slug', async ({params}, res) => {
     try {
       const slug = params && params.slug
-      const skill = await Skills.findOne({where: {slug}})
-      res.json(skill)
+      res.json(
+        await Skills.findOne({where: {slug}})
+      )
     } catch (error) {
       console.log(error)
       res.status(500).end(error)
@@ -67,16 +74,25 @@ export default Router()
       const SkillId = generateUuid()
       const RevisionId = generateUuid()
 
-      const revision =  await Revisions.create({
-                          ...body,
-                          UserId,
-                          active: true,
-                          id: RevisionId,
-                          parentId: SkillId,
-                        })
-      const skill = await Skills.create({...body, RevisionId, slug, UserId})
+      const response  = await Revisions
+                          .create({
+                            ...body,
+                            UserId,
+                            active: true,
+                            id: RevisionId,
+                            parentId: SkillId,
+                          })
+                          .then(() =>
+                            Skills.create({
+                              ...body,
+                              slug,
+                              UserId,
+                              RevisionId,
+                              id: SkillId,
+                            })
+                          )
 
-      res.json(skill)
+      res.json(response)
     } catch (error) {
       console.log(error)
       res.status(500).end(error)

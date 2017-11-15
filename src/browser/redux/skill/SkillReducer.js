@@ -3,22 +3,21 @@ import { Map, List } from 'immutable'
 
 const skillStructure = 	Map({
 							id: '',
-							url: '',
-							type: '',
+							name: '',
+							slug: '',
+							image: '',
 							UserId: '',
-							SkillId: '',
 							rating: '',
-							provider: '',
-							contentId: '',
+							RevisionId: '',
 						})
 
 export const initialState = Map({
 							error: '',
-							skills: List(),
+							skills: {},
 							loading: false,
 							finishedLoading: true,
 							dialogIsOpen: false,
-							contentNotFound: false,
+							contentNotFound: false, // TODO do we need this?
 							searchIsActive: false, // TODO do i need this?
 							searchedVideos: List(),
 							...skillStructure.toJS()
@@ -35,20 +34,22 @@ export default (state = initialState, {type, payload}) => {
 		case 'RECIEVE_SKILL':
 			return state
 				.merge(payload)
-				.updateIn(['skills'], arr => {
-					return isEmpty(payload)
-						? arr
-						: arr.push(Map(payload))
-				})
+				// .updateIn(['skills'], arr => {
+				// 	return isEmpty(payload)
+				// 		? arr
+				// 		: arr.push(Map(payload))
+				// })
 				.merge({
 					loading: false,
 					// finishedLoading: true,
 					contentNotFound: isEmpty(payload),
 				})
 		case 'RECIEVE_SKILLS':
+			console.log('payload: ', payload);
 			return state
 				.mergeDeep({
-					...payload[0],
+					// ...payload[0],
+					// ...payload,
 					skills: payload,
 					loading: false,
 					// finishedLoading: true,

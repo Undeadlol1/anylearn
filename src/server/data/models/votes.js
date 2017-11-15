@@ -31,8 +31,8 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
           }
         });
-        Votes.hasOne(models.Skills)
-        Votes.hasOne(models.Revisions)
+        // Votes.hasOne(models.Skills)
+        // Votes.hasOne(models.Revisions)
       }
     }
   });

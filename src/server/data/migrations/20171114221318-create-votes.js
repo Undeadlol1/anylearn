@@ -9,45 +9,17 @@ module.exports = {
         validate: { isUUID: 4 },
         defaultValue: Sequelize.UUIDV4,
       },
-      name: {
+      choice: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      description: {
-          allowNull: true,
-          type: Sequelize.STRING,
+        type: Sequelize.BOOLEAN,
       },
       UserId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      active: {
-        allowNull: false,
-        defaultValue: true,
-        type: Sequelize.BOOLEAN,
-      },
-      // TODO do we need this?
-      image: {
-        allowNull: true,
-        type: Sequelize.STRING,
-        validate: {
-          isUrl: true,
-          notEmpty: true,
-        }
+        type: Sequelize.INTEGER
       },
       parentId: {
         allowNull: false,
-        type: Sequelize.UUID,
-      },
-      previousId: {
-        allowNull: true, // ?????
-        type: Sequelize.UUID,
-      },
-      // TODO do we need this?
-      rating: {
-        defaultValue: 0,
-        allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID
       },
       createdAt: {
         allowNull: false,

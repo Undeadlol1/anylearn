@@ -23,10 +23,12 @@ export const actions = createActions({
  * @param {object} payload content url
  */
 export const insertSkill = payload => (dispatch, getState) => {
+	console.log('insertSkill!!!');
 	return fetch(skillsUrl, headersAndBody(payload))
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(function(response) {
+			console.log('response: ', response);
 			dispatch(actions.toggleDialog())
 			return dispatch(actions.recieveSkill(response))
 		})
@@ -34,17 +36,16 @@ export const insertSkill = payload => (dispatch, getState) => {
 
 /**
  * fetch skill using skill slug
- * @param {string} slug skill slug (optional)
+ * @param {string} slug skill slug
  */
 export const fetchSkill = slug => (dispatch, getState) => {
 	const state = getState()
-	const nodeId = state.node.id
 	const skillSlug = slug || state.skill.get('slug')
 
-	dispatch(actions.fetchingSkill())
+	// dispatch(actions.fetchingSkill())
 
 	return fetch(
-		skillsUrl + skillSlug + '/' + nodeId,
+		skillsUrl + 'skill/' + skillSlug,
 		{ credentials: 'same-origin' }
 	)
 		.then(checkStatus)
@@ -64,16 +65,16 @@ export const fetchSkills = slug => (dispatch, getState) => {
 	const nodeId = state.node.id
 	const skillSlug = slug || state.skill.get('slug')
 
-	dispatch(actions.fetchingSkill())
+	// dispatch(actions.fetchingSkill())
 
 	return fetch(
-		skillsUrl + skillSlug,
+		skillsUrl, //+ skillSlug,
 		{ credentials: 'same-origin' }
 	)
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			return dispatch(actions.recieveSkill((data)))
+			return dispatch(actions.recieveSkills((data)))
 		})
 		.catch(err => console.error('fetchskill failed!', err))
 }
