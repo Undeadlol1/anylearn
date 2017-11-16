@@ -35,9 +35,18 @@ export default Router()
   .get('/skill/:slug', async ({params}, res) => {
     try {
       const slug = params && params.slug
-      res.json(
-        await Skills.findOne({where: {slug}})
-      )
+      console.log('slug: ', slug);
+      const skill = await Skills.findOne({where: {slug}})
+      // console.log('skill: before', skill);
+      const revision = await Revisions.findOne({
+        where: {
+          active: true,
+          parentId: skill.id,
+        }
+      })
+      skill.dataValues.revision = revision.dataValues
+      // console.log('skillsApi: ', skill.dataValues);
+      res.json(skill)
     } catch (error) {
       console.log(error)
       res.status(500).end(error)

@@ -1,5 +1,18 @@
 import isEmpty from 'lodash/isEmpty'
-import { Map, List } from 'immutable'
+import { Map, List, fromJS } from 'immutable'
+
+const revisionStructure = 	Map({
+								id: '',
+								name: '',
+								text: '',
+								description: '',
+								UserId: '',
+								active: '',
+								image: '',
+								parentId: '',
+								previousId: '',
+								rating: '',
+							})
 
 const skillStructure = 	Map({
 							id: '',
@@ -9,6 +22,7 @@ const skillStructure = 	Map({
 							UserId: '',
 							rating: '',
 							RevisionId: '',
+							revision: revisionStructure,
 						})
 
 export const initialState = Map({

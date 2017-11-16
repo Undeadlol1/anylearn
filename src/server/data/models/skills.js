@@ -45,6 +45,12 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       tableName: 'skills',
       freezeTableName: true,
+      defaultScope: {
+        include: [{
+          model: require('./revisions'),
+          where: {active: true},
+        }],
+      },
       associate: function(models) {
         Skills.belongsTo(models.User, {
           // onDelete: "CASCADE", // TODO implement this?
@@ -52,7 +58,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
           }
         });
-        Skills.hasMany(models.Revisions)
+        // Skills.hasMany(models.Revisions)
       },
       findIdBySlug: function(slug) {
         return Skills

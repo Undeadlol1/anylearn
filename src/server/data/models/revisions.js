@@ -12,6 +12,10 @@ module.exports = function(sequelize, DataTypes) {
         allowNull: false,
         type: DataTypes.STRING,
     },
+    text: {
+        allowNull: false,
+        type: DataTypes.TEXT,
+    },
     description: {
         allowNull: true,
         type: DataTypes.STRING,
@@ -59,7 +63,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false
           }
         });
-        Revisions.hasOne(models.Skills)
+        // Revisions.hasOne(models.Skills)
       },
       // TODO
       findIdBySlug: function(slug) {
