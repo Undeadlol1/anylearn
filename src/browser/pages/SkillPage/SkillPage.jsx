@@ -1,30 +1,41 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import Link from 'react-router/lib/Link'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
+import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
 import { translate as t } from 'browser/containers/Translator'
-
-const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
 
 class SkillPage extends PureComponent {
-    render() {
+	render() {
 		const 	{ props } = this,
-				{ skill } = props
-				// console.log('skill: ', skill.toJS());
+		{ skill } = props
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
-		// console.log('text: ', text);
+		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		return 	<PageWrapper
 					className='SkillPage'
 					loading={props.loading}
 				>
 					<Grid fluid>
 						<Row>
+							<Col xs={12}>
+								<Link
+									to={`/skill/${skill.get('slug')}/edit`}
+								>
+									<RaisedButton
+										primary
+										label={t('edit')}
+										icon={<EditIcon />}
+									/>
+								</Link>
+							</Col>
 							<Col xs={12}>
 								<center><h1>{skill.get('name')}</h1></center>
 								{/* TODO "alt" attribute */}

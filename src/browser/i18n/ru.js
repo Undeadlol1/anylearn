@@ -58,4 +58,5 @@ export default {
     master: 'мастер',
     skill_name: 'Название навыка',
     skill_logo_not_required: 'Логотип навыка (не обязательно)',
+    edit: 'Редактировать',
 }

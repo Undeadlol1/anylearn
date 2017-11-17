@@ -7,7 +7,7 @@ import { Editor } from 'react-draft-wysiwyg'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
-import { ContentState, convertFromHTML, convertToRaw } from 'draft-js'
+import { EditorState, ContentState, convertFromHTML, convertToRaw, convertFromRaw  } from 'draft-js'
 // project files
 import Loading from 'browser/components/Loading'
 import PageWrapper from 'browser/components/PageWrapper'
@@ -19,7 +19,7 @@ import { WysiwygEditor } from 'browser/components/WysiwygEditor'
 const defaultTexts = [first, second, third, fourth]
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 
-class CreateSkillPage extends PureComponent {
+class EditSkillPage extends PureComponent {
 
 	state = {
 		name: '',
@@ -56,16 +56,15 @@ class CreateSkillPage extends PureComponent {
 
 	// TODO submit is activated before tabs are visited (on pressing enter key)
 	handleSubmit = event => {
+		console.log('handleSubmit!!');
 		event.preventDefault()
-		console.log('SUBMIT IS CALLED!!');
 		const { state, props } = this
 		const { editor0, editor1, editor2, editor3 } = state
 		const 	firstHtml = convertFromHTML(first),
 				secondHtml = convertFromHTML(second),
 				thirdHtml = convertFromHTML(third),
 				fourthHtml = convertFromHTML(fourth)
-				console.log('editor0: ', editor0);
-				console.log('editor1: ', editor1);
+
 		const text = JSON.stringify({
 			stage0: editor0 || convertToRaw(ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
 			stage1: editor1 || convertToRaw(ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
@@ -77,18 +76,17 @@ class CreateSkillPage extends PureComponent {
 			name: state.name,
 			image: state.image,
 		}
-		// console.log('state', convertToRaw(payload.stage0))
 		
-		console.log('payload: ', payload);
 		props
 			.insertSkill(payload)
 			.then(({payload}) => {
-				console.log('then!')
+				console.log('payload: ', payload);
 				this.props.router.push('/skill/' + payload.slug)
 			})
 	}
 
-	onEditorStateChange = (editorIndex, contentState) => {
+	onEditorChange = (editorIndex, contentState) => {
+		console.log('onEditorChange!!!');
 		this.setState({
 			pristine: false,
 			['editor' + editorIndex]: contentState,
@@ -96,12 +94,17 @@ class CreateSkillPage extends PureComponent {
 	}
 
 	renderTabs = () => {
-		const tabs = tabNames.map((tab, index) => {
-			return <Tab label={tabNames[index]} key={index}>
-						<WysiwygEditor defaultState={defaultTexts[index]} onChange={this.onEditorStateChange.bind(this, index)} />
-					</Tab>
-		})
-		return 	<Tabs className="CreateSkillPage__tabs">
+		// TODO add json parsing in reducer?
+		const text = JSON.parse(this.props.skill.getIn(['revision', 'text']))
+		const tabs = tabNames.map((name, index) =>
+			<Tab label={name} key={index}>
+				<Editor
+					initialContentState={text['stage' + 0]}
+					onChange={this.onEditorChange.bind(this, index)}			
+				/>
+			</Tab>
+		)
+		return 	<Tabs className="EditSkillPage__tabs">
 					{tabs}
 				</Tabs>
 	}
@@ -109,7 +112,7 @@ class CreateSkillPage extends PureComponent {
     render() {
 		const { props, state } = this
 		return 	<PageWrapper
-					className='CreateSkillPage'
+					className='EditSkillPage'
 					loading={props.loading}
 				>
 					<Grid fluid>
@@ -146,19 +149,21 @@ class CreateSkillPage extends PureComponent {
     }
 }
 
-CreateSkillPage.propTypes = {
+EditSkillPage.propTypes = {
 	UserId: PropTypes.number,
+	skill: PropTypes.object.isRequired,
 }
 
-export { CreateSkillPage }
+export { EditSkillPage }
 
 export default
 connect(
 	(state, ownProps) => ({
 		UserId: state.user.get('id'),
+		skill: state.skill,
 		...ownProps
 	}),
     (dispatch, ownProps) => ({
 		insertSkill: payload => dispatch(insertSkill(payload))
 	})
-)(CreateSkillPage)
+)(EditSkillPage)

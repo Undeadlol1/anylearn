@@ -58,6 +58,6 @@ export default {
     master: 'master',
     skill_name: 'Skill name',
     skill_logo_not_required: 'Skill logo (not required)',
-
+    edit: 'Edit',
 
 }

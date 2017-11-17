@@ -71,7 +71,6 @@ const routesConfig = {
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
     { path: 'create-skill', component: require('browser/pages/CreateSkillPage').default },
-    { path: 'skill', component: require('browser/pages/SkillPage').default },
     {
       path: 'skill/(:skillSlug)',
       component: require('browser/pages/SkillPage').default,
@@ -86,6 +85,21 @@ const routesConfig = {
         }
       }
     },
+// TODO add skill fetching and data checking
+{
+  path: 'skill/(:skillSlug)/edit',
+  component: require('browser/pages/EditSkillPage').default,
+  onEnter({params}, replace, done) {
+    // check if fetching is needed
+    const fetchedSkillSlug = store.getState().skill.get('slug')
+    if (fetchedSkillSlug == params.skillSlug) return done()
+    else {
+      store
+      .dispatch(fetchSkill(params.skillSlug))
+      .then(() => done())
+    }
+  }
+},
 // ⚠️ Hook for cli! Do not remove 💀
     // 404 page must go after everything else
     { path: '*', component: NotFound },

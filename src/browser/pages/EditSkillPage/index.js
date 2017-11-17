@@ -1,0 +1,1 @@
+export { default, EditSkillPage } from './EditSkillPage.jsx'
