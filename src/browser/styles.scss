@@ -4,11 +4,12 @@
 @import "~normalize.css/normalize.css";
 @import "~font-awesome/css/font-awesome.min.css";
 @import '~react-redux-toastr/src/styles/index.scss';
-@import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// @import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 /*
     app
 */
 @import "./pages/IndexPage/IndexPage.scss";
+@import "./pages/SkillPage/SkillPage.scss";
 @import "./pages/MoodPage.scss";
 @import "./pages/UserPage.scss";
 @import "./components/NavBar.scss";

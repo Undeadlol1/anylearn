@@ -11,12 +11,10 @@ import { EditorState, ContentState, convertFromHTML, convertToRaw, convertFromRa
 // project files
 import Loading from 'browser/components/Loading'
 import PageWrapper from 'browser/components/PageWrapper'
-import { insertSkill } from 'browser/redux/skill/SkillActions'
+import { updateSkill } from 'browser/redux/skill/SkillActions'
 import { translate as t } from 'browser/containers/Translator'
-import { first, second, third, fourth } from 'browser/templates'
 import { WysiwygEditor } from 'browser/components/WysiwygEditor'
 
-const defaultTexts = [first, second, third, fourth]
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 
 class EditSkillPage extends PureComponent {
@@ -24,6 +22,8 @@ class EditSkillPage extends PureComponent {
 	state = {
 		name: '',
 		nameError: '',
+		description: '',
+		descriptionError: '',
 		image: '',
 		imageError: '',
 		pristine: true,
@@ -50,9 +50,9 @@ class EditSkillPage extends PureComponent {
 		})
 	}
 
-	onLogoChange = (event, image) => {
-		this.setState({image})
-	}
+	onLogoChange = (event, image) => this.setState({image})
+
+	onDescriptionChange = (event, description) => this.setState({description})
 
 	// TODO submit is activated before tabs are visited (on pressing enter key)
 	handleSubmit = event => {
@@ -60,25 +60,24 @@ class EditSkillPage extends PureComponent {
 		event.preventDefault()
 		const { state, props } = this
 		const { editor0, editor1, editor2, editor3 } = state
-		const 	firstHtml = convertFromHTML(first),
-				secondHtml = convertFromHTML(second),
-				thirdHtml = convertFromHTML(third),
-				fourthHtml = convertFromHTML(fourth)
 
-		const text = JSON.stringify({
-			stage0: editor0 || convertToRaw(ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
-			stage1: editor1 || convertToRaw(ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
-			stage2: editor2 || convertToRaw(ContentState.createFromBlockArray(thirdHtml.contentBlocks, thirdHtml.entityMap)),
-			stage3: editor3 || convertToRaw(ContentState.createFromBlockArray(fourthHtml.contentBlocks, fourthHtml.entityMap)),
+		const originalText = JSON.parse(this.props.skill.getIn(['revision', 'text']))
+		const newText = JSON.stringify({
+			stage0: editor0 || originalText.stage0,
+			stage1: editor1 || originalText.stage1,
+			stage2: editor2 || originalText.stage2,
+			stage3: editor3 || originalText.stage3,
 		})
 		const payload = {
-			text,
+			text: newText,
 			name: state.name,
 			image: state.image,
+			description: state.description,
+			parentId: props.skill.get('id'),
 		}
-		
+
 		props
-			.insertSkill(payload)
+			.updateSkill(payload)
 			.then(({payload}) => {
 				console.log('payload: ', payload);
 				this.props.router.push('/skill/' + payload.slug)
@@ -100,7 +99,7 @@ class EditSkillPage extends PureComponent {
 			<Tab label={name} key={index}>
 				<Editor
 					initialContentState={text['stage' + 0]}
-					onChange={this.onEditorChange.bind(this, index)}			
+					onChange={this.onEditorChange.bind(this, index)}
 				/>
 			</Tab>
 		)
@@ -125,7 +124,17 @@ class EditSkillPage extends PureComponent {
 								errorText={state.nameError}
 								onChange={this.onNameChange}
 								disabled={state.validating}
-								hintText={t('skill_name')} />
+								hintText={t('change_name')} />
+							<TextField
+								rows={2}
+								fullWidth
+								multiLine={true}
+								name="description"
+								value={state.description}
+								errorText={state.descriptionError}
+								onChange={this.onDescriptionChange}
+								disabled={state.validating}
+								hintText={t('description_not_required')} />
 							<TextField
 								fullWidth
 								type="url"
@@ -164,6 +173,6 @@ connect(
 		...ownProps
 	}),
     (dispatch, ownProps) => ({
-		insertSkill: payload => dispatch(insertSkill(payload))
+		updateSkill: payload => dispatch(updateSkill(payload))
 	})
 )(EditSkillPage)

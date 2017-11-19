@@ -18,6 +18,7 @@ export default {
     currently_zero_content_here: 'Пока контента нет',
     image_url: 'Url изображения',
     image_url_not_required: 'Url изображения (не обязательно)',
+    description_not_required: 'Описание (не обязательно)',
 
     mood_is_a_content_consumption_service: 'Mood - это сервис потребления контента.',
     pick_your_mood_and_service_will_generate: 'Выберите свое настроение и сервис сгенерирует для вас уникальный персональный плейлист.',
@@ -59,4 +60,6 @@ export default {
     skill_name: 'Название навыка',
     skill_logo_not_required: 'Логотип навыка (не обязательно)',
     edit: 'Редактировать',
+
+    change_name: 'Название изменения',
 }

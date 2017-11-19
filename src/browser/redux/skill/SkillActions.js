@@ -33,6 +33,19 @@ export const insertSkill = payload => (dispatch, getState) => {
 }
 
 /**
+ * update a skill
+ * @param {object} payload content url
+ */
+export const updateSkill = payload => (dispatch, getState) => {
+	console.log('updateSkill!!!');
+	console.log('payload: ', payload);
+	return fetch(skillsUrl + payload.parentId, headersAndBody(payload, 'PUT'))
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(response => dispatch(actions.recieveSkill(response)))
+}
+
+/**
  * fetch skill using skill slug
  * @param {string} slug skill slug
  */

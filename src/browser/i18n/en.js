@@ -18,6 +18,7 @@ export default {
     currently_zero_content_here: 'Currently zero content here',
     image_url: 'Image url',
     image_url_not_required: 'Image url (not required)',
+    description_not_required: 'Description (not required)',
 
     mood_is_a_content_consumption_service: 'Mood is a content consumption service.',
     pick_your_mood_and_service_will_generate: 'Pick your mood and service will generate unique personalized playlist for you',
@@ -60,4 +61,5 @@ export default {
     skill_logo_not_required: 'Skill logo (not required)',
     edit: 'Edit',
 
+    change_name: 'Change name',
 }

@@ -14,19 +14,14 @@ export default Router()
   .get('/:page?', async (req, res) => {
     try {
       const page = req.params.page
-      // console.log('page: ', page);
       const totalSkills = await Skills.count()
-      // console.log('totalSkills: ', totalSkills);
       const offset = page ? limit * (page -1) : 0
-      // console.log('offset: ', offset);
       const totalPages = Math.ceil(totalSkills / limit)
-      // console.log('totalPages: ', totalPages);
       const skills = await Skills.findAll({limit, offset})
-      // console.log('skills: ', skills.dataValues);
       res.json({ skills, totalPages })
     }
     catch (error) {
-     // console.log(error);
+      console.log(error);
       res.status(500).end(error)
     }
   })
@@ -44,7 +39,7 @@ export default Router()
           parentId: skill.id,
         }
       })
-      skill.dataValues.revision = revision.dataValues
+      skill.dataValues.revision = revision && revision.dataValues
       // console.log('skillsApi: ', skill.dataValues);
       res.json(skill)
     } catch (error) {
@@ -54,14 +49,36 @@ export default Router()
   })
 
   // update skill
-  .put('/:skillsId', mustLogin, async ({user, body, params}, res) => {
+  .put('/:parentId', mustLogin, async ({user, body, params}, res) => {
+    /*
+      1) deactivate previous revision
+      2) create new one
+      3) ???
+      4) PROFIT
+    */
     try {
       const UserId = user.id
-      const skill = await Skills.findById(params.skillsId)
+      const { parentId } = params
+      await Revisions.update(
+        { active: false },
+        {
+          where: {
+            parentId,
+            active: true,
+          }
+        }
+      )
+      const revision = await Revisions.create({
+        ...body,
+        UserId,
+        parentId,
+        active: true,
+      })
+      console.log('revision: ', revision);
+      const skill = await Skills.findById(parentId)
+      skill.dataValues.revision = revision.dataValues
 
-      // check permissions
-      if (Skills.UserId != UserId) return res.status(401).end()
-      else res.json(await skill.update(body))
+      res.json(skill)
 
     } catch (error) {
       console.log(error)

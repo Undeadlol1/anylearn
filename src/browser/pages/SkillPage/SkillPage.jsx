@@ -16,7 +16,8 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
 class SkillPage extends PureComponent {
 	render() {
 		const 	{ props } = this,
-		{ skill } = props
+				{ skill } = props
+		console.log('skill: ', skill.toJS());
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		return 	<PageWrapper
@@ -25,7 +26,7 @@ class SkillPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
-							<Col xs={12}>
+							<Col xs={12} className="SkillPage__buttons">
 								<Link
 									to={`/skill/${skill.get('slug')}/edit`}
 								>
