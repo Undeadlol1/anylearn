@@ -62,4 +62,6 @@ export default {
     edit: 'Редактировать',
 
     change_name: 'Название изменения',
+    welcome_to_our_awesome_boilerplate: 'Добро пожаловать в наш классный boilerplate.',
+    hope_you_will_enjoy_it: 'Надеюсь он вам понравится.',
 }
