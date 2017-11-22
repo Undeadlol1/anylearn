@@ -60,6 +60,7 @@ export default {
     skill_name: 'Название навыка',
     skill_logo_not_required: 'Логотип навыка (не обязательно)',
     edit: 'Редактировать',
+    discussion: 'Обсуждение',
 
     change_name: 'Название изменения',
     welcome_to_our_awesome_boilerplate: 'Добро пожаловать в наш классный boilerplate.',

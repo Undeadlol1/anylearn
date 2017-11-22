@@ -100,6 +100,21 @@ const routesConfig = {
     }
   }
 },
+// TODO add skill fetching and data checking
+{
+  path: 'skill/(:skillSlug)/dev',
+  component: require('browser/pages/DevPage').default,
+  onEnter({params}, replace, done) {
+    // check if fetching is needed
+    const fetchedSkillSlug = store.getState().skill.get('slug')
+    if (fetchedSkillSlug == params.skillSlug) return done()
+    else {
+      store
+      .dispatch(fetchSkill(params.skillSlug))
+      .then(() => done())
+    }
+  }
+},
 // ⚠️ Hook for cli! Do not remove 💀
     // 404 page must go after everything else
     { path: '*', component: NotFound },

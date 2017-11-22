@@ -60,6 +60,7 @@ export default {
     skill_name: 'Skill name',
     skill_logo_not_required: 'Skill logo (not required)',
     edit: 'Edit',
+    discussion: 'Discussion',
 
     change_name: 'Change name',
     welcome_to_our_awesome_boilerplate: 'Welcome to our awesome boilerplate.',

@@ -12,6 +12,7 @@ import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorStat
 import PageWrapper from 'browser/components/PageWrapper'
 import { translate as t } from 'browser/containers/Translator'
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
+import ListIcon from 'material-ui/svg-icons/action/view-list'
 
 class SkillPage extends PureComponent {
 	render() {
@@ -28,6 +29,17 @@ class SkillPage extends PureComponent {
 						<Row>
 							<Col xs={12} className="SkillPage__buttons">
 								<Link
+									className="SkillPage__button--left"
+									to={`/skill/${skill.get('slug')}/dev`}
+								>
+									<RaisedButton
+										primary
+										label={t('discussion')}
+										icon={<ListIcon />}
+									/>
+								</Link>
+								<Link
+									className="SkillPage__button--right"
 									to={`/skill/${skill.get('slug')}/edit`}
 								>
 									<RaisedButton

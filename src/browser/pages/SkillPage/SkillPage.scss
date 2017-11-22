@@ -1,6 +1,11 @@
 .SkillPage {
     .SkillPage__buttons {
         margin: 20px 0;
-        text-align: right;
+        .SkillPage__button--right {
+            float: right;
+        }
+        .SkillPage__button--left {
+            float: left;
+        }
     }
 }

@@ -38,7 +38,7 @@ export const insertSkill = payload => (dispatch, getState) => {
  */
 export const updateSkill = payload => (dispatch, getState) => {
 	console.log('updateSkill!!!');
-	console.log('payload: ', payload);
+	// console.log('payload: ', payload);
 	return fetch(skillsUrl + payload.parentId, headersAndBody(payload, 'PUT'))
 		.then(checkStatus)
 		.then(parseJSON)
@@ -62,6 +62,7 @@ export const fetchSkill = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
+			// console.log('data: ', data);
 			return dispatch(actions.recieveSkill((data)))
 		})
 		.catch(err => console.error('fetchskill failed!', err))

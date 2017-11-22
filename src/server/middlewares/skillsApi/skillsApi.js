@@ -39,8 +39,13 @@ export default Router()
           parentId: skill.id,
         }
       })
+      const revisions = await Revisions.findAll({where: {parentId: skill.id}})
+      console.log('revisions.length: ', revisions.length);
+      console.log('revisions: ', revisions);
       skill.dataValues.revision = revision && revision.dataValues
-      // console.log('skillsApi: ', skill.dataValues);
+      skill.dataValues.revisions = revisions && revisions
+      // console.log('skill.dataValues.revisions.length: ', skill.dataValues.revisions.length);
+      // console.log('skill.dataValues: ', skill.dataValues);
       res.json(skill)
     } catch (error) {
       console.log(error)

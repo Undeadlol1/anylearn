@@ -22,6 +22,7 @@ const skillStructure = 	Map({
 							UserId: '',
 							rating: '',
 							RevisionId: '',
+							revisions: List(),
 							revision: revisionStructure,
 						})
 
