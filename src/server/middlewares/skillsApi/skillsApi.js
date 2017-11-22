@@ -40,8 +40,6 @@ export default Router()
         }
       })
       const revisions = await Revisions.findAll({where: {parentId: skill.id}})
-      console.log('revisions.length: ', revisions.length);
-      console.log('revisions: ', revisions);
       skill.dataValues.revision = revision && revision.dataValues
       skill.dataValues.revisions = revisions && revisions
       // console.log('skill.dataValues.revisions.length: ', skill.dataValues.revisions.length);
@@ -79,7 +77,6 @@ export default Router()
         parentId,
         active: true,
       })
-      console.log('revision: ', revision);
       const skill = await Skills.findById(parentId)
       skill.dataValues.revision = revision.dataValues
 

@@ -31,7 +31,7 @@ export class MoodsList extends Component {
 									<Link to={`/skill/${skill.get('slug')}`}>
 										<Card>
 											<CardMedia overlay={<CardTitle title={skill.get('name')} />}>
-												<img alt={skill.get('name') + translate('things_image')} src={src} height="600" width="400" />
+												<img alt={skill.get('name') + translate('things_image')} src={src} />
 											</CardMedia>
 										</Card>
 									</Link>
@@ -92,24 +92,6 @@ MoodsList.propTypes = {
 }
 
 MoodsList.defaultProps = {
-	// moods: fromJS([
-	// 	{
-	// 		id: 1,
-	// 		name: 'Верстка веб-сайтов',
-	// 		// image: 'https://wiki.selfhtml.org/images/thumb/7/78/HTML-CSS-JS.svg/400px-HTML-CSS-JS.svg.png',
-	// 		image: 'http://www.doclicksolutions.com/img/web_training.png',
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		name: 'Front-end разработка',
-	// 		image: 'https://camo.githubusercontent.com/41f5aa64e0930a781b0962898b4aff4db06f9560/68747470733a2f2f63646e2e7261776769742e636f6d2f7368616e6e6f6e6d6f656c6c65722f66726f6e742d656e642d6c6f676f2f6d61737465722f6578706f7274732f66726f6e742d656e642d6c6f676f2d636f6c6f722e737667',
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		name: 'Meteor',
-	// 		image: 'https://d14xs1qewsqjcd.cloudfront.net/assets/og-image-logo.png',
-	// 	}
-	// ]),
 	skills: List(),
 	totalPages: 0,
 	currentPage: 0,
