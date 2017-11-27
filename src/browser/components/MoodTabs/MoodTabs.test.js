@@ -22,21 +22,21 @@ describe('<MoodTabs />', () => {
   }
   const wrapper = shallow(<MoodTabs {...props} />)
 
-  it('has <Tabs>', () => {
-    expect(wrapper.find('Tabs'))
-      .to.have.length(1)
-      .and.className('MoodTabs')
-  })
+  // it('has <Tabs>', () => {
+  //   expect(wrapper.find('Tabs'))
+  //     .to.have.length(1)
+  //     .and.className('MoodTabs')
+  // })
 
-  function testTab(label) {
-    const tab = wrapper.find(`[label="${t(label)}"]`)
-    expect(tab).to.have.length(1)
-    expect(tab.find('Connect(MoodsList)')).to.have.length(1)
-  }
+  // function testTab(label) {
+  //   const tab = wrapper.find(`[label="${t(label)}"]`)
+  //   expect(tab).to.have.length(1)
+  //   expect(tab.find('Connect(MoodsList)')).to.have.length(1)
+  // }
 
-  it('has 3 <Tab> elements', () => {
-    ['popular', 'new', 'random']
-      .forEach(tab => testTab(tab))
-  })
+  // it('has 3 <Tab> elements', () => {
+  //   ['popular', 'new', 'random']
+  //     .forEach(tab => testTab(tab))
+  // })
 
 })

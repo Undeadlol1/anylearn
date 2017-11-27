@@ -18,7 +18,7 @@ class SkillPage extends PureComponent {
 	render() {
 		const 	{ props } = this,
 				{ skill } = props
-		console.log('skill: ', skill.toJS());
+		// console.log('skill: ', skill.toJS());
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		return 	<PageWrapper

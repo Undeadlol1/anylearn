@@ -1,7 +1,7 @@
 import thunk from 'redux-thunk'
 import { fromJS } from 'immutable'
 import promiseMiddleware from 'redux-promise'
-import rootReducer, { initialState as stateWithoutPlugins } from './reducers/RootReducer'
+import rootReducer, { initialState as stateWithoutPlugins } from 'browser/redux/reducers/RootReducer'
 import { createStore, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProduction'
 

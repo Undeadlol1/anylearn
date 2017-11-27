@@ -15,33 +15,38 @@ export class MoodTabs extends PureComponent {
 	render() {
 		const { props } = this
 		const classNames = cx('MoodTabs', props.className)
-		console.log('props.skills: ', props.skills.toJS());
-		return 	<Tabs className={classNames}>
-					<Tab label={t('popular')}>
-						<MoodsList
-							selector="popular"
-							// TODO this is a problem
-							skills={props.skills}
-							totalPages={props.popular.get('totalPages')}
-							currentPage={props.popular.get('currentPage')} />
-					</Tab>
-					 <Tab label={t('new')}>
-						<MoodsList
-							selector="new"
-							// TODO this is a problem
-							skills={props.skills}
-							totalPages={props.new.get('totalPages')}
-							currentPage={props.new.get('currentPage')} />
-					</Tab>
-					<Tab label={t('random')}>
-						<MoodsList
-							selector="random"
-							// TODO this is a problem
-							skills={props.skills}
-							totalPages={props.random.get('totalPages')}
-							currentPage={props.random.get('currentPage')} />
-					</Tab>
-				</Tabs>
+		return <MoodsList
+					selector="popular"
+					// TODO this is a problem
+					skills={props.skills}
+					totalPages={props.popular.get('totalPages')}
+					currentPage={props.popular.get('currentPage')} />
+		// return 	<Tabs className={classNames}>
+		// 			<Tab label={t('popular')}>
+		// 				<MoodsList
+		// 					selector="popular"
+		// 					// TODO this is a problem
+		// 					skills={props.skills}
+		// 					totalPages={props.popular.get('totalPages')}
+		// 					currentPage={props.popular.get('currentPage')} />
+		// 			</Tab>
+		// 			 <Tab label={t('new')}>
+		// 				<MoodsList
+		// 					selector="new"
+		// 					// TODO this is a problem
+		// 					skills={props.skills}
+		// 					totalPages={props.new.get('totalPages')}
+		// 					currentPage={props.new.get('currentPage')} />
+		// 			</Tab>
+		// 			<Tab label={t('random')}>
+		// 				<MoodsList
+		// 					selector="random"
+		// 					// TODO this is a problem
+		// 					skills={props.skills}
+		// 					totalPages={props.random.get('totalPages')}
+		// 					currentPage={props.random.get('currentPage')} />
+		// 			</Tab>
+		// 		</Tabs>
 	}
 }
 

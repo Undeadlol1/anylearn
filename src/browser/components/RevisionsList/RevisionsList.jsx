@@ -13,40 +13,36 @@ import { fromJS } from 'immutable'
 import Loading from 'browser/components/Loading'
 import selectn from 'selectn'
 
-const itemStyles = {
-	marginBottom: '1rem'
-}
-
 export class RevisionsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		if(props.revisions.size) {
+		if(selectn('revisions.size', props)) {
 			return props.revisions.map( revision => {
-					const nodeContent = revision.get('image')
-					const src = nodeContent
-								? nodeContent
-								: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
-							return	<ListItem
-										key={revision.get('id')}
-										className="RevisionsList__item"
-										primaryText={revision.get('name')}
-									>
-										<Link to={`/revision/${revision.get('slug')}`}>
-											{/* <img alt={revision.get('name') + translate('things_image')} src={src} height="600" width="400" /> */}
-										</Link>
-									</ListItem>
+				const id = revision.get('id')
+				return	<Link
+							key={id}
+							to={`/revision/${id}`}
+							className="RevisionsList__item"
+						>
+							<ListItem
+								primaryText={revision.get('name')}
+							/>
+						</Link>
 			})
 		}
-		else return	<Col xs={12} className={'RevisionsList__empty'}>
-						<b>
-							<i>{translate('list_is_empty')}...</i>
-						</b>
-					</Col>
+		else return	<ListItem
+						className={'RevisionsList__empty'}
+						primaryText={<b>
+										<i>{translate('list_is_empty')}...</i>
+									</b>}
+					/>
 	}
-
+	
 	render() {
 		const { props } = this
+		console.log('props.currentPage: ', props.currentPage);
+		console.log('props.totalPages: ', props.totalPages);
 		if (props.loading) return <Loading />
 		return  <section className="RevisionsList">
 					<Row>
@@ -126,7 +122,7 @@ export default connect(
 	// dispatchToProps
     (dispatch, ownProps) => ({
 		changePage(page) {
-			dispatch(fetchMoods(ownProps.selector, page))
+			// dispatch(fetchMoods(ownProps.selector, page))
 		}
     })
 )(RevisionsList)

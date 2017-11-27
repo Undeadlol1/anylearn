@@ -1,4 +1,8 @@
 .SkillPage {
+    // hide extra spacing of invisible toolbar
+    .rdw-editor-toolbar {
+        display: none;
+    }
     .SkillPage__buttons {
         margin: 20px 0;
         .SkillPage__button--right {

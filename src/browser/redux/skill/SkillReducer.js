@@ -60,7 +60,6 @@ export default (state = initialState, {type, payload}) => {
 					contentNotFound: isEmpty(payload),
 				})
 		case 'RECIEVE_SKILLS':
-			console.log('payload: ', payload);
 			return state
 				.mergeDeep({
 					// ...payload[0],

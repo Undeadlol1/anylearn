@@ -1,0 +1,12 @@
+.RevisionPage {
+    // TODO comment before commit
+    .diff-delete {
+        background-color: #fee
+    }
+    .diff-equal {
+        background-color: #ffe
+    }
+    .diff-insert {
+        background-color: #efe
+    }
+}

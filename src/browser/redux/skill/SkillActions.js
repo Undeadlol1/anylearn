@@ -73,8 +73,8 @@ export const fetchSkill = slug => (dispatch, getState) => {
  * @param {string} slug skill slug (optional)
  */
 export const fetchSkills = slug => (dispatch, getState) => {
+	console.log('fetchSkills: ');
 	const state = getState()
-	const nodeId = state.node.id
 	const skillSlug = slug || state.skill.get('slug')
 
 	// dispatch(actions.fetchingSkill())
@@ -86,6 +86,7 @@ export const fetchSkills = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
+			console.log('done fetching.')
 			return dispatch(actions.recieveSkills((data)))
 		})
 		.catch(err => console.error('fetchskill failed!', err))

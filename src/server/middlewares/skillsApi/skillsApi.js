@@ -4,7 +4,7 @@ import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
 import { Skills, Revisions } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
-import { error } from 'util';
+// import { error } from 'util'
 
 const limit = 12
 

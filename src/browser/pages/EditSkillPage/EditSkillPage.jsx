@@ -1,5 +1,6 @@
 // dependencies
 import PropTypes from 'prop-types'
+import { fromJS } from 'immutable'
 import { connect } from 'react-redux'
 import React, { PureComponent } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
@@ -156,6 +157,10 @@ class EditSkillPage extends PureComponent {
 					</Grid>
 				</PageWrapper>
     }
+}
+
+EditSkillPage.defaultProps = {
+	skill: fromJS({})
 }
 
 EditSkillPage.propTypes = {

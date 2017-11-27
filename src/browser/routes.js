@@ -25,17 +25,18 @@ const routesConfig = {
     onEnter({params}, replace, done) {
       // check if fetching is needed
       // console.log('store.getState().skill: ', store.getState().skill.toJS());
-      // const newSkills = store.getState().skill.getIn(['new', 'skills'])
-      // if (newSkills.size) return done()
-      // else {
-        Promise
-        .all([
-          store.dispatch(fetchSkills('new')),
-          store.dispatch(fetchSkills('random')),
-          store.dispatch(fetchSkills('popular')),
-        ])
+      const newSkills = store.getState().skill.get('skills')
+      if (newSkills.size) return done()
+      else {
+        // Promise
+        // .all([
+          // store.dispatch(fetchSkills('new')),
+          // store.dispatch(fetchSkills('random')),
+          // store.dispatch(fetchSkills('popular')),
+        // ])
+        store.dispatch(fetchSkills())        
         .then(() => done())
-      // }
+      }
     }
   },
   childRoutes: [
@@ -114,6 +115,20 @@ const routesConfig = {
       .then(() => done())
     }
   }
+},
+{
+  path: 'revision/(:RevisionId)',
+  component: require('browser/pages/RevisionPage').default,
+  // onEnter({params}, replace, done) {
+  //   // check if fetching is needed
+  //   const fetchedSkillSlug = store.getState().skill.get('slug')
+  //   if (fetchedSkillSlug == params.skillSlug) return done()
+  //   else {
+  //     store
+  //     .dispatch(fetchSkill(params.skillSlug))
+  //     .then(() => done())
+  //   }
+  // }
 },
 // ⚠️ Hook for cli! Do not remove 💀
     // 404 page must go after everything else

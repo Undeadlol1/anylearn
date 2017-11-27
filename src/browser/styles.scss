@@ -4,7 +4,7 @@
 @import "~normalize.css/normalize.css";
 @import "~font-awesome/css/font-awesome.min.css";
 @import '~react-redux-toastr/src/styles/index.scss';
-// @import '~react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+@import './react-draft-wysiwyg.css';
 /*
     app
 */
@@ -30,6 +30,7 @@
 @import "./components/SkillsList/SkillsList.scss";
 @import "./pages/DevPage/DevPage.scss"; 
 @import "./components/RevisionsList/RevisionsList.scss"; 
+@import "./pages/RevisionPage/RevisionPage.scss"; 
 // ⚠️ Hook for cli! Do not remove 💀
 /*
     common styles
