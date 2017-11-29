@@ -2650,6 +2650,10 @@ diff@3.2.0, diff@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
+diff@^3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
+
 diffie-hellman@^5.0.0:
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/diffie-hellman/-/diffie-hellman-5.0.2.tgz#b5835739270cfe26acf632099fded2a07f209e5e"
@@ -7813,6 +7817,12 @@ react-mui-speeddial@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-mui-speeddial/-/react-mui-speeddial-0.0.6.tgz#072e0be07f3013d7d137f13d87c5ad7d3b77a107"
 
+react-newline-to-break@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-newline-to-break/-/react-newline-to-break-1.0.6.tgz#a3651984467096e64c92d3e8d33ca99e183458bf"
+  dependencies:
+    react "^15.3.2"
+
 react-redux-toastr@^6.2.6:
   version "6.2.7"
   resolved "https://registry.yarnpkg.com/react-redux-toastr/-/react-redux-toastr-6.2.7.tgz#82471f5a39980fc52be45f92e00a895470754748"
@@ -7910,7 +7920,7 @@ react-youtube@^7.3.0:
     prop-types "^15.5.3"
     youtube-player "^5.4.0"
 
-"react@^15.0.0-rc || ^14.0.0", react@^15.5.4:
+"react@^15.0.0-rc || ^14.0.0", react@^15.3.2, react@^15.5.4:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
   dependencies:
@@ -9556,6 +9566,7 @@ ua-parser-js@0.7.12, ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
 "uglify-es@git://github.com/mishoo/UglifyJS2#harmony", uglify-js@3.1.x, "uglify-js@git://github.com/mishoo/UglifyJS2#harmony":
+  name uglify-es
   version "3.1.9"
   resolved "git://github.com/mishoo/UglifyJS2#9632f79e4692b3055ea3bb2580bca6f6a0412f7b"
   dependencies:

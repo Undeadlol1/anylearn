@@ -73,6 +73,7 @@ class EditSkillPage extends PureComponent {
 			text: newText,
 			name: state.name,
 			image: state.image,
+			previousId: props.previousId,
 			description: state.description,
 			parentId: props.skill.get('id'),
 		}
@@ -86,7 +87,6 @@ class EditSkillPage extends PureComponent {
 	}
 
 	onEditorChange = (editorIndex, contentState) => {
-		console.log('onEditorChange!!!');
 		this.setState({
 			pristine: false,
 			['editor' + editorIndex]: contentState,
@@ -166,6 +166,7 @@ EditSkillPage.defaultProps = {
 EditSkillPage.propTypes = {
 	UserId: PropTypes.number,
 	skill: PropTypes.object.isRequired,
+	previousId: PropTypes.string.isRequired,
 }
 
 export { EditSkillPage }
@@ -173,8 +174,9 @@ export { EditSkillPage }
 export default
 connect(
 	(state, ownProps) => ({
-		UserId: state.user.get('id'),
 		skill: state.skill,
+		UserId: state.user.get('id'),
+		previousId: state.skill.getIn(['revision', 'id']),
 		...ownProps
 	}),
     (dispatch, ownProps) => ({

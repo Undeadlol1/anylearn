@@ -1,9 +1,9 @@
 {
     "NODE_ENV": "development",
     "APP_NAME": "AnyLearn",
-    "URL": "http://127.0.0.1:3002/",
-    "API_URL": "http://127.0.0.1:3002/api/",
-    "PORT": "3002",
+    "URL": "http://127.0.0.1:3001/",
+    "API_URL": "http://127.0.0.1:3001/api/",
+    "PORT": "3001",
     "SESSION_KEY": "keyboard cat",
     "DB_HOST": "127.0.0.1",
     "DB_PORT": "3306",

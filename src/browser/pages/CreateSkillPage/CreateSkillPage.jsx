@@ -83,6 +83,7 @@ class CreateSkillPage extends PureComponent {
 		props
 			.insertSkill(payload)
 			.then(({payload}) => {
+				console.log('payload: ', payload);
 				console.log('then!')
 				this.props.router.push('/skill/' + payload.slug)
 			})

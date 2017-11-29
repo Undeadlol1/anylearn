@@ -12,6 +12,7 @@ const revisionStructure = 	Map({
 								parentId: '',
 								previousId: '',
 								rating: '',
+								previousRevision: Map({})
 							})
 
 const skillStructure = 	Map({

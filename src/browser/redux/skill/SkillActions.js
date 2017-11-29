@@ -27,7 +27,7 @@ export const insertSkill = payload => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(function(response) {
-			dispatch(actions.toggleDialog())
+			// dispatch(actions.toggleDialog())
 			return dispatch(actions.recieveSkill(response))
 		})
 }
@@ -62,7 +62,7 @@ export const fetchSkill = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			// console.log('data: ', data);
+			console.log('data: ', data);
 			return dispatch(actions.recieveSkill((data)))
 		})
 		.catch(err => console.error('fetchskill failed!', err))

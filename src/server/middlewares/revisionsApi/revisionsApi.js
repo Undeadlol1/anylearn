@@ -30,6 +30,8 @@ export default Router()
   .get('/revision/:revisionsId', async ({params}, res) => {
     try {
       const revision = await Revisions.findById(params.revisionsId)
+      const previousRevision = await Revisions.findById(revision.previousId)
+      revision.dataValues.previousRevision = previousRevision
       res.json(revision)
     } catch (error) {
       console.log(error)
@@ -56,6 +58,7 @@ export default Router()
   // create revision
   .post('/', mustLogin, async ({user, body}, res) => {
     try {
+      if (!body.previousId) throw new Error('previousId can\'t be null')
       const UserId = user.id
       const revision = await Revisions.create({...body, UserId})
       res.json(revision)

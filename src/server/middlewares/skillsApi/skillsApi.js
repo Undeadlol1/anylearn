@@ -39,8 +39,10 @@ export default Router()
           parentId: skill.id,
         }
       })
+      const previousRevision = await Revisions.findById(revision.previousId)
       const revisions = await Revisions.findAll({where: {parentId: skill.id}})
       skill.dataValues.revision = revision && revision.dataValues
+      skill.dataValues.revision.previousRevision = previousRevision && previousRevision.dataValues
       skill.dataValues.revisions = revisions && revisions
       // console.log('skill.dataValues.revisions.length: ', skill.dataValues.revisions.length);
       // console.log('skill.dataValues: ', skill.dataValues);
@@ -90,6 +92,7 @@ export default Router()
 
   // create skill
   .post('/', mustLogin, async ({user, body}, res) => {
+    console.log('body: ', body);
     /*
       1) create skill
       2) create revision for skill
