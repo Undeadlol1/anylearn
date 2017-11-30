@@ -3,14 +3,14 @@ import Pagination from 'react-ultimate-pagination-material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { translate } from 'browser/containers/Translator'
 import { Row, Col } from 'react-styled-flexboxgrid'
+import Loading from 'browser/components/Loading'
+import { fromJS, List, Map } from 'immutable'
 import Link from 'react-router/lib/Link'
 import React, { Component } from 'react'
 import Paper from 'material-ui/Paper'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { fromJS, List } from 'immutable'
 import selectn from 'selectn'
-import Loading from 'browser/components/Loading'
 
 const itemStyles = {
 	marginBottom: '1rem'
@@ -20,8 +20,9 @@ export class MoodsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		if(props.skills.size) {
-			return props.skills.get('skills').map( skill => {
+		const skills = props.skills.get('skills')
+		if(skills.size) {
+			return skills.map( skill => {
 					const nodeContent = skill.get('image')
 					const src = nodeContent
 								? nodeContent
@@ -92,7 +93,7 @@ MoodsList.propTypes = {
 }
 
 MoodsList.defaultProps = {
-	skills: List(),
+	skills: Map({ skills: List() }),
 	totalPages: 0,
 	currentPage: 0,
 }
