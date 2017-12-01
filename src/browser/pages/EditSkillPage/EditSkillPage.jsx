@@ -82,7 +82,7 @@ class EditSkillPage extends PureComponent {
 			.updateSkill(payload)
 			.then(({payload}) => {
 				console.log('payload: ', payload);
-				this.props.router.push('/skill/' + payload.slug)
+				return this.props.router.push('/skill/' + payload.slug)
 			})
 	}
 

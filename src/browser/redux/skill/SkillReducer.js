@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 import { Map, List, fromJS } from 'immutable'
-
+import { emptyUserObject } from 'browser/redux/reducers/UserReducer'
 const revisionStructure = 	Map({
 								id: '',
 								name: '',
@@ -12,7 +12,8 @@ const revisionStructure = 	Map({
 								parentId: '',
 								previousId: '',
 								rating: '',
-								previousRevision: Map({})
+								User: emptyUserObject,
+								previousRevision: Map({}),
 							})
 
 const skillStructure = 	Map({

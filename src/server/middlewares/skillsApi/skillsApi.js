@@ -2,7 +2,7 @@ import slugify from 'slug'
 import { Router } from 'express'
 import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
-import { Skills, Revisions } from 'server/data/models'
+import { Skills, Revisions, User } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
 // import { error } from 'util'
 
@@ -37,7 +37,8 @@ export default Router()
         where: {
           active: true,
           parentId: skill.id,
-        }
+        },
+        include: [User]
       })
       const previousRevision = await Revisions.findById(revision.previousId)
       const revisions = await Revisions.findAll({where: {parentId: skill.id}})
@@ -120,6 +121,7 @@ export default Router()
                               UserId,
                               RevisionId,
                               id: SkillId,
+                              name: 'initial_revision',
                             })
                           )
 

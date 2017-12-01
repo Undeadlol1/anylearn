@@ -2646,11 +2646,11 @@ diff-match-patch@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.0.tgz#1cc3c83a490d67f95d91e39f6ad1f2e086b63048"
 
-diff@3.2.0, diff@^3.1.0:
+diff@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
-diff@^3.4.0:
+diff@^3.1.0, diff@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
 
@@ -2762,9 +2762,9 @@ double-ended-queue@^2.1.0-0:
   version "2.1.0-0"
   resolved "https://registry.yarnpkg.com/double-ended-queue/-/double-ended-queue-2.1.0-0.tgz#103d3527fd31528f40188130c841efdd78264e5c"
 
-draft-js-diff@^1.0.1:
+"draft-js-diff@git://github.com/wuzzzzaah/draft-js-diff#fix/module-usage":
   version "1.0.1"
-  resolved "https://registry.yarnpkg.com/draft-js-diff/-/draft-js-diff-1.0.1.tgz#78c6c82617c179753509ce8fb91190ad61570fca"
+  resolved "git://github.com/wuzzzzaah/draft-js-diff#4ce94015a0ab965a986d8b094aa1d8ac5e12670b"
   dependencies:
     diff-match-patch "^1.0.0"
     draft-js "^0.7.0"
@@ -9566,7 +9566,6 @@ ua-parser-js@0.7.12, ua-parser-js@^0.7.9:
   resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.12.tgz#04c81a99bdd5dc52263ea29d24c6bf8d4818a4bb"
 
 "uglify-es@git://github.com/mishoo/UglifyJS2#harmony", uglify-js@3.1.x, "uglify-js@git://github.com/mishoo/UglifyJS2#harmony":
-  name uglify-es
   version "3.1.9"
   resolved "git://github.com/mishoo/UglifyJS2#9632f79e4692b3055ea3bb2580bca6f6a0412f7b"
   dependencies:

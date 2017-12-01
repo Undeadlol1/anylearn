@@ -22,7 +22,7 @@ export class RevisionsList extends Component {
 				const id = revision.get('id')
 				return	<Link
 							key={id}
-							to={`/revision/${id}`}
+							to={`/skill/${props.skillSlug}/revision/${id}`}
 							className="RevisionsList__item"
 						>
 							<ListItem
@@ -38,7 +38,7 @@ export class RevisionsList extends Component {
 									</b>}
 					/>
 	}
-	
+
 	render() {
 		const { props } = this
 		console.log('props.currentPage: ', props.currentPage);
@@ -81,6 +81,7 @@ export class RevisionsList extends Component {
 }
 
 RevisionsList.propTypes = {
+  skillSlug: PropTypes.string.isRequired,
   revisions: PropTypes.object.isRequired,
   selector: PropTypes.string,
   totalPages: PropTypes.number,
@@ -115,8 +116,9 @@ RevisionsList.defaultProps = {
 export default connect(
 	// stateToProps
 	({skill}, ownProps) => ({
-		revisions: skill.get('revisions'),
+		skillSlug: skill.get('slug'),
 		loading: skill.get('loading'),
+		revisions: skill.get('revisions'),
 		...ownProps
 	}),
 	// dispatchToProps

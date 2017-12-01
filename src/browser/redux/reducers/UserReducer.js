@@ -33,7 +33,7 @@ const emptyTwitterObject = {
 	displayName: '',
 }
 
-const emptyUserObject = {
+export const emptyUserObject = {
 	id: undefined,
 	image: '',
 	displayName: '',
