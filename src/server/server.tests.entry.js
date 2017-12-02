@@ -10,7 +10,7 @@ const extend = require('lodash/assignIn')
 const { parseUrl } = require('shared/parsers.js')
 const getRandomDate = require('random-date-generator').getRandomDate
 const userFixtures = require('server/data/fixtures/users.js')
-const { User, Local, Mood, Node, Decision, Profile } = require('server/data/models/index.js')
+const { User, Local, Mood, Node, Decision, Profile, Revisions, Skills } = require('server/data/models/index.js')
 chai.should()
 
 // TODO move this to fixtures
@@ -140,6 +140,9 @@ after(async function() {
         await Mood.destroy({ where: {} })
         await Node.destroy({ where: {} })
         await Decision.destroy({ where: {} })
+        await Skills.destroy({ where: {} })
+        await Revisions.destroy({ where: {} })
+        // TODO: add code to create lines here from cli (creation of api from templates)
     }
     catch(error) {
         console.log(error)
