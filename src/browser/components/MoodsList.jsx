@@ -20,7 +20,7 @@ export class MoodsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		const skills = props.skills.get('skills')
+		const skills = props.skills
 		if(skills.size) {
 			return skills.map( skill => {
 					const nodeContent = skill.get('image')
