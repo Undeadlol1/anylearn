@@ -36,9 +36,7 @@ class CreateSkillPage extends PureComponent {
 	}
 
 	componentDidMount() {
-		this.setState({
-			tabs: this.renderTabs()
-		})
+		this.setState({tabs: this.renderTabs()})
 	}
 
 	onNameChange = (event, name) => {
@@ -78,7 +76,7 @@ class CreateSkillPage extends PureComponent {
 			image: state.image,
 		}
 		// console.log('state', convertToRaw(payload.stage0))
-		
+
 		console.log('payload: ', payload);
 		props
 			.insertSkill(payload)

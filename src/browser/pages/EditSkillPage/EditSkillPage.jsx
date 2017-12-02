@@ -69,20 +69,19 @@ class EditSkillPage extends PureComponent {
 			stage2: editor2 || originalText.stage2,
 			stage3: editor3 || originalText.stage3,
 		})
-		const payload = {
-			text: newText,
-			name: state.name,
-			image: state.image,
-			previousId: props.previousId,
-			description: state.description,
-			parentId: props.skill.get('id'),
-		}
 
-		props
-			.updateSkill(payload)
+		return props
+			.updateSkill({
+				text: newText,
+				name: state.name,
+				image: state.image,
+				previousId: props.previousId,
+				description: state.description,
+				parentId: props.skill.get('id'),
+			})
 			.then(({payload}) => {
 				console.log('payload: ', payload);
-				return this.props.router.push('/skill/' + payload.slug)
+				return props.router.push('/skill/' + payload.slug)
 			})
 	}
 
