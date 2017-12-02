@@ -26,16 +26,16 @@ describe('<Sidebar />', () => {
     it('has 1 menu item', () => {
       const menuItems = wrapper.find('MenuItem')
       expect(menuItems).to.have.length(1)
-      expect(menuItems.props().children.props.onClick).to.be.a('function')
+      expect(menuItems.props().onClick).to.be.a('function')
     })
 
-    it('has "search" link', () => {
-      const link = wrapper.find('Link')
-      expect(link).to.have.length(1)
-      expect(link.props().to).to.eq('search')
-      expect(link.props().onClick).to.be.a('function')
-      expect(link.props().children).to.eq(translate('search'))
-    })
+    // it('has "search" link', () => {
+    //   const link = wrapper.find('Link')
+    //   expect(link).to.have.length(1)
+    //   expect(link.props().to).to.eq('search')
+    //   expect(link.props().onClick).to.be.a('function')
+    //   expect(link.props().children).to.eq(translate('search'))
+    // })
   })
 
   describe('if user is logged in component', () => {
@@ -45,14 +45,14 @@ describe('<Sidebar />', () => {
     }
     const wrapper = shallow(<Sidebar {...props} />)
 
-    it('has 3 menu items', () => {
+    it('has 2 menu items', () => {
       const menuItems = wrapper.find('MenuItem')
-      expect(menuItems).to.have.length(3)
+      expect(menuItems).to.have.length(2)
     })
 
-    it('has <div>', () => {
-      expect(wrapper.find('div')).to.have.length(1)
-    })
+    // it('has <div>', () => {
+    //   expect(wrapper.find('div')).to.have.length(1)
+    // })
 
     it('has <LoginLogoutButton>', () => {
       const button = wrapper.find('Connect(LoginLogoutButton)')
@@ -62,9 +62,10 @@ describe('<Sidebar />', () => {
 
     it('has "profile" link', () => {
       const link = wrapper.find('.Sidebar__profile-link');
+      const menuItem = link.find('MenuItem')
       expect(link).to.have.length(1)
-      expect(link.props().children).to.eq(translate("search"))
       expect(link.props().onClick).to.be.a('function')
+      expect(menuItem.props().children).to.eq(translate("profile"))
     })
 
   })

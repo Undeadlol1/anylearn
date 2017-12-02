@@ -25,14 +25,16 @@ export class Sidebar extends Component {
 					open={sidebarIsOpen}
 					onRequestChange={toggleSidebar}
 				>
+					<MenuItem onClick={toggleSidebar}><LoginLogoutButton inline /></MenuItem>
 					{
 						UserId
-						?	<div>
-								<MenuItem onClick={toggleSidebar}><LoginLogoutButton inline /></MenuItem>
-								<MenuItem>
-									<Link onClick={toggleSidebar} to={`users/${UserId}`}>{translate("profile")}</Link>
-								</MenuItem>
-							</div>
+						?	<Link
+								to={`users/${UserId}`}
+								onClick={toggleSidebar}
+								className="Sidebar__profile-link"
+							>
+								<MenuItem>{translate("profile")}</MenuItem>
+							</Link>
 						: 	null
 					}
 					{/* <MenuItem><Link className="Sidebar__profile-link" onClick={toggleSidebar} to="search">{translate("search")}</Link></MenuItem> */}
