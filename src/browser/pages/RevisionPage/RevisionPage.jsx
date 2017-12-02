@@ -27,6 +27,8 @@ import { translate as t } from 'browser/containers/Translator'
 var DraftDiff = require('draft-js-diff');
 var DiffEditor = DraftDiff.DiffEditor;
 
+const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+
 class RevisionPage extends PureComponent {
 
 	createMarkup = (first, second) => {
@@ -45,24 +47,21 @@ class RevisionPage extends PureComponent {
 	}
 
 	renderTabs = () => {
-		return
+		const {props} = this
+		const newText = JSON.parse(props.revision.get('text'))
+		if (!props.previousRevision) return null
+		const origionalText = JSON.parse(props.previousRevision.get('text'))
+		return tabNames.map((name, index) => {
+			const plainNewText = convertFromRaw(newText['stage' + index]).getPlainText()
+			const plainOriginalText = convertFromRaw(origionalText['stage' + index]).getPlainText()
+			return <Tab label={name} key={index}>
+						<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} />
+					</Tab>
+		})
 	}
 
     render() {
 		const { props } = this
-		const newText = JSON.parse(props.revision.get('text'))
-		const origionalText = JSON.parse(props.previousRevision.get('text'))
-		const plainNewText = convertFromRaw(newText.stage0).getPlainText()
-		// .replace(/↵/g, '<br />')
-		const plainOriginalText = convertFromRaw(origionalText.stage0).getPlainText()
-		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
-		// .replace(/↵/g, '<br />')
-		// console.log('props.revision.toJS(): ', props.revision.toJS());
-		// props.get('previousRevision')/
-		// console.log('props.get(\'previousRevision\'): ', props.revision.get('previousRevision'));
-		// console.log('plainText: ', plainText);
-		console.log('EditorState.createWithContent(convertFromRaw(newText.stage0)): ', EditorState.createWithContent(convertFromRaw(newText.stage0)));
-		console.log('ContentState.createFromText(plainNewText): ', ContentState.createFromText(plainNewText));
 		return 	<PageWrapper
 					className='RevisionPage'
 					loading={props.loading}
@@ -106,13 +105,7 @@ class RevisionPage extends PureComponent {
 							<Col xs={12}>
 								<Tabs>
 									{
-										tabNames.map((name, index) => {
-											const plainNewText = convertFromRaw(newText['stage' + index]).getPlainText()
-											const plainOriginalText = convertFromRaw(origionalText['stage' + index]).getPlainText()
-											return <Tab label={name} key={index}>
-														<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} />
-													</Tab>
-										})
+										this.renderTabs()
 									}
 								</Tabs>
 								{/* <Paper zDepth={2}>
