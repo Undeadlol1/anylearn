@@ -20,7 +20,6 @@ export class SkillsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		console.log('props.skills: ', props.skills.toJS());
 		if(props.skills.size) {
 			return props.skills.map( skill => {
 				console.log('skill', skill)

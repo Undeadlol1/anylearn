@@ -41,8 +41,6 @@ export class RevisionsList extends Component {
 
 	render() {
 		const { props } = this
-		console.log('props.currentPage: ', props.currentPage);
-		console.log('props.totalPages: ', props.totalPages);
 		if (props.loading) return <Loading />
 		return  <section className="RevisionsList">
 					<Row>

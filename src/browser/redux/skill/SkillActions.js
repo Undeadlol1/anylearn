@@ -44,7 +44,6 @@ export const updateSkill = payload => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(response => {
-			console.log('response: ', response);
 			return dispatch(actions.recieveSkill(response))
 		})
 }
@@ -66,7 +65,6 @@ export const fetchSkill = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			console.log('data: ', data);
 			return dispatch(actions.recieveSkill((data)))
 		})
 		.catch(err => console.error('fetchskill failed!', err))
@@ -90,8 +88,7 @@ export const fetchSkills = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			console.log('done fetching.')
 			return dispatch(actions.recieveSkills((data)))
 		})
-		.catch(err => console.error('fetchskill failed!', err))
+		.catch(err => console.error('fetchskills failed!', err))
 }
