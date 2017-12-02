@@ -1,14 +1,52 @@
 import slugify from 'slug'
+import selectn from 'selectn'
 import { Router } from 'express'
 import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
-import { Skills, Revisions, User } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
-// import { error } from 'util'
+import { Skills, Revisions, User } from 'server/data/models'
 
 const limit = 12
 
+async function getSkill(where) {
+  try {
+    const skill = await Skills.findOne({where, raw: true})
+    const revision = await Revisions.findOne({
+      where: {
+        active: true,
+        parentId: skill.id,
+      },
+      include: [User],
+      raw: true,
+      nest: true,
+    })
+    const previousRevision = await Revisions.findById(revision.previousId, {raw: true})
+    const revisions = await Revisions.findAll({where: {parentId: skill.id}, raw: true})
+
+    skill.revision = revision
+    skill.revisions = revisions
+    skill.revision.previousRevision = previousRevision
+
+    return skill
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 export default Router()
+
+
+  // get single skill
+  .get('/skill/:slug', async (req, res) => {
+    const slug = selectn('params.slug', req)
+    try {
+      return getSkill({slug})
+            .then(skill => res.json(skill))
+    } catch (error) {
+      console.log(error)
+      res.status(500).end(error)
+    }
+  })
 
   // get all skills
   .get('/:page?', async (req, res) => {
@@ -18,38 +56,10 @@ export default Router()
       const offset = page ? limit * (page -1) : 0
       const totalPages = Math.ceil(totalSkills / limit)
       const skills = await Skills.findAll({limit, offset})
-      res.json({ skills, totalPages })
+      return res.json({ skills, totalPages })
     }
     catch (error) {
       console.log(error);
-      res.status(500).end(error)
-    }
-  })
-
-  // get single skill
-  .get('/skill/:slug', async ({params}, res) => {
-    try {
-      const slug = params && params.slug
-      console.log('slug: ', slug);
-      const skill = await Skills.findOne({where: {slug}})
-      // console.log('skill: before', skill);
-      const revision = await Revisions.findOne({
-        where: {
-          active: true,
-          parentId: skill.id,
-        },
-        include: [User]
-      })
-      const previousRevision = await Revisions.findById(revision.previousId)
-      const revisions = await Revisions.findAll({where: {parentId: skill.id}})
-      skill.dataValues.revision = revision && revision.dataValues
-      skill.dataValues.revision.previousRevision = previousRevision && previousRevision.dataValues
-      skill.dataValues.revisions = revisions && revisions
-      // console.log('skill.dataValues.revisions.length: ', skill.dataValues.revisions.length);
-      // console.log('skill.dataValues: ', skill.dataValues);
-      res.json(skill)
-    } catch (error) {
-      console.log(error)
       res.status(500).end(error)
     }
   })
@@ -63,27 +73,34 @@ export default Router()
       4) PROFIT
     */
     try {
+
       const UserId = user.id
       const { parentId } = params
-      await Revisions.update(
-        { active: false },
-        {
-          where: {
-            parentId,
-            active: true,
-          }
-        }
-      )
-      const revision = await Revisions.create({
-        ...body,
-        UserId,
+      Revisions
+      .findOne({where: {
         parentId,
         active: true,
+      }})
+      .then(revision => revision.update({active: false}))
+      .then(previousRevision => {
+        return Revisions.create({
+          ...body,
+          UserId,
+          parentId,
+          active: true,
+          // we need to set "previousId" to easily find difference after edit
+          previousId: previousRevision.id
+        })
       })
-      const skill = await Skills.findById(parentId)
-      skill.dataValues.revision = revision.dataValues
-
-      res.json(skill)
+      // TODO: maybe i should get rid of RevisionId completely?
+      .then(createdRevision => {
+        return Skills.update(
+          {RevisionId: createdRevision.id},
+          {where: {id: createdRevision.parentId}}
+        )
+      })
+      .then(() => getSkill({id: parentId}))
+      .then(skill => res.json(skill))
 
     } catch (error) {
       console.log(error)
@@ -93,7 +110,6 @@ export default Router()
 
   // create skill
   .post('/', mustLogin, async ({user, body}, res) => {
-    console.log('body: ', body);
     /*
       1) create skill
       2) create revision for skill
@@ -106,26 +122,26 @@ export default Router()
       const SkillId = generateUuid()
       const RevisionId = generateUuid()
 
-      const response  = await Revisions
-                          .create({
-                            ...body,
-                            UserId,
-                            active: true,
-                            id: RevisionId,
-                            parentId: SkillId,
-                          })
-                          .then(() =>
-                            Skills.create({
-                              ...body,
-                              slug,
-                              UserId,
-                              RevisionId,
-                              id: SkillId,
-                              name: 'initial_revision',
-                            })
-                          )
+      await Revisions
+      .create({
+        ...body,
+        UserId,
+        active: true,
+        id: RevisionId,
+        parentId: SkillId,
+        name: 'initial_revision',
+      })
+      .then(() =>
+        Skills.create({
+          ...body,
+          slug,
+          UserId,
+          RevisionId,
+          id: SkillId,
+        })
+      )
+      .then(skill => res.json(skill))
 
-      res.json(response)
     } catch (error) {
       console.log(error)
       res.status(500).end(error)
