@@ -1,23 +1,55 @@
+import faker from 'faker'
+import slugify from 'slug'
+import casual from 'casual'
+import generateUuid from 'uuid/v4'
 import chai, { expect } from 'chai'
-// import { Map, List } from 'immutable'
 import chaiImmutable from 'chai-immutable'
 import { actions } from 'browser/redux/skill/SkillActions'
 import reducer, { initialState } from 'browser/redux/skill/SkillReducer'
 chai.should()
 chai.use(chaiImmutable)
 
-describe('user reducer', async () => {
+describe('skill reducer', async () => {
+
+  const skillId = casual.uuid
+  const UserId = casual.uuid
+  const RevisionId = casual.uuid
+  const skillName = casual.title
+
+  const User = {
+    id: UserId,
+    username: 'randomName',
+  }
+
+  const revision = {
+    User,
+    UserId,
+    id: RevisionId,
+    name: casual.title,
+    text: JSON.stringify({}),
+    description: faker.lorem.paragraphs(),
+    active: casual.boolean,
+    // TODO: do i need this now?
+    image: faker.image.imageUrl,
+    parentId: skillId,
+    previousId: casual.uuid,
+    rating: '',
+    // TODO:
+    previousRevision: {},
+  }
 
   const skill = {
-    id: 1,
-    UserId: 2,
-    SkillId: 3,
-    type: 'video',
-    contentId: 123,
-    url: 'google.com',
-    rating: '1.32332300',
-    provider: 'youtube',
-    Decision: {},
+    revision,
+    RevisionId,
+    revisions: [{name: 'first'}, {name: 'second'}],
+    name: skillName,
+    // TODO: this
+    rating: '',
+    id: skillId,
+    slug: slugify(skillName),
+    UserId: casual.integer(),
+    image: faker.image.imageUrl(),
+
   }
 
   const skills = [
@@ -26,43 +58,35 @@ describe('user reducer', async () => {
     {id: 3},
   ]
 
-  // it('should have initial state', () => {
-  //   expect(reducer(undefined, {})).to.equal(initialState)
-  // })
+  it('should have initial state', () => {
+    expect(reducer(undefined, {})).to.equal(initialState)
+  })
 
-  // it('should handle RECIEVE_SKILL action on initial state', async () => {
-  //   const action = actions.recieveSkill(skill)
-  //   const newState = reducer(undefined, action)
-  //   expect(newState).to.have.property('id', skill.id)
-  //   expect(newState).to.have.property('contentId', skill.contentId)
-  //   expect(newState).to.have.property('loading', false)
-  // })
+  it('should handle RECIEVE_SKILL action on initial state', async () => {
+    const action = actions.recieveSkill(skill)
+    const newState = reducer(undefined, action).toJS()
+    expect(newState).to.have.property('id', skill.id)
+    expect(newState.revision).to.deep.equal(revision)
+    expect(newState.revision.User.id).to.equal(User.id)
+    expect(newState.revisions).to.deep.equal(skill.revisions)
+  })
 
-  // it('should handle RECIEVE_SKILLS action on initial state', () => {
-  //   const action = actions.recieveSkills(skills)
-  //   const newState = reducer(undefined, action)
-  //   expect(newState.get('skills').toJS()).to.deep.equal(skills)
-  // })
+  it('should handle RECIEVE_SKILLS action on initial state', () => {
+    const action = actions.recieveSkills({skills})
+    const newState = reducer(undefined, action).toJS()
+    expect(newState.skills).to.deep.equal(skills)
+  })
 
-  // it('should handle UPDATE_SKILL action', async () => {
-  //   expect(
-  //     reducer(undefined, actions.updateSkill(skill))
-  //   )
-  //   .to.have.property('id', skill.id)
-  // })
+  it('should handle TOGGLE_DIALOG action on initial state', async () => {
+    const newState = reducer(undefined, actions.toggleDialog(true))
+    expect(newState).to.have.property('dialogIsOpen', true)
+  })
 
-  // it('should handle TOGGLE_DIALOG action on initial state', async () => {
-  //   expect(
-  //     reducer(undefined, actions.toggleDialog(true))
-  //   )
-  //   .to.have.property('dialogIsOpen', true)
-  // })
-
-  // it('should handle UNLOAD_SKILL action', () => {
-  //   const action = actions.unloadSkill()
-  //   const newState = reducer(undefined, action)
-  //   expect(newState).to.equal(initialState)
-  // })
+  it('should handle UNLOAD_SKILL action', () => {
+    const action = actions.unloadSkill()
+    const newState = reducer(undefined, action).toJS()
+    expect(newState).to.deep.equal(initialState.toJS())
+  })
 
   // it('should handle REMOVE_SKILL action', () => {
   //   const action = actions.recieveSkills(skills)
@@ -72,16 +96,6 @@ describe('user reducer', async () => {
   //   expect(newState.get('skills').toJS())
   //     .to.have.length(2)
   //     .and.not.contain({id: 1})
-  // })
-
-  // it('should handle RECIEVE_SEARCHED_VIDEOS action on initial state', () => {
-  //   const action = actions.recieveSearchedVideos([])
-  //   const newState = reducer(undefined, action)
-  //   const expectedState = initialState.merge({
-  //       searchedVideos: [],
-  //       searchIsActive: false,
-  //   })
-  //   expect(newState).to.deep.eq(expectedState)
   // })
 
 })

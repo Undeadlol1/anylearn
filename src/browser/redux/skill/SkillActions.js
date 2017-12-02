@@ -12,10 +12,10 @@ export const actions = createActions({
   TOGGLE_DIALOG: () => null,
   RECIEVE_SKILL: node => node,
   RECIEVE_SKILLS: nodes => nodes,
-  UPDATE_SKILL: object => object,
+//   UPDATE_SKILL: object => object,
+// TODO: ?????
   TOGGLE_SKILL_FETCHING: boolean => boolean,
   FETCHING_ERROR: reason => reason,
-  RECIEVE_SEARCHED_VIDEOS: videos => videos,
 })
 
 /**
@@ -53,20 +53,18 @@ export const updateSkill = payload => (dispatch, getState) => {
  * @param {string} slug skill slug
  */
 export const fetchSkill = slug => (dispatch, getState) => {
-	const state = getState()
-	const skillSlug = slug || state.skill.get('slug')
+	// const state = getState()
+	// const skillSlug = slug || state.skill.get('slug')
 
 	// dispatch(actions.fetchingSkill())
 
 	return fetch(
-		skillsUrl + 'skill/' + skillSlug,
+		skillsUrl + 'skill/' + slug,
 		{ credentials: 'same-origin' }
 	)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => {
-			return dispatch(actions.recieveSkill((data)))
-		})
+		.then(data => dispatch(actions.recieveSkill((data))))
 		.catch(err => console.error('fetchskill failed!', err))
 }
 
@@ -76,13 +74,11 @@ export const fetchSkill = slug => (dispatch, getState) => {
  */
 export const fetchSkills = slug => (dispatch, getState) => {
 	console.log('fetchSkills: ');
-	const state = getState()
-	const skillSlug = slug || state.skill.get('slug')
 
 	// dispatch(actions.fetchingSkill())
 
 	return fetch(
-		skillsUrl, //+ skillSlug,
+		skillsUrl,
 		{ credentials: 'same-origin' }
 	)
 		.then(checkStatus)

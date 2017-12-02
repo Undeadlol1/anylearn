@@ -1,12 +1,12 @@
 import nock from 'nock'
-import isArray from 'lodash/isArray'
 import thunk from 'redux-thunk'
 import chai, { expect } from 'chai'
+import isArray from 'lodash/isArray'
 import chaiImmutable from 'chai-immutable'
 import configureMockStore from 'redux-mock-store'
 import { createAction, createActions } from 'redux-actions'
 import { initialState } from 'browser/redux/skill/SkillReducer'
-import { updateSkill, toggleLoginDialog, logoutCurrentSkill, fetchCurrentSkill, fetchSkill, actions } from 'browser/redux/skill/SkillActions'
+import { updateSkill, insertSkill, fetchSkill, fetchSkills, actions } from 'browser/redux/skill/SkillActions'
 chai.should();
 chai.use(chaiImmutable);
 
@@ -16,7 +16,8 @@ const mockStore = configureMockStore(middlewares)
 const { URL, API_URL } = process.env
 const authApi = '/api/auth/'
 const skillsApi = '/api/skills/'
-const skill = {skillname: 'misha', id: 1}
+const skill = {id: 1, name: 'random name'}
+// TODO: export this function from somewhere
 /**
  * test async action by intercepting http call
  * and cheking if expected redux actions have been called
@@ -30,7 +31,7 @@ const skill = {skillname: 'misha', id: 1}
 function mockRequest(url, action, param, result, method = 'get') {
     // TODO rework this url (last character '/' was causing unmathing of url)
     // create request interceptor
-    nock('http://127.0.0.1:3000')[method](url).reply(200, skill)
+    nock(URL)[method](url).reply(200, skill)
     const store = mockStore()
     return store
       // call redux action
@@ -42,6 +43,11 @@ function mockRequest(url, action, param, result, method = 'get') {
 describe('SkillActions', () => {
 
   afterEach(() => nock.cleanAll())
+
+  it('insertSkill calls recieveSkill', async () => {
+    const expectedActions = [actions.recieveSkill(skill)]
+    await mockRequest(skillsApi, insertSkill, undefined, expectedActions, 'post')
+  })
 
 
   // it('fetchCurrentSkill calls fetchingSkill and recieveCurrentSkill', async () => {
