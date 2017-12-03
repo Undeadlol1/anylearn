@@ -131,6 +131,15 @@ class CreateSkillPage extends PureComponent {
 								onChange={this.onLogoChange}
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} />
+							{
+								/* TODO "alt" attribute */
+								state.image
+								&& 	<center>
+										<Col xs={12} sm={6} md={4} lg={3}>
+											<img src={state.image} />
+										</Col>
+									</center>
+							}
 							{this.state.tabs}
 							<center>
 								<RaisedButton
