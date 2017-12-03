@@ -20,9 +20,8 @@ export class MoodsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		const skills = props.skills
-		if(skills.size) {
-			return skills.map( skill => {
+		if(props.skills.size) {
+			return props.skills.map( skill => {
 					const nodeContent = skill.get('image')
 					const src = nodeContent
 								? nodeContent
@@ -93,18 +92,23 @@ MoodsList.propTypes = {
 }
 
 MoodsList.defaultProps = {
-	skills: Map({ skills: List() }),
 	totalPages: 0,
 	currentPage: 0,
+	skills: Map({ values: List() }),
 }
 
 export default connect(
 	// stateToProps
-	({skill}, ownProps) => ({
-		// skills: skill.get('skills'),
-		loading: skill.get('loading'),
-		...ownProps
-	}),
+	({skill}, ownProps) => {
+		const skills = skill.get('skills')
+		return {
+			...ownProps,
+			loading: skill.get('loading'),
+			skills: skills.get('values'),
+			totalPages: skills.get('totalPages'),
+			currentPage: skills.get('currentPage'),
+		}
+	},
 	// dispatchToProps
     (dispatch, ownProps) => ({
 		changePage(page) {

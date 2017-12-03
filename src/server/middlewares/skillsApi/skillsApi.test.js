@@ -71,7 +71,7 @@ export default describe('/skills API', function() {
             .end(function(err, res) {
                 const { body } = res
                 if (err) return done(err)
-                body.skills.should.be.a('array')
+                body.values.should.be.a('array')
                 body.totalPages.should.equal(1)
                 done()
             })
@@ -84,11 +84,12 @@ export default describe('/skills API', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .then(function(res) {
-            const { body } = res
+            const { body, body: {revisions, revision} } = res
             body.name.should.be.equal(name)
             body.slug.should.be.equal(slug)
-            body.revisions.should.be.an('array')
-            body.revision.id.should.be.an('string')
+            // TODO comment
+            revisions.should.be.an('array')
+            revision.id.should.be.an('string')
         })
     })
 

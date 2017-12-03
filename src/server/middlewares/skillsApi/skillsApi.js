@@ -55,8 +55,8 @@ export default Router()
       const totalSkills = await Skills.count()
       const offset = page ? limit * (page -1) : 0
       const totalPages = Math.ceil(totalSkills / limit)
-      const skills = await Skills.findAll({limit, offset})
-      return res.json({ skills, totalPages })
+      const values = await Skills.findAll({limit, offset})
+      return res.json({ values, totalPages })
     }
     catch (error) {
       console.log(error);

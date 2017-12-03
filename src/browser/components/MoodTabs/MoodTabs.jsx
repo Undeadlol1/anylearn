@@ -15,12 +15,12 @@ export class MoodTabs extends PureComponent {
 	render() {
 		const { props } = this
 		const classNames = cx('MoodTabs', props.className)
-		return <MoodsList
-					selector="popular"
+		return <MoodsList />
+					// selector="popular"
 					// TODO this is a problem
-					skills={props.skills}
-					totalPages={props.popular.get('totalPages')}
-					currentPage={props.popular.get('currentPage')} />
+					// skills={props.skills}
+					// totalPages={props.popular.get('totalPages')}
+					// currentPage={props.popular.get('currentPage')} />
 		// return 	<Tabs className={classNames}>
 		// 			<Tab label={t('popular')}>
 		// 				<MoodsList

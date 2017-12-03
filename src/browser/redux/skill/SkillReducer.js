@@ -30,7 +30,10 @@ const skillStructure = 	Map({
 
 export const initialState = Map({
 							error: '',
-							skills: List(),
+							skills: {
+								values:  List(),
+								totalPages: 0,
+							},
 							loading: false,
 							dialogIsOpen: false,
 							...skillStructure.toJS()
@@ -45,8 +48,7 @@ export default (state = initialState, {type, payload}) => {
 		case 'RECIEVE_SKILLS':
 		return state
 				.mergeDeep({
-					// TODO: 'values' instead of 'skills'
-					skills: payload.skills,
+					skills: payload,
 					loading: false,
 				})
 		case 'TOGGLE_DIALOG':
@@ -54,7 +56,7 @@ export default (state = initialState, {type, payload}) => {
 		case 'UNLOAD_SKILL':
 			return state
 				.merge(skillStructure)
-				.merge({skills: List()})
+				// .merge({skills: List()})
 				.mergeDeep({loading: false,})
 		// remove skill from skills list
 		// case 'REMOVE_SKILL':

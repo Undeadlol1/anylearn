@@ -52,11 +52,14 @@ describe('skill reducer', async () => {
 
   }
 
-  const skills = [
-    {id: 1},
-    {id: 2},
-    {id: 3},
-  ]
+  const skills = {
+    totalPages: 1,
+    values: [
+      {id: 1},
+      {id: 2},
+      {id: 3},
+    ]
+  }
 
   it('should have initial state', () => {
     expect(reducer(undefined, {})).to.equal(initialState)
@@ -72,7 +75,7 @@ describe('skill reducer', async () => {
   })
 
   it('should handle RECIEVE_SKILLS action on initial state', () => {
-    const action = actions.recieveSkills({skills})
+    const action = actions.recieveSkills(skills)
     const newState = reducer(undefined, action).toJS()
     expect(newState.skills).to.deep.equal(skills)
   })
