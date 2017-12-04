@@ -9,7 +9,7 @@ chai.use(chaiEnzyme())
 describe('<MetaData />', () => {
   const props = {location: {pathname: 'somepath'}}
   const wrapper = shallow(<MetaData {...props} />)
-  const description = process.env.APP_NAME + ' - музыка твоего настроения'
+  const description = process.env.APP_NAME + ' - энциклопедия навыков'
 
   it('has <Helmet />', () => {
     const helmet = wrapper.find('HelmetWrapper')
