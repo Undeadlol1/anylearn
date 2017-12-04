@@ -66,22 +66,19 @@ export const fetchSkill = slug => (dispatch, getState) => {
 }
 
 /**
- * fetch skills using skill slug
- * @param {string} slug skill slug (optional)
+ * fetch skills
+ * @param {number} page skill page (optional)
  */
-export const fetchSkills = slug => (dispatch, getState) => {
-	console.log('fetchSkills: ');
+export const fetchSkills = (page = 1) => (dispatch, getState) => {
 
 	// dispatch(actions.fetchingSkill())
 
 	return fetch(
-		skillsUrl,
+		skillsUrl + page,
 		{ credentials: 'same-origin' }
 	)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => {
-			return dispatch(actions.recieveSkills((data)))
-		})
+		.then(data => dispatch(actions.recieveSkills((data))))
 		.catch(err => console.error('fetchskills failed!', err))
 }
