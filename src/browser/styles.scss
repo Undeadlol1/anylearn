@@ -28,9 +28,9 @@
 @import "./components/WysiwygEditor/WysiwygEditor.scss";
 @import "./components/WysiwygEditor/WysiwygEditor.scss";
 @import "./components/SkillsList/SkillsList.scss";
-@import "./pages/DevPage/DevPage.scss"; 
-@import "./components/RevisionsList/RevisionsList.scss"; 
-@import "./pages/RevisionPage/RevisionPage.scss"; 
+@import "./pages/DevPage/DevPage.scss";
+@import "./components/RevisionsList/RevisionsList.scss";
+@import "./pages/RevisionPage/RevisionPage.scss";
 // ⚠️ Hook for cli! Do not remove 💀
 /*
     common styles
@@ -38,4 +38,7 @@
 // draft.js styles
 .rdw-editor-main {
     height: auto;
+}
+.DraftEditor-editorContainer {
+    padding: 0 2rem;
 }
