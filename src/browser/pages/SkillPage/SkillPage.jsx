@@ -1,6 +1,8 @@
 // dependencies
 import PropTypes from 'prop-types'
+import { VK, Like } from 'react-vk'
 import { connect } from 'react-redux'
+import Paper from 'material-ui/Paper'
 import Link from 'react-router/lib/Link'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { PureComponent } from 'react'
@@ -27,29 +29,39 @@ class SkillPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
-							<Col xs={12} className="SkillPage__buttons">
+							{/*
+							<Row>
+								<Col xs={12} className="SkillPage__buttons">
 								<Link
-									className="SkillPage__button--left"
-									to={`/skill/${skill.get('slug')}/dev`}
+								className="SkillPage__button--left"
+								to={`/skill/${skill.get('slug')}/dev`}
 								>
-									<RaisedButton
-										primary
-										label={t('discussion')}
-										icon={<ListIcon />}
-									/>
+								<RaisedButton
+								primary
+								label={t('discussion')}
+								icon={<ListIcon />}
+								/>
 								</Link>
 								<Link
-									className="SkillPage__button--right"
-									to={`/skill/${skill.get('slug')}/edit`}
+								className="SkillPage__button--right"
+								to={`/skill/${skill.get('slug')}/edit`}
 								>
-									<RaisedButton
-										primary
-										label={t('edit')}
-										icon={<EditIcon />}
-									/>
+								<RaisedButton
+								primary
+								label={t('edit')}
+								icon={<EditIcon />}
+								/>
 								</Link>
-							</Col>
+								</Col>
+							</Row>
+							*/}
 							<Col xs={12}>
+								{/* <VK apiId={Number(process.env.VK_ID)}>
+									<Like
+										options={{type: "full", verb: 1}}
+										onLike={quantity => console.log(quantity)}
+									/>
+								</VK> */}
 								<center><h1>{skill.get('name')}</h1></center>
 								{/* TODO "alt" attribute */}
 								<center><img src={skill.get('image')} /></center>
