@@ -1,15 +1,16 @@
 import React from 'react'
 import selectn from 'selectn'
 import PropTypes from 'prop-types'
+import styles from 'browser/theme'
 import { connect } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import NavBar from 'browser/components/NavBar'
+import {VK, CommunityMessages} from 'react-vk'
 import { Grid } from 'react-styled-flexboxgrid'
 import Sidebar from 'browser/components/Sidebar'
 import LoginDialog from 'browser/components/LoginDialog'
 import LoginLogoutButton from 'browser/components/LoginLogoutButton'
 import { fetchCurrentUser, logoutCurrentUser } from 'browser/redux/actions/UserActions'
-import styles from 'browser/theme'
 
 let timeout = null
 
@@ -101,6 +102,17 @@ export default class Layout extends React.Component {
 					<Sidebar />
 					<LoginDialog />
 					<ReduxToastr position="top-left" progressBar />
+					<VK apiId={Number(process.env.VK_ID)}>
+						<CommunityMessages
+							groupId={91039942}
+							widgetPosition="left"
+							options={{
+								widgetPosition: 'left',
+								tooltipButtonText: 'Обратная связь',
+								onCanNotWrite: reason => console.log(reason),
+							}}
+						/>
+					</VK>
 				</div>
 	}
 }
