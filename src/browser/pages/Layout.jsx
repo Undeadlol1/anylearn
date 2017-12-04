@@ -71,6 +71,10 @@ export default class Layout extends React.Component {
 		const currentPath = this.context.router.getCurrentPathname && this.context.router.getCurrentPathname()
 		const location = selectn('router.location.pathname', this.context)
 		const isMoodPage = location.includes('/mood/')
+		const groupId = process.env.NODE_ENV
+						== "production"
+						? 157990291
+						: 91039942
 
 		// styles
 		const 	baseStyles = 	{
@@ -104,7 +108,7 @@ export default class Layout extends React.Component {
 					<ReduxToastr position="top-left" progressBar />
 					<VK apiId={Number(process.env.VK_ID)}>
 						<CommunityMessages
-							groupId={91039942}
+							groupId={groupId}
 							widgetPosition="left"
 							options={{
 								widgetPosition: 'left',
