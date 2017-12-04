@@ -54,20 +54,24 @@ class SkillPage extends PureComponent {
 								{/* TODO "alt" attribute */}
 								<center><img src={skill.get('image')} /></center>
 							</Col>
+						</Row>
+						<Row>
 							<Col xs={12}>
-								<Tabs>
-									{
-										tabNames.map((name, index) => {
-											return <Tab label={name} key={index}>
-														<Editor
-															readOnly={true}
-															toolbarHidden={true}
-															editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
-														/>
-													</Tab>
-										})
-									}
-								</Tabs>
+								<Paper>
+									<Tabs className="SkillPage__tabs">
+										{
+											tabNames.map((name, index) => {
+												return <Tab label={name} key={index}>
+															<Editor
+																readOnly={true}
+																toolbarHidden={true}
+																editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
+															/>
+														</Tab>
+											})
+										}
+									</Tabs>
+								</Paper>
 							</Col>
 						</Row>
 					</Grid>
