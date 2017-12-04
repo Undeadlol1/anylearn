@@ -1,6 +1,7 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import Paper from 'material-ui/Paper'
 import React, { PureComponent } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Editor } from 'react-draft-wysiwyg'
@@ -140,7 +141,9 @@ class CreateSkillPage extends PureComponent {
 										</Col>
 									</center>
 							}
-							{this.state.tabs}
+							<Paper>
+								{this.state.tabs}
+							</Paper>
 							<center>
 								<RaisedButton
 									type="submit"
