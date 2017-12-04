@@ -23,11 +23,10 @@ export const actions = createActions({
  * @param {object} payload content url
  */
 export const insertSkill = payload => (dispatch, getState) => {
-	console.log('insert skill!11');
-	return fetch(skillsUrl, headersAndBody(payload))
+	return fetch(skillsUrl, headersAndBody(payload, 'POST'))
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(function(response) {
+		.then(response => {
 			// dispatch(actions.toggleDialog())
 			return dispatch(actions.recieveSkill(response))
 		})
@@ -38,8 +37,6 @@ export const insertSkill = payload => (dispatch, getState) => {
  * @param {object} payload content url
  */
 export const updateSkill = payload => (dispatch, getState) => {
-	console.log('updateSkill!!!');
-	// console.log('payload: ', payload);
 	return fetch(skillsUrl + payload.parentId, headersAndBody(payload, 'PUT'))
 		.then(checkStatus)
 		.then(parseJSON)
