@@ -24,9 +24,8 @@ const routesConfig = {
     // fetch data
     onEnter({params}, replace, done) {
       // check if fetching is needed
-      // console.log('store.getState().skill: ', store.getState().skill.toJS());
-      const newSkills = store.getState().skill.get('skills')
-      if (newSkills.size) return done()
+      const newSkills = store.getState().skill.getIn(['skills', 'values'])
+      if (newSkills && newSkills.size) return done()
       else {
         // Promise
         // .all([
@@ -34,7 +33,8 @@ const routesConfig = {
           // store.dispatch(fetchSkills('random')),
           // store.dispatch(fetchSkills('popular')),
         // ])
-        store.dispatch(fetchSkills())
+        store
+        .dispatch(fetchSkills())
         .then(() => done())
       }
     }
@@ -82,7 +82,10 @@ const routesConfig = {
         else {
           store
           .dispatch(fetchSkill(params.skillSlug))
-          .then(() => done())
+          .then(action => {
+            if (action.payload) done()
+            // else replace('/404')
+          })
         }
       }
     },
