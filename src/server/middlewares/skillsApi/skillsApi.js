@@ -35,7 +35,6 @@ async function getSkill(where) {
 
 export default Router()
 
-
   // get single skill
   .get('/skill/:slug', async (req, res) => {
     const slug = selectn('params.slug', req)
@@ -51,12 +50,14 @@ export default Router()
   // get all skills
   .get('/:page?', async (req, res) => {
     try {
-      const page = req.params.page
-      const totalSkills = await Skills.count()
+      const { page } = req.params
+      const skillsCount = await Skills.count()
       const offset = page ? limit * (page -1) : 0
-      const totalPages = Math.ceil(totalSkills / limit)
-      const values = await Skills.findAll({limit, offset})
-      return res.json({ values, totalPages })
+      res.json({
+        currentPage: Number(page) || 1 ,
+        totalPages: Math.ceil(skillsCount / limit),
+        values: await Skills.findAll({limit, offset}),
+      })
     }
     catch (error) {
       console.log(error);

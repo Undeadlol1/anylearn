@@ -54,6 +54,7 @@ describe('skill reducer', async () => {
 
   const skills = {
     totalPages: 1,
+    currentPage: 1,
     values: [
       {id: 1},
       {id: 2},

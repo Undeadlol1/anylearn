@@ -1,4 +1,4 @@
-import { fetchMoods } from 'browser/redux/actions/MoodActions'
+import { fetchSkills } from 'browser/redux/skill/SkillActions'
 import Pagination from 'react-ultimate-pagination-material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { translate } from 'browser/containers/Translator'
@@ -112,7 +112,8 @@ export default connect(
 	// dispatchToProps
     (dispatch, ownProps) => ({
 		changePage(page) {
-			dispatch(fetchMoods(ownProps.selector, page))
+			// dispatch(fetchMoods(ownProps.selector, page))
+			dispatch(fetchSkills(page))
 		}
     })
 )(MoodsList)

@@ -27,8 +27,45 @@ export default describe('/skills API', function() {
         // TODO add logout? to test proper user login?
         // Kill supertest server in watch mode to avoid errors
         server.close()
+    })
+
+
+    describe('GET skills', function() {
+
+        it('without "page" param', function(done) {
+            request(server)
+                .get('/api/skills/')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function(err, res) {
+                    const { body } = res
+                    if (err) return done(err)
+                    body.values.should.be.a('array')
+                    body.values.should.have.length(1)
+                    body.totalPages.should.equal(1)
+                    body.currentPage.should.equal(1)
+                    done()
+                })
+        })
+
+        it('with "page" params', function(done) {
+            request(server)
+                .get('/api/skills/' + 2)
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function(err, res) {
+                    const { body } = res
+                    if (err) return done(err)
+                    body.values.should.be.a('array')
+                    body.values.should.have.length(0)
+                    body.totalPages.should.equal(1)
+                    body.currentPage.should.equal(2)
+                    done()
+                })
+        })
 
     })
+
 
     it('POST skill', async function() {
         const user =    await User
@@ -61,22 +98,6 @@ export default describe('/skills API', function() {
         revision.parentId.should.be.equal(skill.id)
         revision.name.should.be.equal('initial_revision')
     })
-
-
-    it('GET skills', function(done) {
-        request(server)
-            .get('/api/skills')
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end(function(err, res) {
-                const { body } = res
-                if (err) return done(err)
-                body.values.should.be.a('array')
-                body.totalPages.should.equal(1)
-                done()
-            })
-    })
-
 
     it('GET single skill', async function() {
         return user
