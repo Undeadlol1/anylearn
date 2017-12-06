@@ -112,6 +112,7 @@ export default class Layout extends React.Component {
 							widgetPosition="left"
 							options={{
 								widgetPosition: 'left',
+								disableButtonTooltip: 1,
 								tooltipButtonText: 'Обратная связь',
 								onCanNotWrite: reason => console.log(reason),
 							}}
