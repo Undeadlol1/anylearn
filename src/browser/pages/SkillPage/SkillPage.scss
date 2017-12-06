@@ -12,7 +12,18 @@
             float: left;
         }
     }
+    .SkillPage__logo {
+        margin-bottom: 2rem;        
+    }
     .SkillPage__tabs {
-        margin-bottom: 2rem;
+        // margin-bottom: 2rem;
+        margin-bottom: 20rem;
+    }
+    .SkillPage__edit-button {
+        right: 20px;
+		bottom: 20px;
+		z-index: 1000;
+		position: fixed;
+		margin-bottom: 0;
     }
 }

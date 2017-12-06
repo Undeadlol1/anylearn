@@ -47,7 +47,7 @@ class App extends Component {
                     <Translator>
                       {
                         process.env.BROWSER
-                        ? <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} />
+                        ? <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={() => window.scrollTo(0, 0)} />
                         : <RouterContext {...this.props} />
                       }
                     </Translator>

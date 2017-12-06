@@ -9,6 +9,7 @@ import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
@@ -29,6 +30,15 @@ class SkillPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
+							{/* FLOATING EDIT BUTTON */}
+							<Link
+								className="SkillPage__edit-button"
+								to={`/skill/${skill.get('slug')}/edit`}
+							>
+								<FloatingActionButton secondary={true}>
+									<EditIcon />
+								</FloatingActionButton>
+							</Link>
 							{/*
 							<Row>
 								<Col xs={12} className="SkillPage__buttons">
@@ -64,7 +74,7 @@ class SkillPage extends PureComponent {
 								</VK> */}
 								<center><h1>{skill.get('name')}</h1></center>
 								{/* TODO "alt" attribute */}
-								<center><img src={skill.get('image')} /></center>
+								<center><img className="SkillPage__logo" src={skill.get('image')} /></center>
 							</Col>
 						</Row>
 						<Row>
