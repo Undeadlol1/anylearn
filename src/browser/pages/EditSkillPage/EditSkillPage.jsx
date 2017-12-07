@@ -135,7 +135,7 @@ class EditSkillPage extends PureComponent {
 								onChange={this.onDescriptionChange}
 								disabled={state.validating}
 								hintText={t('description_not_required')} />
-							<TextField
+							{/* <TextField
 								fullWidth
 								type="url"
 								name="image"
@@ -143,7 +143,7 @@ class EditSkillPage extends PureComponent {
 								errorText={state.imageError}
 								onChange={this.onLogoChange}
 								disabled={state.validating}
-								hintText={t('skill_logo_not_required')} />
+								hintText={t('skill_logo_not_required')} /> */}
 							{this.state.tabs}
 							<center>
 								<RaisedButton
