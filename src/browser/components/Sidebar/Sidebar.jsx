@@ -53,15 +53,14 @@ Sidebar.propTypes = {
 	toggleSidebar: PropTypes.func.isRequired,
 }
 
+export const stateToProps = ({ user, global }, ownProps) => ({
+	...ownProps,
+	UserId: user.get('id'),
+	sidebarIsOpen: global.get('sidebarIsOpen'),
+})
+
 export const dispatchToProps = dispatch => ({
 	toggleSidebar: () => dispatch(actions.toggleSidebar())
 })
 
-export default connect(
-	({ user, global }, ownProps) => ({
-		...ownProps,
-		UserId: user.get('id'),
-		sidebarIsOpen: global.get('sidebarIsOpen'),
-	}),
-	dispatchToProps
-)(Sidebar)
+export default connect(stateToProps, dispatchToProps)(Sidebar)

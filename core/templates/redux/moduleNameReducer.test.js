@@ -2,11 +2,11 @@ import chai, { expect } from 'chai'
 import { Map, List } from 'immutable'
 import chaiImmutable from 'chai-immutable'
 import { actions } from 'browser/redux/ModuleName/ModuleNameActions'
-import reducer, { initialState } from 'browser/redux/ModuleName/ModuleNameReducer'
+import reducer, { initialState } from 'browser/redux/ModuleName/moduleNameReducer'
 chai.should()
 chai.use(chaiImmutable)
 
-describe('user reducer', async () => {
+describe('moduleName reducer', async () => {
 
   const moduleName = {
     id: 1,

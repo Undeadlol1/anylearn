@@ -142,7 +142,7 @@ function createReeduxModule(name) {
     addLineToFile(
         rootReducer,
         firstHook,
-        `import ${name}, { initialState as ${name}State } from 'browser/redux/${name}/${name}Reducer'`
+        `import ${name}, { initialState as ${name}State } from 'browser/redux/${name}/${upperCaseName}Reducer'`
         + '\n'
         + firstHook
     )
@@ -177,7 +177,7 @@ function createApi(name) {
      * 5) create test for middleware
      * 6) add line to server.js
      */
-    shell.exec(`sequelize model:create --name ${name} --attributes 'name:string'`)
+    shell.exec(`sequelize model:create --name ${name} --attributes name:string`)
     copyFolderAndReplace(
         path.resolve(__dirname, '../templates/apiMiddleware'),
         'apiName',
