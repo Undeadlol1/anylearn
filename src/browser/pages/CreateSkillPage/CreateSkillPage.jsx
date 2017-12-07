@@ -137,7 +137,7 @@ class CreateSkillPage extends PureComponent {
 								state.image
 								&& 	<center>
 										<Col xs={12} sm={6} md={4} lg={3}>
-											<img src={state.image} />
+											<img src={state.image} className="CreateSkillPage__logo" />
 										</Col>
 									</center>
 							}
