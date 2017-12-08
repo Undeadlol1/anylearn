@@ -23,8 +23,10 @@ const routesConfig = {
   onEnter({params}, replace, done) {
     // check if fetching is needed
     const userId = store.getState().user.get('id')
+    console.log('userId: ', userId);
     // TODO: remove brower check when universal cookies will be implemented
     const sessionCookie = process.env.BROWSER && cookies.get('session')
+    console.log('sessionCookie: ', sessionCookie);
     if (userId) return done()
     else {
       store
