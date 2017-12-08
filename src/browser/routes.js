@@ -11,7 +11,6 @@ import { fetchUser, fetchCurrentUser } from 'browser/redux/actions/UserActions'
 import { fetchMoods, fetchMood } from 'browser/redux/actions/MoodActions'
 import { fetchSkills, fetchSkill } from 'browser/redux/skill/SkillActions'
 import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeActions'
-import cookies from 'cookies-js'
 
 /**
  * fetching is done in router config in order to properly prefetch data in SSR
@@ -23,10 +22,6 @@ const routesConfig = {
   onEnter({params}, replace, done) {
     // check if fetching is needed
     const userId = store.getState().user.get('id')
-    console.log('userId: ', userId);
-    // TODO: remove brower check when universal cookies will be implemented
-    const sessionCookie = process.env.BROWSER && cookies.get('session')
-    console.log('sessionCookie: ', sessionCookie);
     if (userId) return done()
     else {
       store
