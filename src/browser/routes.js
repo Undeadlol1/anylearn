@@ -7,10 +7,11 @@ import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import NotFound from './pages/NotFound';
 import store from 'browser/redux/store'
-import { fetchUser } from 'browser/redux/actions/UserActions'
+import { fetchUser, fetchCurrentUser } from 'browser/redux/actions/UserActions'
 import { fetchMoods, fetchMood } from 'browser/redux/actions/MoodActions'
 import { fetchSkills, fetchSkill } from 'browser/redux/skill/SkillActions'
 import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeActions'
+import cookies from 'cookies-js'
 
 /**
  * fetching is done in router config in order to properly prefetch data in SSR
@@ -19,6 +20,18 @@ import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeAc
 const routesConfig = {
   path: '/',
   component: Layout,
+  onEnter({params}, replace, done) {
+    // check if fetching is needed
+    const userId = store.getState().user.get('id')
+    // TODO: remove brower check when universal cookies will be implemented
+    const sessionCookie = process.env.BROWSER && cookies.get('session')
+    if (userId) return done()
+    else {
+      store
+      .dispatch(fetchCurrentUser())
+      .then(() => done())
+    }
+  },
   indexRoute: {
     component: IndexPage,
     // fetch data
