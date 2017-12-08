@@ -15,7 +15,7 @@
 @import "./components/NavBar.scss";
 @import "./components/Video.scss";
 @import "./components/Loading.scss";
-@import "./components/Sidebar.scss";
+@import "./components/Sidebar/Sidebar.scss";
 @import "./components/MoodsList.scss";
 @import "./components/LoginDialog.scss";
 @import "./components/PageWrapper.scss";
@@ -31,6 +31,8 @@
 @import "./pages/DevPage/DevPage.scss";
 @import "./components/RevisionsList/RevisionsList.scss";
 @import "./pages/RevisionPage/RevisionPage.scss";
+@import "./components/ThreadsList/ThreadsList.scss";
+@import "./pages/ThreadPage/ThreadPage.scss";
 // ⚠️ Hook for cli! Do not remove 💀
 /*
     common styles

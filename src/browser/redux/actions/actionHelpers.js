@@ -47,7 +47,7 @@ export function headersAndBody(payload, method = 'POST') {
 		headers: {
 			'Content-Type': 'application/json'
 		},
-		credentials: 'same-origin',
+		// credentials: 'same-origin',
 		body: JSON.stringify(payload),
         // isObject(payload) ? payload : {[payload]: payload}
       // ),

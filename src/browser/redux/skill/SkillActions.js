@@ -57,7 +57,7 @@ export const fetchSkill = slug => (dispatch, getState) => {
 
 	return fetch(
 		skillsUrl + 'skill/' + slug,
-		{ credentials: 'same-origin' }
+		// { credentials: 'same-origin' }
 	)
 		.then(checkStatus)
 		.then(parseJSON)
@@ -75,7 +75,7 @@ export const fetchSkills = (page = 1) => (dispatch, getState) => {
 
 	return fetch(
 		skillsUrl + page,
-		{ credentials: 'same-origin' }
+		// { credentials: 'same-origin' }
 	)
 		.then(checkStatus)
 		.then(parseJSON)
