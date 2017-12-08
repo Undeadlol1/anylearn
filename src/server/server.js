@@ -19,6 +19,7 @@ import { mustLogin } from './services/permissions'
 import authApi, { passport } from './middlewares/authApi'
 import 'source-map-support/register' // do we actually need this?
 import morgan from 'morgan'
+import generateUuid from 'uuid/v4'
 import helmet from 'helmet'
 import createLocaleMiddleware from 'express-locale';
 import RateLimiter from 'express-rate-limit'
@@ -53,7 +54,12 @@ app.use(cookieSession({
   name: 'session',
   // store: new RedisStore(),
   keys: [process.env.SESSION_KEY || 'keyboard cat'],
-  maxAge: 24 * 60 * 60 * 1000 * 30 * 3 // 3 months
+  maxAge: 24 * 60 * 60 * 1000 * 30 * 3, // 3 months
+  resave: false,
+  saveUninitialized: true,
+  genid: function(req) {
+    return generateUuid()
+  },
 }))
 app.use(passport.initialize())
 app.use(passport.session())
