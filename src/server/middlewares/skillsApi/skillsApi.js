@@ -66,7 +66,7 @@ export default Router()
   })
 
   // update skill
-  .put('/:parentId', mustLogin, async ({user, body, params}, res) => {
+  .put('/:parentId', mustLogin, async ({user, session, body, params}, res) => {
     /*
       1) deactivate previous revision
       2) create new one
@@ -76,6 +76,8 @@ export default Router()
     try {
 
       const UserId = user.id
+      console.log('user.id: ', user.id);
+      console.log('session: ', session);
       const { parentId } = params
       Revisions
       .findOne({where: {
