@@ -100,7 +100,10 @@ MoodsList.defaultProps = {
 export default connect(
 	// stateToProps
 	({skill}, ownProps) => {
-		const skills = skill.get('skills')
+		// use "fromJS" to avoid bugs
+		// (on server side deep object property might be plain object instead of immutable Map)
+		// this might get fixed in fututre (see: store.js)
+		const skills = fromJS(skill.get('skills'))
 		return {
 			...ownProps,
 			loading: skill.get('loading'),
