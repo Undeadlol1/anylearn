@@ -13,7 +13,8 @@
         }
     }
     .SkillPage__logo {
-        width: 100%;
+        width: auto;
+        max-height: 30vh;
         margin-bottom: 2rem;
     }
     .SkillPage__tabs {

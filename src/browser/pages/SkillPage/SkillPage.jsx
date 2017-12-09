@@ -13,9 +13,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
-import { translate as t } from 'browser/containers/Translator'
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
 import ListIcon from 'material-ui/svg-icons/action/view-list'
+import { translate as t } from 'browser/containers/Translator'
 
 class SkillPage extends PureComponent {
 	render() {
