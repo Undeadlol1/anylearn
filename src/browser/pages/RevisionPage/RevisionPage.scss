@@ -1,6 +1,13 @@
 .RevisionPage {
-    white-space: pre-line;
-    // TODO comment before commit
+    .RevisionPage__user-container{
+        padding-top: 30px;
+        text-align: right;
+        .RevisionPage__username {
+            margin-right: 20px;
+            display: inline-block;
+            transform: translateY(-15px);
+        }
+    }
     .diff-delete {
         background-color: rgb(243, 0, 0)
     }

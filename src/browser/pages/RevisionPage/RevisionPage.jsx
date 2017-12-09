@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import { diffTrimmedLines } from 'diff'
 import Avatar from 'material-ui/Avatar'
+import Link from 'react-router/lib/Link'
 import Divider from 'material-ui/Divider'
 import nl2br from 'react-newline-to-break'
 import React, { PureComponent } from 'react'
@@ -67,20 +68,22 @@ class RevisionPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
-							<Col xs={8}>
+							<Col xs={12} md={8}>
 								<h1>{props.revision.get('name')}</h1>
 								<p>{props.revision.get('description')}</p>
 							</Col>
-							<Col xs={4}>
-								<h1>
-									{props.user.get('displayName')}
+							<Col xs={12} md={4}className="RevisionPage__user-container">
+								<Link to={`users/${props.user.get('id')}`}>
+									<b className="RevisionPage__username">
+										{props.user.get('displayName')}
+									</b>
 									<Avatar
 										className="RevisionPage__avatar"
 										// TODO: alt
 										// alt={translate('your_avatar')}
 										src={props.user.get('image')}
 									/>
-								</h1>
+								</Link>
 							</Col>
 						</Row>
 						<Divider />
