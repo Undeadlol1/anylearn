@@ -109,7 +109,9 @@ export default describe('/skills API', function() {
             body.name.should.be.equal(name)
             body.slug.should.be.equal(slug)
             // TODO comment
-            revisions.should.be.an('array')
+            revisions.totalPages.should.eq(1)
+            revisions.currentPage.should.eq(1)
+            revisions.values.should.be.an('array')
             revision.id.should.be.an('string')
         })
     })
@@ -184,9 +186,11 @@ export default describe('/skills API', function() {
         // we need to set "previousId" to easily find difference after edit
         revision.previousId.should.eq(oldRevision.id)
         /* revisions structure */
-        revisions.should.be.an('array')
-        revisions.should.have.length(2)
-        revisions.map(rev => rev.parentId.should.eq(skill.id))
+        revisions.totalPages.should.eq(1)
+        revisions.currentPage.should.eq(1)
+        revisions.values.should.be.an('array')
+        revisions.values.should.have.length(2)
+        revisions.values.map(rev => rev.parentId.should.eq(skill.id))
     })
 
     it('fail to POST if not authorized', async function() {

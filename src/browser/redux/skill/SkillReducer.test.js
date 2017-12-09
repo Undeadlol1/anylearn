@@ -62,6 +62,12 @@ describe('skill reducer', async () => {
     ]
   }
 
+  const revisions = {
+    totalPages: 1,
+    currentPage: 1,
+    values: [{}, {}],
+  }
+
   it('should have initial state', () => {
     expect(reducer(undefined, {})).to.equal(initialState)
   })
@@ -79,6 +85,12 @@ describe('skill reducer', async () => {
     const action = actions.recieveSkills(skills)
     const newState = reducer(undefined, action).toJS()
     expect(newState.skills).to.deep.equal(skills)
+  })
+
+  it('should handle RECIEVE_REVISIONS action on initial state', () => {
+    const action = actions.recieveRevisions(revisions)
+    const newState = reducer(undefined, action).toJS()
+    expect(newState.revisions).to.deep.equal(revisions)
   })
 
   it('should handle TOGGLE_DIALOG action on initial state', async () => {

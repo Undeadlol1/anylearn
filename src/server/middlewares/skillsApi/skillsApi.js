@@ -5,6 +5,7 @@ import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
 import { mustLogin } from 'server/services/permissions'
 import { Skills, Revisions, User } from 'server/data/models'
+import { getRevisions } from 'server/middlewares/revisionsApi'
 
 const limit = 12
 
@@ -21,10 +22,10 @@ async function getSkill(where) {
       nest: true,
     })
     const previousRevision = await Revisions.findById(revision.previousId, {raw: true})
-    const revisions = await Revisions.findAll({where: {parentId: skill.id}, raw: true})
+    // const revisions = await Revisions.findAll({where: {parentId: skill.id}, raw: true})
 
     skill.revision = revision
-    skill.revisions = revisions
+    skill.revisions = await getRevisions(skill.id)
     skill.revision.previousRevision = previousRevision
 
     return skill
@@ -76,8 +77,6 @@ export default Router()
     try {
 
       const UserId = user.id
-      console.log('user.id: ', user.id);
-      console.log('session: ', session);
       const { parentId } = params
       Revisions
       .findOne({where: {

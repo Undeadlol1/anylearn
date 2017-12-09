@@ -24,7 +24,11 @@ const skillStructure = 	Map({
 							UserId: '',
 							rating: '',
 							RevisionId: '',
-							revisions: List(),
+							revisions: {
+								totalPages: 0,
+								currentPage: 0,
+								values:  List(),
+							},
 							revision: revisionStructure,
 						})
 
@@ -47,11 +51,16 @@ export default (state = initialState, {type, payload}) => {
 				.merge(payload)
 				.merge({loading: false})
 		case 'RECIEVE_SKILLS':
-		return state
-				.merge({
-					loading: false,
-					skills: payload,
-				})
+			return state
+					.merge({
+						loading: false,
+						skills: payload,
+					})
+		// initial revisions are recieved in 'skill' object,
+		// later data is used for pagination change
+		case 'RECIEVE_REVISIONS':
+			return state
+					.merge({revisions: payload})
 		case 'TOGGLE_DIALOG':
 			return state.set('dialogIsOpen', !state.get('dialogIsOpen'))
 		case 'UNLOAD_SKILL':
