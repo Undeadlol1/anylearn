@@ -1,4 +1,4 @@
-import { fetchMoods } from 'browser/redux/actions/MoodActions'
+import { fetchRevisions } from 'browser/redux/skill/SkillActions'
 import Pagination from 'react-ultimate-pagination-material-ui'
 import { Card, CardMedia, CardTitle } from 'material-ui/Card'
 import { translate } from 'browser/containers/Translator'
@@ -17,6 +17,7 @@ export class RevisionsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
+		console.log('props.revisions.: ', props.revisions);
 		if(selectn('revisions.size', props)) {
 			return props.revisions.map( revision => {
 				const id = revision.get('id')
@@ -41,6 +42,8 @@ export class RevisionsList extends Component {
 
 	render() {
 		const { props } = this
+		console.log('props.currentPage: ', props.currentPage);
+		console.log('props.totalPages: ', props.totalPages);
 		if (props.loading) return <Loading />
 		return  <section className="RevisionsList">
 					<Row>
@@ -85,44 +88,35 @@ RevisionsList.propTypes = {
   totalPages: PropTypes.number,
   currentPage: PropTypes.number,
   loading: PropTypes.bool,
+  SkillId: PropTypes.string.isRequired,
 }
 
 RevisionsList.defaultProps = {
-	// moods: fromJS([
-	// 	{
-	// 		id: 1,
-	// 		name: 'Верстка веб-сайтов',
-	// 		// image: 'https://wiki.selfhtml.org/images/thumb/7/78/HTML-CSS-JS.svg/400px-HTML-CSS-JS.svg.png',
-	// 		image: 'http://www.doclicksolutions.com/img/web_training.png',
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		name: 'Front-end разработка',
-	// 		image: 'https://camo.githubusercontent.com/41f5aa64e0930a781b0962898b4aff4db06f9560/68747470733a2f2f63646e2e7261776769742e636f6d2f7368616e6e6f6e6d6f656c6c65722f66726f6e742d656e642d6c6f676f2f6d61737465722f6578706f7274732f66726f6e742d656e642d6c6f676f2d636f6c6f722e737667',
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		name: 'Meteor',
-	// 		image: 'https://d14xs1qewsqjcd.cloudfront.net/assets/og-image-logo.png',
-	// 	}
-	// ]),
-	// revisions: List(),
 	totalPages: 0,
 	currentPage: 0,
 }
 
 export default connect(
 	// stateToProps
-	({skill}, ownProps) => ({
-		skillSlug: skill.get('slug'),
-		loading: skill.get('loading'),
-		revisions: skill.get('revisions'),
-		...ownProps
-	}),
+	({skill}, ownProps) => {
+		// use "fromJS" to avoid bugs
+		// (on server side deep object property might be plain object instead of immutable Map)
+		// this might get fixed in fututre (see: store.js)
+		const revisions = fromJS(skill.get('revisions'))
+		return {
+			skillSlug: skill.get('slug'),
+			loading: skill.get('loading'),
+			revisions: revisions.get('values'),
+			totalPages: revisions.get('totalPages'),
+			currentPage: revisions.get('currentPage'),
+			...ownProps
+		}
+	},
 	// dispatchToProps
     (dispatch, ownProps) => ({
 		changePage(page) {
-			// dispatch(fetchMoods(ownProps.selector, page))
+			console.log('ownProps: ', ownProps);
+			dispatch(fetchRevisions(ownProps.SkillId, page))
 		}
     })
 )(RevisionsList)

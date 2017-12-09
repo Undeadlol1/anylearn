@@ -45,7 +45,6 @@ export const fetchForum = slug => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			console.log('data: ', data);
 			return dispatch(actions.recieveForum((data)))
 		})
 		.catch(err => console.error('fetchforum failed!', err))

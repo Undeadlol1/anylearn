@@ -18,7 +18,7 @@ class DevPage extends PureComponent {
 					<Grid fluid>
 						{/* <Row> */}
 							{/* <Col xs={12}> */}
-								<RevisionsList />
+								<RevisionsList SkillId={props.SkillId} />
 							{/* </Col> */}
 						{/* </Row> */}
 					</Grid>
@@ -27,7 +27,7 @@ class DevPage extends PureComponent {
 }
 
 DevPage.propTypes = {
-	// prop: PropTypes.object,
+	SkillId: PropTypes.string.isRequired,
 }
 
 export { DevPage }
@@ -35,7 +35,7 @@ export { DevPage }
 export default
 connect(
 	(state, ownProps) => ({
-		// prop: state.mood.get('moods'),
+		SkillId: state.skill.get('id'),
 		...ownProps
 	}),
 )(DevPage)

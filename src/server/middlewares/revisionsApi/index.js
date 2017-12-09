@@ -1,1 +1,1 @@
-export { default } from './revisionsApi'
+export { default, getRevisions } from './revisionsApi'

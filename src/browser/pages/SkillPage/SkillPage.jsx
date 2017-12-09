@@ -29,6 +29,31 @@ class SkillPage extends PureComponent {
 					loading={props.loading}
 				>
 					<Grid fluid>
+						{/* TOP BUTTONS */}
+						<Row>
+							<Col xs={12} className="SkillPage__buttons">
+								<Link
+									className="SkillPage__button--left"
+									to={`/skill/${skill.get('slug')}/dev`}
+								>
+									<RaisedButton
+										primary
+										label={t('discussion')}
+										icon={<ListIcon />}
+									/>
+								</Link>
+								{/* <Link
+								className="SkillPage__button--right"
+								to={`/skill/${skill.get('slug')}/edit`}
+								>
+								<RaisedButton
+								primary
+								label={t('edit')}
+								icon={<EditIcon />}
+								/>
+								</Link> */}
+							</Col>
+						</Row>
 						<Row>
 							{/* FLOATING EDIT BUTTON */}
 							<Link
@@ -39,32 +64,6 @@ class SkillPage extends PureComponent {
 									<EditIcon />
 								</FloatingActionButton>
 							</Link>
-							{/*
-							<Row>
-								<Col xs={12} className="SkillPage__buttons">
-								<Link
-								className="SkillPage__button--left"
-								to={`/skill/${skill.get('slug')}/dev`}
-								>
-								<RaisedButton
-								primary
-								label={t('discussion')}
-								icon={<ListIcon />}
-								/>
-								</Link>
-								<Link
-								className="SkillPage__button--right"
-								to={`/skill/${skill.get('slug')}/edit`}
-								>
-								<RaisedButton
-								primary
-								label={t('edit')}
-								icon={<EditIcon />}
-								/>
-								</Link>
-								</Col>
-							</Row>
-							*/}
 							<Col xs={12}>
 								{/* <VK apiId={Number(process.env.VK_ID)}>
 									<Like

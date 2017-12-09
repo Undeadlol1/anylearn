@@ -6,7 +6,7 @@ import chaiImmutable from 'chai-immutable'
 import configureMockStore from 'redux-mock-store'
 import { createAction, createActions } from 'redux-actions'
 import { initialState } from 'browser/redux/skill/SkillReducer'
-import { updateSkill, insertSkill, fetchSkill, fetchSkills, actions } from 'browser/redux/skill/SkillActions'
+import { updateSkill, insertSkill, fetchSkill, fetchSkills, fetchRevisions, actions } from 'browser/redux/skill/SkillActions'
 chai.should();
 chai.use(chaiImmutable);
 
@@ -16,7 +16,13 @@ const mockStore = configureMockStore(middlewares)
 const { URL, API_URL } = process.env
 const authApi = '/api/auth/'
 const skillsApi = '/api/skills/'
+const revisionsApi = '/api/revisions/'
 const skill = {id: 1, name: 'random name'}
+const revisions = {
+  totalPages: 1,
+  currentPage: 1,
+  values: [{}, {}],
+}
 // TODO: export this function from somewhere
 /**
  * test async action by intercepting http call
@@ -28,10 +34,10 @@ const skill = {id: 1, name: 'random name'}
  * @param {string} [method='get'] request method
  * @returns
  */
-function mockRequest(url, action, param, result, method = 'get') {
+function mockRequest(url, action, param, result, method = 'get', reply = skill) {
     // TODO rework this url (last character '/' was causing unmathing of url)
     // create request interceptor
-    nock(URL)[method](url).reply(200, skill)
+    nock(URL)[method](url).reply(200, reply)
     const store = mockStore()
     return store
       // call redux action
@@ -48,6 +54,21 @@ describe('SkillActions', () => {
     const expectedActions = [actions.recieveSkill(skill)]
     await mockRequest(skillsApi, insertSkill, undefined, expectedActions, 'post')
   })
+
+  // it('fetchRevisions calls recieveRevisions', async () => {
+  //   const expectedActions = [actions.recieveRevisions(revisions)]
+  //   const url = URL + revisionsApi + '12345' + '/1'
+  //   console.log('url: ', url);
+  //   // console.log('expectedActions: ', expectedActions);
+  //   nock(url).get().reply(200, revisions)
+  //   const store = mockStore()
+  //   await store
+  //   // call redux action
+  //   .dispatch(fetchRevisions('12345'))
+  //   // compare called actions with expected result
+  //   .then(() => expect(store.getActions()).to.deep.equal(expectedActions))
+  //   // await mockRequest(revisionsApi, fetchRevisions, '12345', expectedActions, 'get', revisions)
+  // })
 
 
   // it('fetchCurrentSkill calls fetchingSkill and recieveCurrentSkill', async () => {

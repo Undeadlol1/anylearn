@@ -4,15 +4,15 @@ import slugify from 'slug'
 import request from 'supertest'
 import server from 'server/server'
 import users from 'server/data/fixtures/users'
-import { Revisions, User } from 'server/data/models'
+import { Skills, Revisions, User } from 'server/data/models'
 import { loginUser } from 'server/test/middlewares/authApi.test'
 chai.should();
 
-const   user = request.agent(server),
+const   agent = request.agent(server),
         username = users[0].username,
         password = users[0].password,
-        revision = "random name",
-        slug = slugify(revision)
+        name = "random name",
+        slug = slugify(name)
 
 export default describe('/revisions API', function() {
 
@@ -24,8 +24,28 @@ export default describe('/revisions API', function() {
     })
 
     // clean up
-    after(function() {
-        Revisions.destroy({where: { name: revision }})
+    // after(function() {
+    //     Revisions.destroy({where: { name }})
+    // })
+
+    it('GET revisions', async function() {
+        const skill =   await Skills.findOne({
+                            where: {},
+                            order: 'rand()',
+                        })
+        console.log('skill: ', skill);
+        await agent
+            .get('/api/revisions/123', )
+            .expect('Content-Type', /json/)
+            .expect(200)
+            .then(function(res) {
+                console.log('res: ', res.body);
+                res.body.totalPages.should.eq(1)
+                res.body.currentPage.should.eq(1)
+                res.body.values.length.should.eq(0)
+                res.body.values.should.be.a('array')
+            })
+            .catch(error => {throw new Error(error)})
     })
 
     // it('POST revision', async function() {
@@ -41,18 +61,6 @@ export default describe('/revisions API', function() {
     //             console.error(error)
     //             throw new Error(error)
     //         })
-    // })
-
-    // it('GET revisions', function(done) {
-    //     request(server)
-    //         .get('/api/revisions')
-    //         .expect('Content-Type', /json/)
-    //         .expect(200)
-    //         .end(function(err, res) {
-    //             if (err) return done(err);
-    //             res.body.revisions.should.be.a('array')
-    //             done()
-    //         });
     // })
 
     // it('GET single revision', function(done) {

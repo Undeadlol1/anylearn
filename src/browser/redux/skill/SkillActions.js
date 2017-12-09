@@ -5,6 +5,7 @@ import { checkStatus, parseJSON, headersAndBody } from'browser/redux/actions/act
 
 
 const skillsUrl = process.env.API_URL + 'skills/'
+const revisionsUrl = process.env.API_URL + 'revisions/'
 
 export const actions = createActions({
   UNLOAD_SKILL: () => null,
@@ -12,6 +13,7 @@ export const actions = createActions({
   TOGGLE_DIALOG: () => null,
   RECIEVE_SKILL: node => node,
   RECIEVE_SKILLS: nodes => nodes,
+  RECIEVE_REVISIONS: revisions => revisions,
 //   UPDATE_SKILL: object => object,
 // TODO: ?????
   TOGGLE_SKILL_FETCHING: boolean => boolean,
@@ -80,5 +82,19 @@ export const fetchSkills = (page = 1) => (dispatch, getState) => {
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => dispatch(actions.recieveSkills((data))))
+		.catch(err => console.error('fetchskills failed!', err))
+}
+
+/**
+ * fetch revisions on pagination click
+ * @param {string} parentId
+ * @param {number} page revisions page (optional)
+ */
+export const fetchRevisions = (parentId, page = 1) => (dispatch, getState) => {
+	console.log('evisionsUrl + parentId + \'/\' + page: ', revisionsUrl + parentId + '/' + page);
+	return fetch(revisionsUrl + parentId + '/' + page)
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(data => dispatch(actions.recieveRevisions((data))))
 		.catch(err => console.error('fetchskills failed!', err))
 }

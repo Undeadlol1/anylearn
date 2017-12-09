@@ -65,7 +65,6 @@ export default describe('/threads API', function() {
             .expect('Content-Type', /json/)
             .expect(200)
             .end(function(err, res) {
-                console.log('res: ', res.body);
                 if (err) return done(err);
                 res.body.name.should.be.equal(thread)
                 done()

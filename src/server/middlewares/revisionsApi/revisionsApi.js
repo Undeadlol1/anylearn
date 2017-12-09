@@ -3,22 +3,41 @@ import { Router } from 'express'
 import { Revisions } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
 
-const limit = 12
+const limit = 10
+
+export async function getRevisions(parentId, page) {
+  const offset = page ? limit * (page -1) : 0
+  const totalRevisionss = await Revisions.count({where: {parentId}})
+  const totalPages = Math.ceil(totalRevisionss / limit) || 1
+  const currentPage = Number(page) || 1
+
+  const values = await Revisions.findAll({
+    limit,
+    offset,
+    where: {parentId},
+  })
+  return { values, totalPages, currentPage }
+}
 
 export default Router()
 
   // get all revisions
-  .get('/:page?', async (req, res) => {
+  .get('/:parentId/:page?', async (req, res) => {
     try {
-      const page = req.params.page
-      const offset = page ? limit * (page -1) : 0
-      const totalRevisionss = await Revisions.count()
-      const totalPages = Math.ceil(totalRevisionss / limit)
-      const revisions = await Revisions.findAll({
-        limit,
-        offset,
-      })
-      res.json({ revisions, totalPages })
+      const {page, parentId} = req.params
+      res.json(await getRevisions(parentId, page))
+      // const {page, parentId} = req.params
+      // const offset = page ? limit * (page -1) : 0
+      // const totalRevisionss = await Revisions.count({where: {parentId}})
+      // const totalPages = Math.ceil(totalRevisionss / limit) || 1
+      // const currentPage = Number(page) || 1
+
+      // const values = await Revisions.findAll({
+      //   limit,
+      //   offset,
+      //   where: {parentId},
+      // })
+      // res.json({ values, totalPages, currentPage })
     }
     catch (error) {
       console.log(error);

@@ -9,7 +9,7 @@ import NotFound from './pages/NotFound';
 import store from 'browser/redux/store'
 import { fetchUser, fetchCurrentUser } from 'browser/redux/actions/UserActions'
 import { fetchMoods, fetchMood } from 'browser/redux/actions/MoodActions'
-import { fetchSkills, fetchSkill } from 'browser/redux/skill/SkillActions'
+import { fetchSkills, fetchRevisions, fetchSkill } from 'browser/redux/skill/SkillActions'
 import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeActions'
 
 /**

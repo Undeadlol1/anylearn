@@ -30,7 +30,7 @@ const user = {username: 'misha', id: 1}
 function mockRequest(url, action, param, result, method = 'get') {
     // TODO rework this url (last character '/' was causing unmathing of url)
     // create request interceptor
-    nock('http://127.0.0.1:3000')[method](url).reply(200, user)
+    nock(URL)[method](url).reply(200, user)
     const store = mockStore()
     return store
       // call redux action
@@ -45,11 +45,16 @@ describe('UserActions', () => {
 
 
   it('fetchCurrentUser calls fetchingUser and recieveCurrentUser', async () => {
-    const expectedActions = [
-                              actions.fetchingUser(),
-                              actions.recieveCurrentUser(user)
-                            ]
-    await mockRequest(authApi + 'current_user', fetchCurrentUser, undefined, expectedActions)
+    try {
+      const expectedActions = [
+                                actions.fetchingUser(),
+                                actions.recieveCurrentUser(user)
+                              ]
+      await mockRequest(authApi + 'current_user', fetchCurrentUser, undefined, expectedActions)
+    } catch (error) {
+      console.error(error);
+      throw new Error(error)
+    }
   })
 
   it('logoutCurrentUser calls removeCurrentUser', async () => {
