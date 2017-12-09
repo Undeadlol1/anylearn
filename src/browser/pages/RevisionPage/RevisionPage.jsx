@@ -10,7 +10,6 @@ import React, { PureComponent } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { EditorState, ContentState, convertFromRaw } from 'draft-js'
-
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
 import { translate as t } from 'browser/containers/Translator'
@@ -71,20 +70,6 @@ class RevisionPage extends PureComponent {
 							<Col xs={8}>
 								<h1>{props.revision.get('name')}</h1>
 								<p>{props.revision.get('description')}</p>
-								{/* <div className="row card-panel white-text"> */}
-								{/* </div> */}
-								{/* {
-									plainOriginalText && plainNewText
-									? 	<DiffEditor
-											after={ContentState.createFromText(plainNewText)}
-											before={ContentState.createFromText(plainOriginalText)}
-										/>
-									// ? 	<DiffEditor
-									// 		after={EditorState.createWithContent(convertFromRaw(newText.stage0))}
-									// 		before={EditorState.createWithContent(convertFromRaw(origionalText.stage0))}
-									// 	/>
-									: null
-								} */}
 							</Col>
 							<Col xs={4}>
 								<h1>
@@ -96,8 +81,6 @@ class RevisionPage extends PureComponent {
 										src={props.user.get('image')}
 									/>
 								</h1>
-								{/* TODO alt */}
-
 							</Col>
 						</Row>
 						<Divider />
@@ -117,6 +100,21 @@ class RevisionPage extends PureComponent {
 				</PageWrapper>
     }
 }
+
+{/* <div className="row card-panel white-text"> */}
+{/* </div> */}
+{/* {
+	plainOriginalText && plainNewText
+	? 	<DiffEditor
+			after={ContentState.createFromText(plainNewText)}
+			before={ContentState.createFromText(plainOriginalText)}
+		/>
+	// ? 	<DiffEditor
+	// 		after={EditorState.createWithContent(convertFromRaw(newText.stage0))}
+	// 		before={EditorState.createWithContent(convertFromRaw(origionalText.stage0))}
+	// 	/>
+	: null
+} */}
 
 // TODO: props
 RevisionPage.propTypes = {
