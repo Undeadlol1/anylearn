@@ -120,6 +120,7 @@
     "browser-sync-webpack-plugin": "^1.1.4",
     "casual": "^1.5.17",
     "chai": "^3.5.0",
+    "chai-arrays": "^2.0.0",
     "chai-datetime": "^1.4.1",
     "chai-enzyme": "^0.7.1",
     "chai-immutable": "^1.6.0",

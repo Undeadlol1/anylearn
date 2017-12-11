@@ -2,10 +2,12 @@ import 'babel-polyfill'
 import slugify from 'slug'
 import request from 'supertest'
 import server from 'server/server'
+import assertArrays from 'chai-arrays'
 import chai, { assert, expect } from 'chai'
 import users from 'server/data/fixtures/users'
 import { loginUser } from 'server/test/middlewares/authApi.test'
 import { Skills, Revisions, User, Local } from 'server/data/models'
+chai.use(assertArrays);
 chai.should();
 
 const   user = request.agent(server),
@@ -108,11 +110,14 @@ export default describe('/skills API', function() {
             const { body, body: {revisions, revision} } = res
             body.name.should.be.equal(name)
             body.slug.should.be.equal(slug)
+            revision.id.should.be.an('string')
             // TODO comment
             revisions.totalPages.should.eq(1)
             revisions.currentPage.should.eq(1)
             revisions.values.should.be.an('array')
-            revision.id.should.be.an('string')
+            revisions.values.should.be.sorted(
+                (prev, next) => prev.createdAt < next.createdAt
+            )
         })
     })
 
