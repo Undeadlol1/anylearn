@@ -33,17 +33,17 @@ export default describe('/revisions API', function() {
                             where: {},
                             order: 'rand()',
                         })
-        console.log('skill: ', skill);
         await agent
             .get('/api/revisions/123', )
             .expect('Content-Type', /json/)
             .expect(200)
             .then(function(res) {
-                console.log('res: ', res.body);
-                res.body.totalPages.should.eq(1)
-                res.body.currentPage.should.eq(1)
-                res.body.values.length.should.eq(0)
-                res.body.values.should.be.a('array')
+                const { values, totalPages, currentPage } = res.body
+                totalPages.should.eq(1)
+                currentPage.should.eq(1)
+                values.length.should.eq(0)
+                values.should.be.a('array')
+                // TODO: sorting tests
             })
             .catch(error => {throw new Error(error)})
     })
