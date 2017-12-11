@@ -95,16 +95,17 @@ class EditSkillPage extends PureComponent {
 	renderTabs = () => {
 		// TODO add json parsing in reducer?
 		const text = JSON.parse(this.props.skill.getIn(['revision', 'text']))
-		const tabs = tabNames.map((name, index) =>
-			<Tab label={name} key={index}>
-				<Editor
-					initialContentState={text['stage' + 0]}
-					onChange={this.onEditorChange.bind(this, index)}
-				/>
-			</Tab>
-		)
 		return 	<Tabs className="EditSkillPage__tabs">
-					{tabs}
+					{
+						tabNames.map((name, index) =>
+							<Tab label={name} key={index}>
+								<Editor
+									initialContentState={text['stage' + index]}
+									onChange={this.onEditorChange.bind(this, index)}
+								/>
+							</Tab>
+						)
+					}
 				</Tabs>
 	}
 
