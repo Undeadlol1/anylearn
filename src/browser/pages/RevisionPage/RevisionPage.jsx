@@ -68,11 +68,11 @@ class RevisionPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
-							<Col xs={12} md={8}>
+							<Col xs={12} sm={8}>
 								<h1>{props.revision.get('name')}</h1>
 								<p>{props.revision.get('description')}</p>
 							</Col>
-							<Col xs={12} md={4}className="RevisionPage__user-container">
+							<Col xs={12} sm={4} className="RevisionPage__user-container">
 								<Link to={`users/${props.user.get('id')}`}>
 									<b className="RevisionPage__username">
 										{props.user.get('displayName')}
