@@ -9,7 +9,7 @@ import NotFound from './pages/NotFound';
 import store from 'browser/redux/store'
 import { fetchUser, fetchCurrentUser } from 'browser/redux/actions/UserActions'
 import { fetchMoods, fetchMood } from 'browser/redux/actions/MoodActions'
-import { fetchSkills, fetchRevisions, fetchSkill } from 'browser/redux/skill/SkillActions'
+import { fetchSkills, fetchRevisions, fetchRevision, fetchSkill } from 'browser/redux/skill/SkillActions'
 import { fetchNodes, actions as nodeActions } from 'browser/redux/actions/NodeActions'
 
 /**
@@ -133,12 +133,12 @@ const routesConfig = {
   path: 'skill/(:skillSlug)/revision/(:RevisionId)',
   component: require('browser/pages/RevisionPage').default,
   onEnter({params}, replace, done) {
+    const fetchedRevision = store.getState().skill.get('revision')
     // check if fetching is needed
-    const fetchedSkillSlug = store.getState().skill.get('slug')
-    if (fetchedSkillSlug == params.skillSlug) return done()
+    if (fetchedRevision.get('id') == params.RevisionId) return done()
     else {
       store
-      .dispatch(fetchSkill(params.skillSlug))
+      .dispatch(fetchRevision(params.RevisionId))
       .then(() => done())
     }
   }
