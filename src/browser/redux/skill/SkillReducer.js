@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import { Map, List, fromJS } from 'immutable'
 import { emptyUserObject } from 'browser/redux/reducers/UserReducer'
-const revisionStructure = 	Map({
+const revisionStructure = 	{
 								id: '',
 								name: '',
 								text: '',
@@ -13,10 +13,10 @@ const revisionStructure = 	Map({
 								previousId: '',
 								rating: '',
 								User: emptyUserObject,
-								previousRevision: Map({}),
-							})
+								previousRevision: {},
+							}
 
-const skillStructure = 	Map({
+const skillStructure = 	{
 							id: '',
 							name: '',
 							slug: '',
@@ -27,21 +27,21 @@ const skillStructure = 	Map({
 							revisions: {
 								totalPages: 0,
 								currentPage: 0,
-								values:  List(),
+								values:  [],
 							},
 							revision: revisionStructure,
-						})
+						}
 
-export const initialState = Map({
+export const initialState = fromJS({
 							error: '',
 							skills: {
 								totalPages: 0,
 								currentPage: 0,
-								values:  List(),
+								values:  [],
 							},
 							loading: false,
 							dialogIsOpen: false,
-							...skillStructure.toJS()
+							...skillStructure
 						})
 
 export default (state = initialState, {type, payload}) => {
@@ -56,6 +56,9 @@ export default (state = initialState, {type, payload}) => {
 						loading: false,
 						skills: payload,
 					})
+		case 'RECIEVE_REVISION':
+			return state
+					.mergeDeep({revision: payload})
 		// initial revisions are recieved in 'skill' object,
 		// later data is used for pagination change
 		case 'RECIEVE_REVISIONS':

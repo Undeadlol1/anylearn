@@ -30,7 +30,7 @@ describe('skill reducer', async () => {
     description: faker.lorem.paragraphs(),
     active: casual.boolean,
     // TODO: do i need this now?
-    image: faker.image.imageUrl,
+    image: faker.image.imageUrl(),
     parentId: skillId,
     previousId: casual.uuid,
     rating: '',
@@ -85,6 +85,12 @@ describe('skill reducer', async () => {
     const action = actions.recieveSkills(skills)
     const newState = reducer(undefined, action).toJS()
     expect(newState.skills).to.deep.equal(skills)
+  })
+
+  it('should handle RECIEVE_REVISION action on initial state', () => {
+    const action = actions.recieveRevision(revision)
+    const newState = reducer(undefined, action).toJS()
+    expect(newState.revision).to.deep.equal(revision)
   })
 
   it('should handle RECIEVE_REVISIONS action on initial state', () => {

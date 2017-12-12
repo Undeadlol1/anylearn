@@ -11,8 +11,9 @@ export const actions = createActions({
   UNLOAD_SKILL: () => null,
   REMOVE_SKILL: id => id,
   TOGGLE_DIALOG: () => null,
-  RECIEVE_SKILL: node => node,
-  RECIEVE_SKILLS: nodes => nodes,
+  RECIEVE_SKILL: skill => skill,
+  RECIEVE_SKILLS: skills => skills,
+  RECIEVE_REVISION: revision => revision,
   RECIEVE_REVISIONS: revisions => revisions,
 //   UPDATE_SKILL: object => object,
 // TODO: ?????
@@ -91,10 +92,21 @@ export const fetchSkills = (page = 1) => (dispatch, getState) => {
  * @param {number} page revisions page (optional)
  */
 export const fetchRevisions = (parentId, page = 1) => (dispatch, getState) => {
-	console.log('evisionsUrl + parentId + \'/\' + page: ', revisionsUrl + parentId + '/' + page);
 	return fetch(revisionsUrl + parentId + '/' + page)
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => dispatch(actions.recieveRevisions((data))))
+		.catch(err => console.error('fetchskills failed!', err))
+}
+
+/**
+ * fetch revision on pagination click
+ * @param {string} revisionId
+ */
+export const fetchRevision = revisionId => (dispatch, getState) => {
+	return fetch(revisionsUrl + 'revision/' + revisionId)
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(data => dispatch(actions.recieveRevision((data))))
 		.catch(err => console.error('fetchskills failed!', err))
 }
