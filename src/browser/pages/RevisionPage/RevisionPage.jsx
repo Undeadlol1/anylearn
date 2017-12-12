@@ -62,6 +62,9 @@ class RevisionPage extends PureComponent {
 
     render() {
 		const { props } = this
+		const name 	= 	props.name == 'initial_revision'
+						? t('initial_revision')
+						: props.name
 		return 	<PageWrapper
 					className='RevisionPage'
 					loading={props.loading}
@@ -69,7 +72,7 @@ class RevisionPage extends PureComponent {
 					<Grid fluid>
 						<Row>
 							<Col xs={12} sm={8}>
-								<h1>{props.revision.get('name')}</h1>
+								<h1>{name}</h1>
 								<p>{props.revision.get('description')}</p>
 							</Col>
 							<Col xs={12} sm={4} className="RevisionPage__user-container">
@@ -121,7 +124,7 @@ class RevisionPage extends PureComponent {
 
 // TODO: props
 RevisionPage.propTypes = {
-	// prop: PropTypes.object,
+	name: PropTypes.string.isRequired,
 }
 
 export { RevisionPage }
@@ -130,12 +133,11 @@ export default
 connect(
 	(state, ownProps) => {
 		const revision = state.skill.get('revision')
-		const previousRevision = revision.get('previousRevision')
-		const user = revision.get('User')
 		return {
-			user,
 			revision,
-			previousRevision,
+			name: revision.get('name'),
+			user: revision.get('User'),
+			previousRevision: revision.get('previousRevision'),
 			...ownProps
 		}
 	},

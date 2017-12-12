@@ -65,4 +65,5 @@ export default {
     change_name: 'Change name',
     welcome_to_our_awesome_boilerplate: 'Welcome to our awesome boilerplate.',
     hope_you_will_enjoy_it: 'Hope you will enjoy it.',
+    initial_revision: 'First draft',
 }

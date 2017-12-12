@@ -20,14 +20,15 @@ export class RevisionsList extends Component {
 		if(selectn('revisions.size', props)) {
 			return props.revisions.map( revision => {
 				const id = revision.get('id')
+				const name = 	revision.get('name') == 'initial_revision'
+								? translate('initial_revision')
+								: revision.get('name')
 				return	<Link
 							key={id}
 							to={`/skill/${props.skillSlug}/revision/${id}`}
 							className="RevisionsList__item"
 						>
-							<ListItem
-								primaryText={revision.get('name')}
-							/>
+							<ListItem primaryText={name} />
 						</Link>
 			})
 		}
@@ -112,7 +113,6 @@ export default connect(
 	// dispatchToProps
     (dispatch, ownProps) => ({
 		changePage(page) {
-			console.log('ownProps: ', ownProps);
 			dispatch(fetchRevisions(ownProps.SkillId, page))
 		}
     })
