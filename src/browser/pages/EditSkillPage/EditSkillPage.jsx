@@ -117,6 +117,14 @@ class EditSkillPage extends PureComponent {
 				>
 					<Grid fluid>
 						<form onSubmit={this.handleSubmit}>
+							{this.state.tabs}
+							<center>
+								<RaisedButton
+									type="submit"
+									primary={true}
+									label={t('submit')}
+									disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
+							</center>
 							<TextField
 								fullWidth
 								required
@@ -145,14 +153,6 @@ class EditSkillPage extends PureComponent {
 								onChange={this.onLogoChange}
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} /> */}
-							{this.state.tabs}
-							<center>
-								<RaisedButton
-									type="submit"
-									primary={true}
-									label={t('submit')}
-									disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
-							</center>
 						</form>
 					</Grid>
 				</PageWrapper>
