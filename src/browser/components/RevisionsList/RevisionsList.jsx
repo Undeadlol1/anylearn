@@ -17,7 +17,6 @@ export class RevisionsList extends Component {
 
 	renderItems = () => {
 		const { props } = this
-		console.log('props.revisions.: ', props.revisions);
 		if(selectn('revisions.size', props)) {
 			return props.revisions.map( revision => {
 				const id = revision.get('id')
@@ -42,8 +41,6 @@ export class RevisionsList extends Component {
 
 	render() {
 		const { props } = this
-		console.log('props.currentPage: ', props.currentPage);
-		console.log('props.totalPages: ', props.totalPages);
 		if (props.loading) return <Loading />
 		return  <section className="RevisionsList">
 					<Row>
