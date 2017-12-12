@@ -15,12 +15,24 @@ export async function getRevisions(parentId, page) {
     limit,
     offset,
     where: {parentId},
-    order: '"createdAt" DESC',
+    order: 'createdAt DESC',
   })
   return { values, totalPages, currentPage }
 }
 
 export default Router()
+
+  // get single revision
+  .get('/revision/:revisionId', async ({params}, res) => {
+    try {
+      const revision = await Revisions.findById(params.revisionId, {raw: true})
+      revision.previousRevision = await Revisions.findById(revision.previousId)
+      res.json(revision)
+    } catch (error) {
+      console.log(error)
+      res.status(500).end(error)
+    }
+  })
 
   // get all revisions
   .get('/:parentId/:page?', async (req, res) => {
@@ -46,34 +58,21 @@ export default Router()
     }
   })
 
-  // get single revision
-  .get('/revision/:revisionsId', async ({params}, res) => {
-    try {
-      const revision = await Revisions.findById(params.revisionsId)
-      const previousRevision = await Revisions.findById(revision.previousId)
-      revision.dataValues.previousRevision = previousRevision
-      res.json(revision)
-    } catch (error) {
-      console.log(error)
-      res.status(500).end(error)
-    }
-  })
-
   // update revision
-  .put('/:revisionsId', mustLogin, async ({user, body, params}, res) => {
-    try {
-      const UserId = user.id
-      const revision = await Revisions.findById(params.revisionsId)
+  // .put('/:revisionsId', mustLogin, async ({user, body, params}, res) => {
+  //   try {
+  //     const UserId = user.id
+  //     const revision = await Revisions.findById(params.revisionsId)
 
-      // check permissions
-      if (Revisions.UserId != UserId) return res.status(401).end()
-      else res.json(await revision.update(body))
+  //     // check permissions
+  //     if (Revisions.UserId != UserId) return res.status(401).end()
+  //     else res.json(await revision.update(body))
 
-    } catch (error) {
-      console.log(error)
-      res.status(500).end(error)
-    }
-  })
+  //   } catch (error) {
+  //     console.log(error)
+  //     res.status(500).end(error)
+  //   }
+  // })
 
   // create revision
   .post('/', mustLogin, async ({user, body}, res) => {
