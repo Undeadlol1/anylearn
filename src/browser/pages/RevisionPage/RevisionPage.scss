@@ -1,4 +1,6 @@
 .RevisionPage {
+    // line breaks for diff text
+    white-space: pre-line;
     .RevisionPage__user-container{
         padding-top: 30px;
         text-align: right;
