@@ -22,12 +22,6 @@ export const initialState = Map({
 
 export default (state = initialState, {type, payload}) => {
 	switch(type) {
-		// case 'FETCHING_FORUM':
-		// 	return state.merge({
-		// 		loading: true,
-		// 		finishedLoading: false,
-		// 		contentNotFound: false,
-		// 	})
 		case 'RECIEVE_FORUM':
 			return state
 				.merge(payload)
