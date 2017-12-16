@@ -13,8 +13,8 @@ import { EditorState, ContentState, convertFromHTML, convertToRaw, convertFromRa
 import Loading from 'browser/components/Loading'
 import PageWrapper from 'browser/components/PageWrapper'
 import { updateSkill } from 'browser/redux/skill/SkillActions'
-import { translate as t } from 'browser/containers/Translator'
 import { WysiwygEditor } from 'browser/components/WysiwygEditor'
+import { translate as t, detectLocale } from 'browser/containers/Translator'
 
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 
@@ -100,6 +100,7 @@ class EditSkillPage extends PureComponent {
 						tabNames.map((name, index) =>
 							<Tab label={name} key={index}>
 								<Editor
+									localization={{locale: detectLocale()}}													
 									initialContentState={text['stage' + index]}
 									onChange={this.onEditorChange.bind(this, index)}
 								/>
