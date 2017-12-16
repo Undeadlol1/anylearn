@@ -3,6 +3,9 @@
     .rdw-editor-toolbar {
         display: none;
     }
+    .rdw-image-imagewrapper img {
+        max-width: 100%;
+    }
     .SkillPage__buttons {
         margin: 20px 0;
         .SkillPage__button--right {
