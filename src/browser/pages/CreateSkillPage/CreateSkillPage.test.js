@@ -14,7 +14,6 @@ describe('<CreateSkillPage />', () => {
                   location: {pathname: 'some'},
                 }
   const wrapper = shallow(<CreateSkillPage {...props} />)
-  console.log('wrapper: ', wrapper.debug());
 
   it('has className and tagName', () => {
     expect(wrapper).to.have.className('CreateSkillPage')
