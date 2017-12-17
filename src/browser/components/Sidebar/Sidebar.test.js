@@ -23,9 +23,9 @@ describe('<Sidebar />', () => {
   })
 
   describe('if user not logged component', () => {
-    it('has 1 menu items', () => {
+    it('has 0 menu items', () => {
       const links = wrapper.find('Link')
-      expect(wrapper.find('Link')).to.have.length(1)
+      expect(wrapper.find('Link')).to.have.length(0)
       links.nodes.forEach(link => {
         expect(link.props.onClick).to.be.a('function')
       })
@@ -40,12 +40,12 @@ describe('<Sidebar />', () => {
     //   expect(link.props().children.props.children).to.eq(translate('search'))
     // })
 
-    it('has "forum" link', () => {
-      const link = wrapper.find('.Sidebar__forum-link');
-      expect(link).to.have.length(1)
-      expect(link.props().onClick).to.be.a('function')
-      expect(link.props().children.props.children).to.eq(translate("forum"))
-    })
+    // it('has "forum" link', () => {
+    //   const link = wrapper.find('.Sidebar__forum-link');
+    //   expect(link).to.have.length(1)
+    //   expect(link.props().onClick).to.be.a('function')
+    //   expect(link.props().children.props.children).to.eq(translate("forum"))
+    // })
   })
 
   describe('if user is logged in component', () => {
@@ -55,9 +55,9 @@ describe('<Sidebar />', () => {
     }
     const wrapper = shallow(<Sidebar {...props} />)
 
-    it('has 3 menu items', () => {
+    it('has 2 menu items', () => {
       const menuItems = wrapper.find('MenuItem')
-      expect(menuItems).to.have.length(3)
+      expect(menuItems).to.have.length(2)
     })
 
     it('has <LoginLogoutButton>', () => {

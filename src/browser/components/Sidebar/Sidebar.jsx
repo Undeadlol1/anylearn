@@ -37,13 +37,13 @@ export class Sidebar extends Component {
 							</Link>
 						: 	null
 					}
-					<Link
+					{/* <Link
 						to="forum"
 						onClick={toggleSidebar}
 						className="Sidebar__forum-link"
 						>
 						<MenuItem>{translate("forum")}</MenuItem>
-					</Link>
+					</Link> */}
 						{/* <Link
 							to="search"
 							onClick={toggleSidebar}
