@@ -80,7 +80,7 @@ fse
                         type: 'input',
                         message: 'module name (ex: post, message, user)?',
                     }])
-                    .then(({name}) => createReeduxModule(name))
+                    .then(({name}) => createReduxModule(name))
         case updateText:
             shell.exec('git remote add upstream https://github.com/developer-expirience/boilerplate')
             shell.exec('git pull upstream master --allow-unrelated-histories')
@@ -121,7 +121,7 @@ function createProject(name) {
     // start project
 }
 
-function createReeduxModule(name) {
+function createReduxModule(name) {
 
     const firtUpperCase = upperCaseFirst(name)
     const upperCaseName = upperCase(name)
@@ -142,23 +142,23 @@ function createReeduxModule(name) {
     addLineToFile(
         rootReducer,
         firstHook,
-        `import ${name}, { initialState as ${name}State } from 'browser/redux/${name}/${upperCaseName}Reducer'`
-        + '\n'
-        + firstHook
+        `import ${name}, { initialState as ${name}State } from 'browser/redux/${name}/${firtUpperCase}Reducer'`
+        // + '\n'
+        // + firstHook
     )
     addLineToFile(
         rootReducer,
         secondHook,
         `${name}: ${name}State,`
-        + '\n'
-        + secondHook
+        // + '\n'
+        // + secondHook
     )
     addLineToFile(
         rootReducer,
         thirdHook,
         `${name},`
-        + '\n'
-        + thirdHook
+        // + '\n'
+        // + thirdHook
     )
 }
 
@@ -304,7 +304,22 @@ function createPage(pageName, routePath) {
         silent: true,
         paths: [path.resolve(__dirname, '../../src/browser/routes.js')],
         // replace 'hook' text with route info, and add hook text again afterwards
-        replacement: `{ path: '${routePath}', component: require('browser/pages/${pageName}').default },\n${hook}`,
+        replacement: `{
+            path: '${routePath}',
+            component: require('browser/pages/${pageName}').default },\n${hook},
+            onEnter({params}, replace, done) {
+                console.warn("DON'T FORGET TO EDIT DATA FETCHING ON NEWELY CREATED PAGE")
+                const { threadSlug } = params
+                const fetchedThread = store.getState().thread
+                // check if fetching is needed
+                if (fetchedThread.get('slug') == threadSlug) return done()
+                else {
+                  store
+                  .dispatch(fetchThread(threadSlug))
+                  .then(() => done())
+                }
+              }
+        `,
     })
     // copy+paste page template folder to 'pages' directory
     copyFolderAndReplace(templatesPath, 'PageName', pageName, folderPath)

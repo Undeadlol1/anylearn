@@ -3,7 +3,7 @@ import { Router } from 'express'
 import generateUuid from 'uuid/v4'
 import { Forums } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
-
+import { getThreads } from 'server/middlewares/threadsApi'
 const limit = 12
 
 export default Router()
@@ -15,8 +15,8 @@ export default Router()
             totalForumss = await Forums.count(),
             offset = page ? limit * (page -1) : 0,
             totalPages = Math.ceil(totalForumss / limit),
-            forums = await Forums.findAll({limit, offset})
-      res.json({ forums, totalPages })
+            values = await Forums.findAll({limit, offset})
+      res.json({ values, totalPages, currentPage: page || 1 })
     }
     catch (error) {
       console.log(error);
@@ -30,6 +30,7 @@ export default Router()
       const forum = await Forums.findOne({
         where: { slug: params.slug }
       })
+      forum.dataValues.threads = await getThreads(forum.id)
       res.json(forum)
     } catch (error) {
       console.log(error)

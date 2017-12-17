@@ -1,38 +1,56 @@
 import slugify from 'slug'
 import { Router } from 'express'
 import generateUuid from 'uuid/v4'
-import { Threads } from 'server/data/models'
+import { Threads, User } from 'server/data/models'
 import { mustLogin } from 'server/services/permissions'
 
 const limit = 12
 
-export default Router()
+/**
+ *
+ * @param {String} parentId parent UUID
+ * @param {Number} [currentPage=1] page number
+ */
+export async function getThreads(parentId, currentPage=1) {
+    const totalThreads = await Threads.count({where: {parentId}}),
+          offset = currentPage ? limit * (currentPage -1) : 0
+    return {
+      currentPage,
+      totalPages: Math.ceil(totalThreads / limit) || 1,
+      values: await Threads.findAll({limit, offset, where: {parentId}}),
+    }
+}
 
-  // get all threads
-  .get('/:page?', async (req, res) => {
-    try {
-      const page = req.params.page,
-            totalThreadss = await Threads.count(),
-            offset = page ? limit * (page -1) : 0,
-            totalPages = Math.ceil(totalThreadss / limit),
-            threads = await Threads.findAll({limit, offset})
-      res.json({ threads, totalPages })
-    }
-    catch (error) {
-      console.log(error);
-      res.status(500).end(error)
-    }
-  })
+export default Router()
 
   // get single thread
   .get('/thread/:slug', async ({params}, res) => {
     try {
       const thread = await Threads.findOne({
-                        where: { slug: params.slug }
+                        include: [User],
+                        where: { slug: params.slug },
                       })
       res.json(thread)
     } catch (error) {
       console.log(error)
+      res.status(500).end(error)
+    }
+  })
+
+
+  // get all threads
+  .get('/:parentId/:page?', async ({params}, res) => {
+    try {
+      // const page = req.params.page,
+      //       totalThreads = await Threads.count(),
+      //       offset = page ? limit * (page -1) : 0,
+      //       totalPages = Math.ceil(totalThreads / limit),
+      //       threads = await Threads.findAll({limit, offset})
+      const response = await getThreads(params.parentId, params.page)
+      res.json(response)
+    }
+    catch (error) {
+      console.log(error);
       res.status(500).end(error)
     }
   })

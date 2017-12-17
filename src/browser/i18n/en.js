@@ -6,6 +6,7 @@ export default {
     search: 'search',
     cancel: 'Cancel',
     submit: 'Submit',
+    cant_be_empty: "Can't be empty",
     name_cant_be_empty: "Name can't be empty",
     please_login: 'Please login',
     url_cant_be_empty: "Url can't be empty",
@@ -66,4 +67,6 @@ export default {
     welcome_to_our_awesome_boilerplate: 'Welcome to our awesome boilerplate.',
     hope_you_will_enjoy_it: 'Hope you will enjoy it.',
     initial_revision: 'First draft',
+    description: 'Description',
+    forum: 'forum',
 }
