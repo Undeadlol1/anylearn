@@ -11,7 +11,6 @@ import Sidebar from 'browser/components/Sidebar'
 import LoginDialog from 'browser/components/LoginDialog'
 import LoginLogoutButton from 'browser/components/LoginLogoutButton'
 import { logoutCurrentUser } from 'browser/redux/actions/UserActions'
-import styles from 'browser/theme'
 
 let timeout = null
 

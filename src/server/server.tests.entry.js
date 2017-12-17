@@ -175,13 +175,10 @@ after(async function() {
         await Mood.destroy(all)
         await Node.destroy(all)
         await Decision.destroy(all)
-<<<<<<< HEAD
         await Skills.destroy(all)
         await Revisions.destroy(all)
-=======
         await Forums.destroy(all)
         await Threads.destroy(all)
->>>>>>> 260dd7befc7202a9804cb85ef52ab4a3263865b9
         // TODO: add code to create lines here from cli (creation of api from templates)
     }
     catch(error) {
@@ -203,21 +200,13 @@ describe('fixture data setup', function() {
             const forums = await Forums.findAll({raw: true})
             const threads = await Threads.findAll({raw: true})
 
-<<<<<<< HEAD
             expect(users).to.have.length(10, '10 users')
             expect(locals).to.have.length(10, '10 local profiles')
             expect(moods).to.have.length(10, '10 moods')
             expect(nodes).to.have.length(100, '100 nodes') // 10 moods * 10 nodes
             expect(profiles).to.have.length(10, '10 profiles')
-=======
-            expect(users).to.have.length(10)
-            expect(locals).to.have.length(10)
-            expect(profiles).to.have.length(10)
-            expect(moods).to.have.length(10)
-            expect(nodes).to.have.length(100) // 10 moods * 10 nodes
-            expect(forums).to.have.length(10)
-            expect(threads).to.have.length(100) // 10 forums * 10 threads
->>>>>>> 260dd7befc7202a9804cb85ef52ab4a3263865b9
+            expect(forums).to.have.length(10, '10 forums')
+            expect(threads).to.have.length(100, '100 threads') // 10 forums * 10 threads
             // expect(decisions).to.have.length(1000) // 10 moods * 10 nodes * 10 decisions
 
             moods.forEach(mood => {
