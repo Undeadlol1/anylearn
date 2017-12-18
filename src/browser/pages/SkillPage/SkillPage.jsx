@@ -9,12 +9,13 @@ import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
+import ListIcon from 'material-ui/svg-icons/action/view-list'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
+import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
-import ListIcon from 'material-ui/svg-icons/action/view-list'
 import { translate as t } from 'browser/containers/Translator'
 
 class SkillPage extends PureComponent {
@@ -42,28 +43,9 @@ class SkillPage extends PureComponent {
 									label={t('for_teachers')}
 								/>
 							</Link>
-							{/* <Link
-							className="SkillPage__button--right"
-							to={`/skill/${props.slug}/edit`}
-							>
-							<RaisedButton
-							primary
-							label={t('edit')}
-							icon={<EditIcon />}
-							/>
-							</Link> */}
 						</Col>
 					</Row>
 					<Row>
-						{/* FLOATING EDIT BUTTON */}
-						<Link
-							className="SkillPage__edit-button"
-							to={`/skill/${props.slug}/edit`}
-						>
-							<FloatingActionButton secondary={true}>
-								<EditIcon />
-							</FloatingActionButton>
-						</Link>
 						<Col xs={12}>
 							{/* <VK apiId={Number(process.env.VK_ID)}>
 								<Like
@@ -81,27 +63,19 @@ class SkillPage extends PureComponent {
 							}
 						</Col>
 					</Row>
-					<Row>
-						<Col xs={12}>
-							<Paper>
-								<article>
-									<Tabs className="SkillPage__tabs">
-										{
-											tabNames.map((name, index) => 
-												<Tab className="SkillPage__tab" label={name} key={index}>
-													<Editor
-														readOnly={true}
-														toolbarHidden={true}
-														editorState={EditorState.createWithContent(convertFromRaw(props.text['stage' + index]))}
-													/>
-												</Tab>
-											)
-										}
-									</Tabs>
-								</article>
-							</Paper>
-						</Col>
-					</Row>
+					<SkillTabs
+						readOnly={true}
+						text={props.text}
+						className="SkillPage__tabs" />
+					{/* FLOATING EDIT BUTTON */}
+					<Link
+						className="SkillPage__edit-button"
+						to={`/skill/${props.slug}/edit`}
+					>
+						<FloatingActionButton secondary={true}>
+							<EditIcon />
+						</FloatingActionButton>
+					</Link>
 				</PageWrapper>
     }
 }

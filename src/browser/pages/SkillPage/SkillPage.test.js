@@ -1,5 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
+import { fromJS } from 'immutable'
 import chaiEnzyme from 'chai-enzyme'
 import chai, { expect, assert } from 'chai'
 import { shallow, mount, render } from 'enzyme'
@@ -12,7 +13,12 @@ describe('<SkillPage />', () => {
   const props = {
                   loading: false,
                   location: {pathname: 'some'},
-                }
+                  skill: fromJS({
+                      revision: {
+                        text: JSON.stringify({})
+                      }
+                    })
+                  }
   // const wrapper = shallow(<SkillPage {...props} />)
 
   // it('has className and tagName', () => {
