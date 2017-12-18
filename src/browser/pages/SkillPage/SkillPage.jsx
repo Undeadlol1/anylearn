@@ -23,83 +23,86 @@ class SkillPage extends PureComponent {
 				{ skill } = props
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+		const name = skill.get('name')
 		return 	<PageWrapper
+					title={name}
 					className='SkillPage'
 					loading={props.loading}
+					image={skill.get('image')}
+					// TODO add description
+					// description={props.description}
 				>
-					<Grid fluid>
-						{/* TOP BUTTONS */}
-						<Row>
-							<Col xs={12} className="SkillPage__buttons">
-								<Link
-									className="SkillPage__button--left"
-									to={`/skill/${skill.get('slug')}/dev`}
-								>
-									<RaisedButton
-										primary
-										label={t('discussion')}
-										icon={<ListIcon />}
-									/>
-								</Link>
-								{/* <Link
-								className="SkillPage__button--right"
-								to={`/skill/${skill.get('slug')}/edit`}
-								>
-								<RaisedButton
-								primary
-								label={t('edit')}
-								icon={<EditIcon />}
-								/>
-								</Link> */}
-							</Col>
-						</Row>
-						<Row>
-							{/* FLOATING EDIT BUTTON */}
+					{/* TOP BUTTONS */}
+					<Row>
+						<Col xs={12} className="SkillPage__buttons">
 							<Link
-								className="SkillPage__edit-button"
-								to={`/skill/${skill.get('slug')}/edit`}
+								className="SkillPage__button--left"
+								to={`/skill/${skill.get('slug')}/dev`}
 							>
-								<FloatingActionButton secondary={true}>
-									<EditIcon />
-								</FloatingActionButton>
-							</Link>
-							<Col xs={12}>
-								{/* <VK apiId={Number(process.env.VK_ID)}>
-									<Like
-										options={{type: "full", verb: 1}}
-										onLike={quantity => console.log(quantity)}
-									/>
-								</VK> */}
-								<h1>{skill.get('name')}</h1>
-								<img
-									src={skill.get('image')}
-									className="SkillPage__logo"
-									alt={skill.get('name') + t('things_image')}
+								<RaisedButton
+									primary
+									label={t('discussion')}
+									icon={<ListIcon />}
 								/>
-							</Col>
-						</Row>
-						<Row>
-							<Col xs={12}>
-								<Paper>
-									<article>
-										<Tabs className="SkillPage__tabs">
-											{
-												tabNames.map((name, index) => {
-													return <Tab className="SkillPage__tab" label={name} key={index}>
-																<Editor
-																	readOnly={true}
-																	toolbarHidden={true}
-																	editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
-																/>
-															</Tab>
-												})
-											}
-										</Tabs>
-									</article>
-								</Paper>
-							</Col>
-						</Row>
-					</Grid>
+							</Link>
+							{/* <Link
+							className="SkillPage__button--right"
+							to={`/skill/${skill.get('slug')}/edit`}
+							>
+							<RaisedButton
+							primary
+							label={t('edit')}
+							icon={<EditIcon />}
+							/>
+							</Link> */}
+						</Col>
+					</Row>
+					<Row>
+						{/* FLOATING EDIT BUTTON */}
+						<Link
+							className="SkillPage__edit-button"
+							to={`/skill/${skill.get('slug')}/edit`}
+						>
+							<FloatingActionButton secondary={true}>
+								<EditIcon />
+							</FloatingActionButton>
+						</Link>
+						<Col xs={12}>
+							{/* <VK apiId={Number(process.env.VK_ID)}>
+								<Like
+									options={{type: "full", verb: 1}}
+									onLike={quantity => console.log(quantity)}
+								/>
+							</VK> */}
+							<h1>{name}</h1>
+							<img
+								src={skill.get('image')}
+								className="SkillPage__logo"
+								alt={name + t('things_image')}
+							/>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={12}>
+							<Paper>
+								<article>
+									<Tabs className="SkillPage__tabs">
+										{
+											tabNames.map((name, index) => {
+												return <Tab className="SkillPage__tab" label={name} key={index}>
+															<Editor
+																readOnly={true}
+																toolbarHidden={true}
+																editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
+															/>
+														</Tab>
+											})
+										}
+									</Tabs>
+								</article>
+							</Paper>
+						</Col>
+					</Row>
 				</PageWrapper>
     }
 }
