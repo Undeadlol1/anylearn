@@ -9,11 +9,12 @@ function parseYoutube(url) {
 	return video_id
 }
 
-function parseUrl(url) {
+// TODO create Image
+function checkForImageUrl(url) {
+	return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
 
-	function checkForImageUrl(url) {
-		return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
-	}
+function parseUrl(url) {
 
 	if(checkForImageUrl(url)) return {
 								url,
@@ -32,4 +33,4 @@ function parseUrl(url) {
 	else throw new Error("Unrecognised-url-provider")
 }
 
-export { parseUrl }
+export { parseUrl, checkForImageUrl }
