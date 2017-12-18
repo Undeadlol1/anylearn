@@ -1,0 +1,18 @@
+.SkillTabs {
+    @media (max-width: 48rem) {
+        .SkillTabs__tab {
+            font-size: 11px !important;
+        }
+        .DraftEditor-editorContainer {
+            padding: 0 1rem;
+        }
+    }
+    // 48
+    // hide extra spacing of invisible toolbar
+    .rdw-editor-toolbar {
+        display: none;
+    }
+    .rdw-image-imagewrapper img {
+        max-width: 100%;
+    }
+}
