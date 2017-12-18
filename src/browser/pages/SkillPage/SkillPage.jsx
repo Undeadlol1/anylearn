@@ -9,107 +9,93 @@ import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
+import ListIcon from 'material-ui/svg-icons/action/view-list'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
+import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
-import ListIcon from 'material-ui/svg-icons/action/view-list'
 import { translate as t } from 'browser/containers/Translator'
 
 class SkillPage extends PureComponent {
 	render() {
-		const 	{ props } = this,
-				{ skill } = props
-		// console.log('skill: ', skill.toJS());
-		const text = JSON.parse(skill.getIn(['revision', 'text']))
+		const { props } = this
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
+					title={props.name}
+					image={props.image}
 					className='SkillPage'
 					loading={props.loading}
+					description={description}
 				>
-					<Grid fluid>
-						{/* TOP BUTTONS */}
-						<Row>
-							<Col xs={12} className="SkillPage__buttons">
-								<Link
-									className="SkillPage__button--left"
-									to={`/skill/${skill.get('slug')}/dev`}
-								>
-									<RaisedButton
-										primary
-										label={t('discussion')}
-										icon={<ListIcon />}
-									/>
-								</Link>
-								{/* <Link
-								className="SkillPage__button--right"
-								to={`/skill/${skill.get('slug')}/edit`}
-								>
-								<RaisedButton
-								primary
-								label={t('edit')}
-								icon={<EditIcon />}
-								/>
-								</Link> */}
-							</Col>
-						</Row>
-						<Row>
-							{/* FLOATING EDIT BUTTON */}
+					{/* TOP BUTTONS */}
+					<Row>
+						<Col xs={12} className="SkillPage__buttons">
 							<Link
-								className="SkillPage__edit-button"
-								to={`/skill/${skill.get('slug')}/edit`}
+								to={`/skill/${props.slug}/dev`}
+								className="SkillPage__button--right"
 							>
-								<FloatingActionButton secondary={true}>
-									<EditIcon />
-								</FloatingActionButton>
+								<RaisedButton
+									primary
+									icon={<ListIcon />}
+									label={t('for_teachers')}
+								/>
 							</Link>
-							<Col xs={12}>
-								{/* <VK apiId={Number(process.env.VK_ID)}>
-									<Like
-										options={{type: "full", verb: 1}}
-										onLike={quantity => console.log(quantity)}
-									/>
-								</VK> */}
-								<center><h1>{skill.get('name')}</h1></center>
-								{/* TODO "alt" attribute */}
-								<center><img className="SkillPage__logo" src={skill.get('image')} /></center>
-							</Col>
-						</Row>
-						<Row>
-							<Col xs={12}>
-								<Paper>
-									<Tabs className="SkillPage__tabs">
-										{
-											tabNames.map((name, index) => {
-												return <Tab className="SkillPage__tab" label={name} key={index}>
-															<Editor
-																readOnly={true}
-																toolbarHidden={true}
-																editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
-															/>
-														</Tab>
-											})
-										}
-									</Tabs>
-								</Paper>
-							</Col>
-						</Row>
-					</Grid>
+						</Col>
+					</Row>
+					<Row>
+						<Col xs={12}>
+							{/* <VK apiId={Number(process.env.VK_ID)}>
+								<Like
+									options={{type: "full", verb: 1}}
+									onLike={quantity => console.log(quantity)}
+								/>
+							</VK> */}
+							<h1>{props.name}</h1>
+							{
+								props.image && <img
+									src={props.image}
+									className="SkillPage__logo"
+									alt={props.name + t('things_image')}
+								/>
+							}
+						</Col>
+					</Row>
+					<SkillTabs
+						readOnly={true}
+						text={props.text}
+						className="SkillPage__tabs" />
+					{/* FLOATING EDIT BUTTON */}
+					<Link
+						className="SkillPage__edit-button"
+						to={`/skill/${props.slug}/edit`}
+					>
+						<FloatingActionButton secondary={true}>
+							<EditIcon />
+						</FloatingActionButton>
+					</Link>
 				</PageWrapper>
     }
 }
 
 SkillPage.propTypes = {
-	skill: PropTypes.object,
+	name: PropTypes.string.isRequired,
+	slug: PropTypes.string.isRequired,
+	text: PropTypes.object.isRequired,
+	image: PropTypes.string.isRequired,
 }
 
 export { SkillPage }
 
 export default
 connect(
-	(state, ownProps) => ({
-		skill: state.skill,
-		...ownProps
+	({skill}, ownProps) => ({
+		...ownProps,
+		name: skill.get('name'),
+		slug: skill.get('slug'),
+		image: skill.get('image'),
+		text: JSON.parse(skill.getIn(['revision', 'text'])),		
 	}),
 )(SkillPage)

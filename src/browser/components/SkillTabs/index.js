@@ -1,0 +1,1 @@
+export { default, SkillTabs } from './SkillTabs.jsx'

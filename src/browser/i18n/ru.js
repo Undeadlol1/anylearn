@@ -69,4 +69,5 @@ export default {
     initial_revision: 'Первая версия',
     description: 'Описание',
     forum: 'форум',
+    for_teachers: 'Для учителей',    
 }
