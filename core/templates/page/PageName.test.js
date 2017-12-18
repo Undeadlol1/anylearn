@@ -15,17 +15,19 @@ describe('<PageName />', () => {
                 }
   const wrapper = shallow(<PageName {...props} />)
 
-  it('has className and tagName', () => {
+  it('has className and <PageWrapper>', () => {
     expect(wrapper).to.have.className('PageName')
     expect(wrapper.type().name).to.eq('PageWrapper')
   })
 
-  it('has <Grid>', () => {
-    expect(wrapper.find('Styled(Grid)')).to.have.length(1);
-  })
-
   it('has <Row>', () => {
     expect(wrapper.find('Styled(Row)')).to.have.length(1);
+  })
+
+  it('has <Col>', () => {
+    const el = wrapper.find('Stled(Col)')
+    expect(el).to.exist
+    expect(el.props().xs).to.eq(12)
   })
 
   it('failes the test', () => {

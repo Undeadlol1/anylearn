@@ -1,35 +1,75 @@
 import isEmpty from 'lodash/isEmpty'
-import { Map, List } from 'immutable'
+import { Map, List, fromJS } from 'immutable'
 
-const forumStructure = 	Map({
+const threadStructure = {
+							id: '',
+							name: '',
+							slug: '',
+							text: '',
+							UserId: '',
+							parentId: '',
+							isClosed: null,
+							User: {},
+						}
+
+const forumStructure = 	{
 							id: '',
 							name: '',
 							slug: '',
 							UserId: '',
-						})
+						}
 
-export const initialState = Map({
+export const initialState = fromJS({
 							error: '',
-							forums: List(),
+							forums: {
+								totalPages: 0,
+								currentPage: 0,
+								values: [],
+							},
+							threads: {
+								totalPages: 0,
+								currentPage: 0,
+								values: [],
+							},
 							loading: false,
 							finishedLoading: true,
 							dialogIsOpen: false,
 							contentNotFound: false,
-							searchIsActive: false, // TODO do i need this?
-							searchedVideos: List(),
-							...forumStructure.toJS()
+							// TODO: do i need this?
+							searchIsActive: false,
+							thread: threadStructure,
+							...forumStructure
 						})
+
+function checkAndPush(array, payload) {
+	return isEmpty(payload)
+			? array
+			: array.push(Map(payload))
+}
 
 export default (state = initialState, {type, payload}) => {
 	switch(type) {
+		case 'ADD_FORUM':
+			return state
+				.updateIn(
+					['forums', 'values'],
+					arr => checkAndPush(arr, payload)
+				)
+		// push thread into "threads" array
+		case 'ADD_THREAD':
+			return state
+				.updateIn(
+					['threads', 'values'],
+					arr => checkAndPush(arr, payload)
+				)
 		case 'RECIEVE_FORUM':
 			return state
 				.merge(payload)
-				.updateIn(['forums'], arr => {
-					return isEmpty(payload)
-						? arr
-						: arr.push(Map(payload))
-				})
+				// .updateIn(['forums', 'values'], arr => {
+				// 	return isEmpty(payload)
+				// 		? arr
+				// 		: arr.push(Map(payload))
+				// })
 				.merge({
 					loading: false,
 					// finishedLoading: true,
@@ -38,12 +78,11 @@ export default (state = initialState, {type, payload}) => {
 		case 'RECIEVE_FORUMS':
 			return state
 				.mergeDeep({
-					...payload[0],
-					forums: payload,
 					loading: false,
-					// finishedLoading: true,
-					contentNotFound: isEmpty(payload),
+					forums: payload,
 				})
+		case 'RECIEVE_THREAD':
+			return state.merge({thread: payload})
 		case 'UPDATE_FORUM':
 			return state.mergeDeep(payload)
 		case 'TOGGLE_DIALOG':
@@ -65,11 +104,6 @@ export default (state = initialState, {type, payload}) => {
 							.get('forums')
 							.filter(forum => forum.get('id') !== payload)
 				})
-		case 'RECIEVE_SEARCHED_VIDEOS':
-			return state.merge({
-				searchIsActive: false,
-				searchedVideos: payload
-			})
 		default:
 			return state
 	}

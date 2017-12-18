@@ -3,20 +3,20 @@ import sinon from 'sinon'
 import chaiEnzyme from 'chai-enzyme'
 import chai, { expect, assert } from 'chai'
 import { shallow, mount, render } from 'enzyme'
-import { IndexPage } from 'browser/pages/IndexPage'
 import { translate } from 'browser/containers/Translator'
+import { CreateSkillPage } from 'browser/pages/CreateSkillPage'
 chai.should()
 chai.use(chaiEnzyme())
 
-describe('<IndexPage />', () => {
+describe('<CreateSkillPage />', () => {
   const props = {
                   loading: false,
                   location: {pathname: 'some'},
                 }
-  const wrapper = shallow(<IndexPage {...props} />)
+  const wrapper = shallow(<CreateSkillPage {...props} />)
 
   it('has className and tagName', () => {
-    expect(wrapper).to.have.className('IndexPage')
+    expect(wrapper).to.have.className('CreateSkillPage')
     expect(wrapper.type().name).to.eq('PageWrapper')
   })
 
@@ -25,7 +25,7 @@ describe('<IndexPage />', () => {
   })
 
   it('has <Tabs>', () => {
-    expect(wrapper.find('Connect(MoodTabs)')).to.have.length(1);
+    expect(wrapper.find('Paper')).to.have.length(1);
     // expect(wrapper.find('Tab')).to.have.length(4);
   })
 

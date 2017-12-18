@@ -35,13 +35,13 @@ describe('<LoginDialog />', () => {
       expect(props.children).to.be.not.empty
   })
 
-  it('has <LoginForm>', () => {
-      expect(wrapper.find('LoginForm')).to.have.length(1)
-  })
+//   it('has <LoginForm>', () => {
+//       expect(wrapper.find('LoginForm')).to.have.length(1)
+//   })
 
-  it('has <Divider>', () => {
-      expect(wrapper.find('Divider')).to.have.length(1)
-  })
+//   it('has <Divider>', () => {
+//       expect(wrapper.find('Divider')).to.have.length(1)
+//   })
 
   it('has <Row>', () => {
       const props = row.props()

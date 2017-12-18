@@ -9,9 +9,12 @@ import Loading from 'browser/components/Loading'
 import MoodTabs from 'browser/components/MoodTabs'
 import MoodsFind from 'browser/components/MoodsFind'
 import MoodsList from 'browser/components/MoodsList'
-import MoodsInsert from 'browser/components/MoodsInsert'
+import ForumsList from 'browser/components/ForumsList'
 import PageWrapper from 'browser/components/PageWrapper'
 import WelcomeCard from 'browser/components/WelcomeCard'
+import ThreadsList from 'browser/components/ThreadsList'
+import MoodsInsert from 'browser/components/MoodsInsert'
+import CreateForumForm from 'browser/components/CreateForumForm'
 
 class IndexPage extends PureComponent {
     render() {
@@ -20,11 +23,9 @@ class IndexPage extends PureComponent {
 					className='IndexPage'
 					loading={props.loading}
 				>
-					<Grid fluid>
-						{/* <WelcomeCard /> */}
-						<MoodsInsert />
-						<MoodTabs />
-					</Grid>
+					{/* <WelcomeCard /> */}
+					<MoodsInsert />
+					<MoodTabs />
 				</PageWrapper>
     }
 }

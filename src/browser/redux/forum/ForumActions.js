@@ -4,13 +4,17 @@ import { createAction, createActions } from 'redux-actions'
 import { checkStatus, parseJSON, headersAndBody } from'browser/redux/actions/actionHelpers'
 
 const forumsUrl = process.env.API_URL + 'forums/'
+const threadsUrl = process.env.API_URL + 'threads/'
 
 export const actions = createActions({
   UNLOAD_FORUM: () => null,
   REMOVE_FORUM: id => id,
   TOGGLE_DIALOG: () => null,
-  RECIEVE_FORUM: node => node,
-  RECIEVE_FORUMS: nodes => nodes,
+  ADD_FORUM: forum => forum,
+  RECIEVE_FORUM: forum => forum,
+  RECIEVE_FORUMS: forums => forums,
+  ADD_THREAD: thread => thread,
+  RECIEVE_THREAD: thread => thread,
   UPDATE_FORUM: object => object,
   TOGGLE_FORUM_FETCHING: boolean => boolean,
   FETCHING_ERROR: reason => reason,
@@ -19,15 +23,31 @@ export const actions = createActions({
 
 /**
  * create a forum
- * @param {object} payload content url
+ * @param {object} payload data to pass
+ * @param {function} callback callback function
  */
-export const insertForum = payload => (dispatch, getState) => {
+export const insertForum = (payload, callback) => (dispatch, getState) => {
 	return fetch(forumsUrl, headersAndBody(payload))
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(function(response) {
-			dispatch(actions.toggleDialog())
-			return dispatch(actions.recieveForum(response))
+			dispatch(actions.addForum(response))
+			return callback && callback()
+		})
+}
+
+/**
+ * create a thread
+ * @param {object} payload data to pass
+ * @param {function} callback callback function
+ */
+export const insertThread = (payload, callback) => (dispatch, getState) => {
+	return fetch(threadsUrl, headersAndBody(payload))
+		.then(checkStatus)
+		.then(parseJSON)
+		.then((response) => {
+			dispatch(actions.addThread(response))
+			return callback && callback()
 		})
 }
 
@@ -51,22 +71,39 @@ export const fetchForum = slug => (dispatch, getState) => {
 }
 
 /**
- * fetch forums using forum slug
- * @param {string} slug forum slug (optional)
+ * fetch forums
+ * @param {number} [page=1] forums page (optional)
  */
-export const fetchForums = slug => (dispatch, getState) => {
-	const state = getState()
-	const nodeId = state.node.id
-	const forumSlug = slug || state.forum.get('slug')
+export const fetchForums = (page = 1) => (dispatch, getState) => {
+	return fetch(forumsUrl + page)
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(data => dispatch(actions.recieveForums((data))))
+		.catch(err => console.error('fetchForums failed!', err))
+}
 
-	return fetch(
-		forumsUrl + forumSlug,
-		{ credentials: 'same-origin' }
-	)
+/**
+ * fetch thread using thread slug
+ * @param {string} slug thread slug
+ */
+export const fetchThread = slug => (dispatch, getState) => {
+	return fetch(threadsUrl + 'thread/' + slug)
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(data => {
-			return dispatch(actions.recieveForum((data)))
+			return dispatch(actions.recieveThread((data)))
 		})
-		.catch(err => console.error('fetchforum failed!', err))
+		.catch(err => console.error('fetchthread failed!', err))
+}
+
+/**
+ * fetch threads
+ * @param {number} [page=1] threads page (optional)
+ */
+export const fetchThreads = (page=1) => (dispatch, getState) => {
+	return fetch(threadsUrl + page)
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(data => dispatch(actions.recieveThreads((data))))
+		.catch(err => console.error('fetchthread failed!', err))
 }

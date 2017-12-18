@@ -85,7 +85,7 @@ class SkillPage extends PureComponent {
 										<Tabs className="SkillPage__tabs">
 											{
 												tabNames.map((name, index) => {
-													return <Tab label={name} key={index}>
+													return <Tab className="SkillPage__tab" label={name} key={index}>
 																<Editor
 																	readOnly={true}
 																	toolbarHidden={true}
