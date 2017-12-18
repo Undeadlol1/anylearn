@@ -1,8 +1,8 @@
 import selectn from 'selectn'
 import { stringify } from 'query-string'
 import { createAction, createActions } from 'redux-actions'
+import { togglePageLoading } from 'browser/redux/ui/UiActions'
 import { checkStatus, parseJSON, headersAndBody } from'browser/redux/actions/actionHelpers'
-
 
 const skillsUrl = process.env.API_URL + 'skills/'
 const revisionsUrl = process.env.API_URL + 'revisions/'
@@ -53,36 +53,30 @@ export const updateSkill = payload => (dispatch, getState) => {
  * @param {string} slug skill slug
  */
 export const fetchSkill = slug => (dispatch, getState) => {
-	// const state = getState()
-	// const skillSlug = slug || state.skill.get('slug')
-
-	// dispatch(actions.fetchingSkill())
-
-	return fetch(
-		skillsUrl + 'skill/' + slug,
-		// { credentials: 'same-origin' }
-	)
+	dispatch(togglePageLoading(true))
+	return fetch(skillsUrl + 'skill/' + slug)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => dispatch(actions.recieveSkill((data))))
+		.then(data => {
+			dispatch(actions.recieveSkill((data)))
+			return dispatch(togglePageLoading(false))
+		})
 		.catch(err => console.error('fetchskill failed!', err))
 }
 
 /**
  * fetch skills
- * @param {number} page skill page (optional)
+ * @param {number} [page=1] skill page (optional)
  */
 export const fetchSkills = (page = 1) => (dispatch, getState) => {
-
-	// dispatch(actions.fetchingSkill())
-
-	return fetch(
-		skillsUrl + page,
-		// { credentials: 'same-origin' }
-	)
+	dispatch(togglePageLoading(true))
+	return fetch(skillsUrl + page)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => dispatch(actions.recieveSkills((data))))
+		.then(data => {
+			dispatch(actions.recieveSkills((data)))
+			return dispatch(togglePageLoading(false))
+		})
 		.catch(err => console.error('fetchskills failed!', err))
 }
 
@@ -104,9 +98,13 @@ export const fetchRevisions = (parentId, page = 1) => (dispatch, getState) => {
  * @param {string} revisionId
  */
 export const fetchRevision = revisionId => (dispatch, getState) => {
+	dispatch(togglePageLoading(true))
 	return fetch(revisionsUrl + 'revision/' + revisionId)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => dispatch(actions.recieveRevision((data))))
+		.then(data => {
+			dispatch(actions.recieveRevision((data)))
+			return dispatch(togglePageLoading(false))
+		})
 		.catch(err => console.error('fetchskills failed!', err))
 }

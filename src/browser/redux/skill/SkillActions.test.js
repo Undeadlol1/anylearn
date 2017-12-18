@@ -6,6 +6,7 @@ import chaiImmutable from 'chai-immutable'
 import configureMockStore from 'redux-mock-store'
 import { createAction, createActions } from 'redux-actions'
 import { initialState } from 'browser/redux/skill/SkillReducer'
+import { togglePageLoading, actions as uiActions } from 'browser/redux/ui/UiActions'
 import { updateSkill, insertSkill, fetchSkill, fetchSkills, fetchRevisions, actions } from 'browser/redux/skill/SkillActions'
 chai.should();
 chai.use(chaiImmutable);
