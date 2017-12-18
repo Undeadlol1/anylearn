@@ -21,7 +21,6 @@ class SkillPage extends PureComponent {
 	render() {
 		const 	{ props } = this,
 				{ skill } = props
-		// console.log('skill: ', skill.toJS());
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		return 	<PageWrapper
@@ -71,27 +70,32 @@ class SkillPage extends PureComponent {
 										onLike={quantity => console.log(quantity)}
 									/>
 								</VK> */}
-								<center><h1>{skill.get('name')}</h1></center>
-								{/* TODO "alt" attribute */}
-								<center><img className="SkillPage__logo" src={skill.get('image')} /></center>
+								<h1>{skill.get('name')}</h1>
+								<img
+									src={skill.get('image')}
+									className="SkillPage__logo"
+									alt={skill.get('name') + t('things_image')}
+								/>
 							</Col>
 						</Row>
 						<Row>
 							<Col xs={12}>
 								<Paper>
-									<Tabs className="SkillPage__tabs">
-										{
-											tabNames.map((name, index) => {
-												return <Tab label={name} key={index}>
-															<Editor
-																readOnly={true}
-																toolbarHidden={true}
-																editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
-															/>
-														</Tab>
-											})
-										}
-									</Tabs>
+									<article>
+										<Tabs className="SkillPage__tabs">
+											{
+												tabNames.map((name, index) => {
+													return <Tab label={name} key={index}>
+																<Editor
+																	readOnly={true}
+																	toolbarHidden={true}
+																	editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
+																/>
+															</Tab>
+												})
+											}
+										</Tabs>
+									</article>
 								</Paper>
 							</Col>
 						</Row>
