@@ -19,15 +19,12 @@ import { translate as t } from 'browser/containers/Translator'
 
 class SkillPage extends PureComponent {
 	render() {
-		const { props, props: {skill} } = this
-		const name = skill.get('name')
-		const image = skill.get('image')
-		const text = JSON.parse(skill.getIn(['revision', 'text']))
+		const { props } = this
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
-		const description = convertFromRaw(text.stage0).getFirstBlock().get('text')
+		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
-					title={name}
-					image={image}
+					title={props.name}
+					image={props.image}
 					className='SkillPage'
 					loading={props.loading}
 					description={description}
@@ -36,18 +33,18 @@ class SkillPage extends PureComponent {
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
 							<Link
+								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"
-								to={`/skill/${skill.get('slug')}/dev`}
 							>
 								<RaisedButton
 									primary
-									label={t('for_teachers')}
 									icon={<ListIcon />}
+									label={t('for_teachers')}
 								/>
 							</Link>
 							{/* <Link
 							className="SkillPage__button--right"
-							to={`/skill/${skill.get('slug')}/edit`}
+							to={`/skill/${props.slug}/edit`}
 							>
 							<RaisedButton
 							primary
@@ -61,7 +58,7 @@ class SkillPage extends PureComponent {
 						{/* FLOATING EDIT BUTTON */}
 						<Link
 							className="SkillPage__edit-button"
-							to={`/skill/${skill.get('slug')}/edit`}
+							to={`/skill/${props.slug}/edit`}
 						>
 							<FloatingActionButton secondary={true}>
 								<EditIcon />
@@ -74,12 +71,12 @@ class SkillPage extends PureComponent {
 									onLike={quantity => console.log(quantity)}
 								/>
 							</VK> */}
-							<h1>{name}</h1>
+							<h1>{props.name}</h1>
 							{
-								image && <img
-									src={skill.get('image')}
+								props.image && <img
+									src={props.image}
 									className="SkillPage__logo"
-									alt={name + t('things_image')}
+									alt={props.name + t('things_image')}
 								/>
 							}
 						</Col>
@@ -90,15 +87,15 @@ class SkillPage extends PureComponent {
 								<article>
 									<Tabs className="SkillPage__tabs">
 										{
-											tabNames.map((name, index) => {
-												return <Tab className="SkillPage__tab" label={name} key={index}>
-															<Editor
-																readOnly={true}
-																toolbarHidden={true}
-																editorState={EditorState.createWithContent(convertFromRaw(text['stage' + index]))}
-															/>
-														</Tab>
-											})
+											tabNames.map((name, index) => 
+												<Tab className="SkillPage__tab" label={name} key={index}>
+													<Editor
+														readOnly={true}
+														toolbarHidden={true}
+														editorState={EditorState.createWithContent(convertFromRaw(props.text['stage' + index]))}
+													/>
+												</Tab>
+											)
 										}
 									</Tabs>
 								</article>
@@ -110,15 +107,21 @@ class SkillPage extends PureComponent {
 }
 
 SkillPage.propTypes = {
-	skill: PropTypes.object,
+	name: PropTypes.string.isRequired,
+	slug: PropTypes.string.isRequired,
+	text: PropTypes.object.isRequired,
+	image: PropTypes.string.isRequired,
 }
 
 export { SkillPage }
 
 export default
 connect(
-	(state, ownProps) => ({
-		skill: state.skill,
-		...ownProps
+	({skill}, ownProps) => ({
+		...ownProps,
+		name: skill.get('name'),
+		slug: skill.get('slug'),
+		image: skill.get('image'),
+		text: JSON.parse(skill.getIn(['revision', 'text'])),		
 	}),
 )(SkillPage)
