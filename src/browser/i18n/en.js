@@ -69,4 +69,5 @@ export default {
     initial_revision: 'First draft',
     description: 'Description',
     forum: 'forum',
+    for_teachers: 'For teachers',
 }

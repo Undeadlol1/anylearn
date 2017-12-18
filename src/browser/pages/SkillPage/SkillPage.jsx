@@ -36,12 +36,12 @@ class SkillPage extends PureComponent {
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
 							<Link
-								className="SkillPage__button--left"
+								className="SkillPage__button--right"
 								to={`/skill/${skill.get('slug')}/dev`}
 							>
 								<RaisedButton
 									primary
-									label={t('discussion')}
+									label={t('for_teachers')}
 									icon={<ListIcon />}
 								/>
 							</Link>
