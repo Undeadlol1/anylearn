@@ -19,18 +19,17 @@ import { translate as t } from 'browser/containers/Translator'
 
 class SkillPage extends PureComponent {
 	render() {
-		const 	{ props } = this,
-				{ skill } = props
+		const { props, props: {skill} } = this
+		const name = skill.get('name')
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
-		const name = skill.get('name')
+		const description = convertFromRaw(text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
 					title={name}
 					className='SkillPage'
 					loading={props.loading}
+					description={description}
 					image={skill.get('image')}
-					// TODO add description
-					// description={props.description}
 				>
 					{/* TOP BUTTONS */}
 					<Row>
