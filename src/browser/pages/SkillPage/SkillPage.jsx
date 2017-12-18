@@ -21,15 +21,16 @@ class SkillPage extends PureComponent {
 	render() {
 		const { props, props: {skill} } = this
 		const name = skill.get('name')
+		const image = skill.get('image')
 		const text = JSON.parse(skill.getIn(['revision', 'text']))
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		const description = convertFromRaw(text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
 					title={name}
+					image={image}
 					className='SkillPage'
 					loading={props.loading}
 					description={description}
-					image={skill.get('image')}
 				>
 					{/* TOP BUTTONS */}
 					<Row>
@@ -74,11 +75,13 @@ class SkillPage extends PureComponent {
 								/>
 							</VK> */}
 							<h1>{name}</h1>
-							<img
-								src={skill.get('image')}
-								className="SkillPage__logo"
-								alt={name + t('things_image')}
-							/>
+							{
+								image && <img
+									src={skill.get('image')}
+									className="SkillPage__logo"
+									alt={name + t('things_image')}
+								/>
+							}
 						</Col>
 					</Row>
 					<Row>
