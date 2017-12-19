@@ -29,7 +29,6 @@ class SkillTabs extends Component {
 													localization={{locale: detectLocale()}}
 													initialContentState={props.text['stage' + index]}
 													onChange={props.onChange && props.onChange.bind(this, index)}
-													// editorState={EditorState.createWithContent(convertFromRaw(props.text['stage' + index]))}
 												/>
 											</Tab>
 										)
