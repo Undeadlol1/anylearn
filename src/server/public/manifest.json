@@ -1,14 +1,13 @@
 {
     "name": "AnyLearn",
-    "short_name": "AnyLearn",
     "icons": [
         {
-            "src": "/android-chrome-192x192.png",
-            "sizes": "192x192",
+            "src": "/android-chrome-96x96.png",
+            "sizes": "96x96",
             "type": "image/png"
         }
     ],
-    "theme_color": "rgb(48, 48, 48)",
-    "background_color": "rgb(48, 48, 48)",
-    "display": "fullscreen"
+    "theme_color": "#00bcd4",
+    "background_color": "#00bcd4",
+    "display": "standalone"
 }
