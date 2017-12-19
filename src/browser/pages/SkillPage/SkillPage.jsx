@@ -24,7 +24,7 @@ class SkillPage extends PureComponent {
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
-					title={props.name}
+					title={`Обучение навыку"${props.name}"`}
 					image={props.image}
 					className='SkillPage'
 					loading={props.loading}
@@ -96,6 +96,6 @@ connect(
 		name: skill.get('name'),
 		slug: skill.get('slug'),
 		image: skill.get('image'),
-		text: JSON.parse(skill.getIn(['revision', 'text'])),		
+		text: JSON.parse(skill.getIn(['revision', 'text'])),
 	}),
 )(SkillPage)
