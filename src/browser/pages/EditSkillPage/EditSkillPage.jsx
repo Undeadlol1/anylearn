@@ -11,6 +11,7 @@ import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { EditorState, ContentState, convertFromHTML, convertToRaw, convertFromRaw  } from 'draft-js'
 // project files
 import Loading from 'browser/components/Loading'
+import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import { updateSkill } from 'browser/redux/skill/SkillActions'
 import { WysiwygEditor } from 'browser/components/WysiwygEditor'
@@ -62,7 +63,7 @@ class EditSkillPage extends PureComponent {
 		const { state, props } = this
 		const { editor0, editor1, editor2, editor3 } = state
 
-		const originalText = JSON.parse(this.props.skill.getIn(['revision', 'text']))
+		const originalText = props.text
 		const newText = JSON.stringify({
 			stage0: editor0 || originalText.stage0,
 			stage1: editor1 || originalText.stage1,
@@ -75,9 +76,9 @@ class EditSkillPage extends PureComponent {
 				text: newText,
 				name: state.name,
 				image: state.image,
+				parentId: props.SkillId,
 				previousId: props.previousId,
 				description: state.description,
-				parentId: props.skill.get('id'),
 			})
 			.then(({payload}) => {
 				console.log('payload: ', payload);
@@ -92,15 +93,16 @@ class EditSkillPage extends PureComponent {
 		})
 	}
 
+	// currently obsolete
 	renderTabs = () => {
-		// TODO add json parsing in reducer?
-		const text = JSON.parse(this.props.skill.getIn(['revision', 'text']))
+		// TODO: add json parsing in reducer?
+		const { text } = this.props
 		return 	<Tabs className="EditSkillPage__tabs">
 					{
 						tabNames.map((name, index) =>
 							<Tab label={name} key={index}>
 								<Editor
-									localization={{locale: detectLocale()}}													
+									localization={{locale: detectLocale()}}
 									initialContentState={text['stage' + index]}
 									onChange={this.onEditorChange.bind(this, index)}
 								/>
@@ -118,7 +120,12 @@ class EditSkillPage extends PureComponent {
 				>
 					<Grid fluid>
 						<form onSubmit={this.handleSubmit}>
-							{this.state.tabs}
+							<SkillTabs
+								readOnly={false}
+								text={props.text}
+								onChange={this.onEditorChange}
+								className="EdtiSkillPage__tabs" />
+							{/* {this.state.tabs} */}
 							<TextField
 								fullWidth
 								required
@@ -161,12 +168,14 @@ class EditSkillPage extends PureComponent {
 }
 
 EditSkillPage.defaultProps = {
-	skill: fromJS({})
+	// skill: fromJS({})
 }
 
 EditSkillPage.propTypes = {
-	UserId: PropTypes.number,
-	skill: PropTypes.object.isRequired,
+	// skill: PropTypes.object.isRequired,
+	text: PropTypes.object.isRequired,
+	UserId: PropTypes.number.isRequired,
+	SkillId: PropTypes.string.isRequired,
 	previousId: PropTypes.string.isRequired,
 }
 
@@ -175,9 +184,11 @@ export { EditSkillPage }
 export default
 connect(
 	(state, ownProps) => ({
-		skill: state.skill,
+		// skill: state.skill,
 		UserId: state.user.get('id'),
+		SkillId: state.skill.get('id'),
 		previousId: state.skill.getIn(['revision', 'id']),
+		text: JSON.parse(state.skill.getIn(['revision', 'text'])),
 		...ownProps
 	}),
     (dispatch, ownProps) => ({

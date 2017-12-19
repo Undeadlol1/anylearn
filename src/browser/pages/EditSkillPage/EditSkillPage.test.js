@@ -9,11 +9,11 @@ chai.should()
 chai.use(chaiEnzyme())
 
 describe('<EditSkillPage />', () => {
-  const props = {
-                  loading: false,
-                  location: {pathname: 'some'},
-                }
-  const wrapper = shallow(<EditSkillPage {...props} />)
+  // const props = {
+  //                 loading: false,
+  //                 location: {pathname: 'some'},
+  //               }
+  // const wrapper = shallow(<EditSkillPage {...props} />)
 
   // it('has className and tagName', () => {
   //   expect(wrapper).to.have.className('EditSkillPage')
