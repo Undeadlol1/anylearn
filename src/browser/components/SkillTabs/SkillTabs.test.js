@@ -12,18 +12,16 @@ chai.use(chaiEnzyme())
 describe('<SkillTabs />', () => {
 
   const emptyRawData = convertToRaw(ContentState.createFromText('<span>test</span>'))
-  const props = {
-    readOnly: true,
-    text: {
-      stage0: emptyRawData,
-      stage1: emptyRawData,
-      stage2: emptyRawData,
-      stage3: emptyRawData,
-    }
+  const text = {
+    stage0: emptyRawData,
+    stage1: emptyRawData,
+    stage2: emptyRawData,
+    stage3: emptyRawData,
   }
+  const props = {text}
   const wrapper = shallow(<SkillTabs {...props} />)
-  // console.log('wrapper: ', wrapper.debug());
-  const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]  
+  const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+  const tabs = wrapper.find('Tab')
 
   it('has <Row>', () => {
     const el = wrapper.find('Styled(Row)')
@@ -44,20 +42,39 @@ describe('<SkillTabs />', () => {
     expect(el.find('article')).to.exist
   })
 
-  it('has <Tabs>', () => {
+  it('has <Tabs> container', () => {
     const el = wrapper.find('Tabs')
     expect(el).to.exist
     expect(el).to.have.className('SkillTabs__tabs')
   })
 
   it("has 4 <Tab>'s", () => {
-    const tabs = wrapper.find('Tab')
     expect(tabs).to.have.length(4)
     tabs.map((tab, index) => {
+      const editor = tab.find('t')
       expect(tab).to.have.props({
         label: tabNames[index],
         className: 'SkillTabs__tab',
       })
+      expect(editor).to.exist
     })
   })
+
+  // describe("handles 'readOnly' prop", () => {
+  //   it('which is true by default',  () => {
+  //     expect(wrapper.instance().props.readOnly).to.be.true
+  //     tabs.forEach(tab => {
+  //       const editor = tab.find('t')
+  //       expect(editor).to.have.className('SkillTabs__editor SkillTabs__editor-readOnly')
+  //     })
+  //   })
+
+  //   it('removes "-readOnly" className if prop is false', () => {
+  //     const wrapper =
+  //     tabs.forEach(tab => {
+  //       const editor = tab.find('t')
+  //       expect(editor).to.have.className('SkillTabs__editor')
+  //     })
+  //   })
+  // })
 })

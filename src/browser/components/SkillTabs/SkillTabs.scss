@@ -7,9 +7,8 @@
             padding: 0 1rem;
         }
     }
-    // 48
     // hide extra spacing of invisible toolbar
-    .rdw-editor-toolbar {
+    .SkillTabs__editor-readOnly .rdw-editor-toolbar {
         display: none;
     }
     .rdw-image-imagewrapper img {

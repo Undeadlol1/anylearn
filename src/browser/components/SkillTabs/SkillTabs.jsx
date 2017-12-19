@@ -6,7 +6,7 @@ import React, { Component } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Row, Col } from 'react-styled-flexboxgrid'
-import { translate as t } from 'browser/containers/Translator'
+import { translate as t, detectLocale } from 'browser/containers/Translator'
 import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 
 class SkillTabs extends Component {
@@ -14,18 +14,22 @@ class SkillTabs extends Component {
 		const {props} = this
 		const className = cls(props.className, "SkillTabs")
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+		const tabsClassNames = cls('SkillTabs__tabs', props.readOnly && 'SkillTabs__editor-readOnly')
 		return 	<Row className={className}>
 					<Col xs={12}>
 						<Paper zDepth={5}>
 							<article>
-								<Tabs className="SkillTabs__tabs">
+								<Tabs className={tabsClassNames}>
 									{
-										tabNames.map((name, index) => 
+										tabNames.map((name, index) =>
 											<Tab className="SkillTabs__tab" label={name} key={index}>
 												<Editor
 													readOnly={props.readOnly}
 													toolbarHidden={props.readOnly}
-													editorState={EditorState.createWithContent(convertFromRaw(props.text['stage' + index]))}
+													localization={{locale: detectLocale()}}
+													initialContentState={props.text['stage' + index]}
+													onChange={props.onChange && props.onChange.bind(this, index)}
+													// editorState={EditorState.createWithContent(convertFromRaw(props.text['stage' + index]))}
 												/>
 											</Tab>
 										)
@@ -44,6 +48,7 @@ SkillTabs.defaultProps = {
 
 SkillTabs.PropTypes = {
 	readOnly: PropTypes.bool,
+	onChange: PropTypes.func,
 	text: PropTypes.object.isRequired,
 }
 
