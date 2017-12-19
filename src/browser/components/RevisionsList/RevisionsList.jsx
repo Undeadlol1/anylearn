@@ -44,37 +44,33 @@ export class RevisionsList extends Component {
 		const { props } = this
 		if (props.loading) return <Loading />
 		return  <section className="RevisionsList">
-					<Row>
-						<List>
-							{this.renderItems()}
-						</List>
-					</Row>
-					<Row>
-						<div className='RevisionsList__pagination-wrapper'>
-							{/*Created UltimatePagination component has the following interface:
+					<List>
+						{this.renderItems()}
+					</List>
+					<div className='RevisionsList__pagination-wrapper'>
+						{/*Created UltimatePagination component has the following interface:
 
-								currentPage: number - current page number
-								totalPages: number - total number of pages
-								boundaryPagesRange: number, optional, default: 1 - number of always visible pages at the beginning and end
-								siblingPagesRange: number, optional, default: 1 - number of always visible pages before and after the current one
-								hideEllipsis: bool, optional, default: false - boolean flag to hide ellipsis
-								hidePreviousAndNextPageLinks: bool, optional, default: false - boolean flag to hide previous and next page links
-								hideFirstAndLastPageLink: bool, optional, default: false - boolean flag to hide first and last page links
-								onChange: function - callback that will be called with new page when it should be changed by user interaction (optional)*/}
-							{
-								props.totalPages > 1
-								? <Pagination
-									style={{ margin: '0 auto' }}
-									className='RevisionsList__pagination'
-									onChange={props.changePage}
-									currentPage={props.currentPage}
-									totalPages={props.totalPages}
-									hidePreviousAndNextPageLinks={true}
-									hideFirstAndLastPageLink={true} />
-								: null
-							}
-						</div>
-					</Row>
+							currentPage: number - current page number
+							totalPages: number - total number of pages
+							boundaryPagesRange: number, optional, default: 1 - number of always visible pages at the beginning and end
+							siblingPagesRange: number, optional, default: 1 - number of always visible pages before and after the current one
+							hideEllipsis: bool, optional, default: false - boolean flag to hide ellipsis
+							hidePreviousAndNextPageLinks: bool, optional, default: false - boolean flag to hide previous and next page links
+							hideFirstAndLastPageLink: bool, optional, default: false - boolean flag to hide first and last page links
+							onChange: function - callback that will be called with new page when it should be changed by user interaction (optional)*/}
+						{
+							props.totalPages > 1
+							? <Pagination
+								style={{ margin: '0 auto' }}
+								className='RevisionsList__pagination'
+								onChange={props.changePage}
+								currentPage={props.currentPage}
+								totalPages={props.totalPages}
+								hidePreviousAndNextPageLinks={true}
+								hideFirstAndLastPageLink={true} />
+							: null
+						}
+					</div>
 				</section>
 	}
 }

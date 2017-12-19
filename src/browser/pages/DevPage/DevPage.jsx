@@ -16,11 +16,11 @@ class DevPage extends PureComponent {
 					loading={props.loading}
 				>
 					<Grid fluid>
-						{/* <Row> */}
-							{/* <Col xs={12}> */}
+						<Row>
+							<Col xs={12} sm={6} md={3}>
 								<RevisionsList SkillId={props.SkillId} />
-							{/* </Col> */}
-						{/* </Row> */}
+							</Col>
+						</Row>
 					</Grid>
 				</PageWrapper>
     }
