@@ -8,9 +8,10 @@ import { Editor } from 'react-draft-wysiwyg'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
-import { ContentState, convertFromHTML, convertToRaw } from 'draft-js'
+import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
 // project files
 import Loading from 'browser/components/Loading'
+import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import { insertSkill } from 'browser/redux/skill/SkillActions'
 import { translate as t } from 'browser/containers/Translator'
@@ -63,8 +64,8 @@ class CreateSkillPage extends PureComponent {
 				secondHtml = convertFromHTML(second),
 				thirdHtml = convertFromHTML(third),
 				fourthHtml = convertFromHTML(fourth)
-				console.log('editor0: ', editor0);
-				console.log('editor1: ', editor1);
+				// console.log('editor0: ', editor0);
+				// console.log('editor1: ', editor1);
 		const text = JSON.stringify({
 			stage0: editor0 || convertToRaw(ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
 			stage1: editor1 || convertToRaw(ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
@@ -95,6 +96,7 @@ class CreateSkillPage extends PureComponent {
 		})
 	}
 
+	// currently this is obsolete
 	renderTabs = () => {
 		const tabs = tabNames.map((tab, index) => {
 			return <Tab label={tabNames[index]} key={index}>
@@ -104,6 +106,28 @@ class CreateSkillPage extends PureComponent {
 		return 	<Tabs className="CreateSkillPage__tabs">
 					{tabs}
 				</Tabs>
+	}
+
+	createText = () => {
+		console.log('createText: ');
+		const text = {}
+		tabNames.forEach((name, index) => {
+
+			let defaultEditorState = EditorState.createEmpty()
+			if (process.env.BROWSER) {
+				const blocksFromHTML = convertFromHTML(defaultTexts[index])
+				// defaultEditorState = EditorState.createWithContent(
+				defaultEditorState = convertToRaw(
+					ContentState.createFromBlockArray(
+						blocksFromHTML.contentBlocks,
+						blocksFromHTML.entityMap
+					)
+				)
+			}
+
+			text['stage' + index] = defaultEditorState
+		})
+		return text
 	}
 
     render() {
@@ -133,17 +157,27 @@ class CreateSkillPage extends PureComponent {
 								disabled={state.validating}
 								hintText={t('skill_logo_not_required')} />
 							{
-								/* TODO "alt" attribute */
 								state.image
 								&& 	<center>
 										<Col xs={12} sm={6} md={4} lg={3}>
-											<img src={state.image} className="CreateSkillPage__logo" />
+											<img
+												src={state.image}
+												alt={state.name + t('things_image')}
+												className="CreateSkillPage__logo" />
 										</Col>
 									</center>
 							}
-							<Paper>
+							{
+								process.env.BROWSER &&
+								<SkillTabs
+									readOnly={false}
+									text={this.createText()}
+									onChange={this.onEditorStateChange}
+									className="EdtiSkillPage__tabs" />
+							}
+							{/* <Paper>
 								{this.state.tabs}
-							</Paper>
+							</Paper> */}
 							<center>
 								<RaisedButton
 									type="submit"
