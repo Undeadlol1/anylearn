@@ -109,12 +109,12 @@ class CreateSkillPage extends PureComponent {
 	}
 
 	createText = () => {
-		console.log('createText: ');
 		const text = {}
 		tabNames.forEach((name, index) => {
 
 			let defaultEditorState = EditorState.createEmpty()
 			if (process.env.BROWSER) {
+				console.log('createText: ');
 				const blocksFromHTML = convertFromHTML(defaultTexts[index])
 				// defaultEditorState = EditorState.createWithContent(
 				defaultEditorState = convertToRaw(
@@ -136,57 +136,55 @@ class CreateSkillPage extends PureComponent {
 					className='CreateSkillPage'
 					loading={props.loading}
 				>
-					<Grid fluid>
-						<form onSubmit={this.handleSubmit}>
-							<TextField
-								fullWidth
-								required
-								name="name"
-								value={state.name}
-								errorText={state.nameError}
-								onChange={this.onNameChange}
-								disabled={state.validating}
-								hintText={t('skill_name')} />
-							<TextField
-								fullWidth
-								type="url"
-								name="image"
-								value={state.image}
-								errorText={state.imageError}
-								onChange={this.onLogoChange}
-								disabled={state.validating}
-								hintText={t('skill_logo_not_required')} />
-							{
-								state.image
-								&& 	<center>
-										<Col xs={12} sm={6} md={4} lg={3}>
-											<img
-												src={state.image}
-												alt={state.name + t('things_image')}
-												className="CreateSkillPage__logo" />
-										</Col>
-									</center>
-							}
-							{
-								process.env.BROWSER &&
-								<SkillTabs
-									readOnly={false}
-									text={this.createText()}
-									onChange={this.onEditorStateChange}
-									className="EdtiSkillPage__tabs" />
-							}
-							{/* <Paper>
-								{this.state.tabs}
-							</Paper> */}
-							<center>
-								<RaisedButton
-									type="submit"
-									primary={true}
-									label={t('submit')}
-									disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
-							</center>
-						</form>
-					</Grid>
+					<form onSubmit={this.handleSubmit}>
+						<TextField
+							fullWidth
+							required
+							name="name"
+							value={state.name}
+							errorText={state.nameError}
+							onChange={this.onNameChange}
+							disabled={state.validating}
+							hintText={t('skill_name')} />
+						<TextField
+							fullWidth
+							type="url"
+							name="image"
+							value={state.image}
+							errorText={state.imageError}
+							onChange={this.onLogoChange}
+							disabled={state.validating}
+							hintText={t('skill_logo_not_required')} />
+						{
+							state.image
+							&& 	<center>
+									<Col xs={12} sm={6} md={4} lg={3}>
+										<img
+											src={state.image}
+											alt={state.name + t('things_image')}
+											className="CreateSkillPage__logo" />
+									</Col>
+								</center>
+						}
+						{
+							process.env.BROWSER &&
+							<SkillTabs
+								readOnly={false}
+								text={this.createText()}
+								onChange={this.onEditorStateChange}
+								className="EdtiSkillPage__tabs" />
+						}
+						{/* <Paper>
+							{this.state.tabs}
+						</Paper> */}
+						<center>
+							<RaisedButton
+								type="submit"
+								primary={true}
+								label={t('submit')}
+								disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
+						</center>
+					</form>
 				</PageWrapper>
     }
 }

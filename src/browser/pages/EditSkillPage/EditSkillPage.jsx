@@ -118,51 +118,49 @@ class EditSkillPage extends PureComponent {
 					className='EditSkillPage'
 					loading={props.loading}
 				>
-					<Grid fluid>
-						<form onSubmit={this.handleSubmit}>
-							<SkillTabs
-								readOnly={false}
-								text={props.text}
-								onChange={this.onEditorChange}
-								className="EdtiSkillPage__tabs" />
-							{/* {this.state.tabs} */}
-							<TextField
-								fullWidth
-								required
-								name="name"
-								value={state.name}
-								errorText={state.nameError}
-								onChange={this.onNameChange}
-								disabled={state.validating}
-								hintText={t('change_name')} />
-							<TextField
-								rows={2}
-								fullWidth
-								multiLine={true}
-								name="description"
-								value={state.description}
-								errorText={state.descriptionError}
-								onChange={this.onDescriptionChange}
-								disabled={state.validating}
-								hintText={t('description_not_required')} />
-							{/* <TextField
-								fullWidth
-								type="url"
-								name="image"
-								value={state.image}
-								errorText={state.imageError}
-								onChange={this.onLogoChange}
-								disabled={state.validating}
-								hintText={t('skill_logo_not_required')} /> */}
-							<center>
-								<RaisedButton
-									type="submit"
-									primary={true}
-									label={t('submit')}
-									disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
-							</center>
-						</form>
-					</Grid>
+					<form onSubmit={this.handleSubmit}>
+						<SkillTabs
+							readOnly={false}
+							text={props.text}
+							onChange={this.onEditorChange}
+							className="EdtiSkillPage__tabs" />
+						{/* {this.state.tabs} */}
+						<TextField
+							fullWidth
+							required
+							name="name"
+							value={state.name}
+							errorText={state.nameError}
+							onChange={this.onNameChange}
+							disabled={state.validating}
+							hintText={t('change_name')} />
+						<TextField
+							rows={2}
+							fullWidth
+							multiLine={true}
+							name="description"
+							value={state.description}
+							errorText={state.descriptionError}
+							onChange={this.onDescriptionChange}
+							disabled={state.validating}
+							hintText={t('description_not_required')} />
+						{/* <TextField
+							fullWidth
+							type="url"
+							name="image"
+							value={state.image}
+							errorText={state.imageError}
+							onChange={this.onLogoChange}
+							disabled={state.validating}
+							hintText={t('skill_logo_not_required')} /> */}
+						<center>
+							<RaisedButton
+								type="submit"
+								primary={true}
+								label={t('submit')}
+								disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
+						</center>
+					</form>
 				</PageWrapper>
     }
 }
