@@ -17,7 +17,7 @@ class DevPage extends PureComponent {
 				>
 					<Grid fluid>
 						<Row>
-							<Col xs={12} sm={6} md={3}>
+							<Col xs={12} sm={6} md={4}>
 								<RevisionsList SkillId={props.SkillId} />
 							</Col>
 						</Row>
