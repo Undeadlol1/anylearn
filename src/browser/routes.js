@@ -105,7 +105,9 @@ const routesConfig = {
           store
           .dispatch(fetchSkill(params.skillSlug))
           .then(action => {
-            if (action.payload) done()
+            done()
+            // currently togglePageLoading() action is being returned
+            // if (action.payload) done()
             // else replace('/404')
           })
         }

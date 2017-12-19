@@ -9,6 +9,7 @@ import {VK, CommunityMessages} from 'react-vk'
 import { Grid } from 'react-styled-flexboxgrid'
 import Sidebar from 'browser/components/Sidebar'
 import LoginDialog from 'browser/components/LoginDialog'
+import PageLoading from 'browser/components/PageLoading'
 import LoginLogoutButton from 'browser/components/LoginLogoutButton'
 import { logoutCurrentUser } from 'browser/redux/actions/UserActions'
 
@@ -102,6 +103,8 @@ export default class Layout extends React.Component {
 					</main>
 					<Sidebar />
 					<LoginDialog />
+					{/* global page loading indicator */}
+					<PageLoading />
 					<ReduxToastr position="top-left" progressBar />
 					<VK apiId={Number(process.env.VK_ID)}>
 						<CommunityMessages
