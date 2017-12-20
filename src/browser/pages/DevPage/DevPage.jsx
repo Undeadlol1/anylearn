@@ -11,17 +11,12 @@ import { translate as t } from 'browser/containers/Translator'
 class DevPage extends PureComponent {
     render() {
 		const { props } = this
-		return 	<PageWrapper
-					className='DevPage'
-					loading={props.loading}
-				>
-					<Grid fluid>
-						<Row>
-							<Col xs={12} sm={6} md={4}>
-								<RevisionsList SkillId={props.SkillId} />
-							</Col>
-						</Row>
-					</Grid>
+		return 	<PageWrapper className='DevPage'>
+					<Row>
+						<Col xs={12} sm={6} md={4}>
+							<RevisionsList SkillId={props.SkillId} />
+						</Col>
+					</Row>
 				</PageWrapper>
     }
 }

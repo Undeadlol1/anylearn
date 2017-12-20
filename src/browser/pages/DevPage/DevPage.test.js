@@ -1,5 +1,6 @@
 import React from 'react'
 import sinon from 'sinon'
+import generateUuid from 'uuid/v4'
 import chaiEnzyme from 'chai-enzyme'
 import chai, { expect, assert } from 'chai'
 import { shallow, mount, render } from 'enzyme'
@@ -10,26 +11,33 @@ chai.use(chaiEnzyme())
 
 describe('<DevPage />', () => {
   const props = {
-                  loading: false,
-                  location: {pathname: 'some'},
+                    SkillId: generateUuid()
                 }
   const wrapper = shallow(<DevPage {...props} />)
 
-  // it('has className and tagName', () => {
-  //   expect(wrapper).to.have.className('DevPage')
-  //   expect(wrapper.type().name).to.eq('PageWrapper')
-  // })
+  it('has className and tagName', () => {
+    expect(wrapper).to.have.className('DevPage')
+    expect(wrapper.type().name).to.eq('PageWrapper')
+  })
 
-  // it('has <Grid>', () => {
-  //   expect(wrapper.find('Styled(Grid)')).to.have.length(1);
-  // })
+  it('has <Row>', () => {
+    expect(wrapper.find('Styled(Row)')).to.exist
+  })
 
-  // it('has <Row>', () => {
-  //   expect(wrapper.find('Styled(Row)')).to.have.length(1);
-  // })
+  it('has <Col>', () => {
+    const el = wrapper.find('Styled(Col)')
+    expect(el).to.exist
+    expect(el).to.have.props({
+      xs: 12,
+      sm: 6,
+      md: 4,
+    })
+  })
 
-  // it('failes the test', () => {
-  //   assert(false)
-  // })
+  it('has <RevisionsList>', () => {
+    const list = wrapper.find('Connect(RevisionsList)')
+    expect(list).to.exist
+    expect(list).to.have.prop('SkillId', props.SkillId)
+  })
 
 })

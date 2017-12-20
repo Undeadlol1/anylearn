@@ -65,44 +65,39 @@ class RevisionPage extends PureComponent {
 		const name 	= 	props.name == 'initial_revision'
 						? t('initial_revision')
 						: props.name
-		return 	<PageWrapper
-					className='RevisionPage'
-					loading={props.loading}
-				>
-					<Grid fluid>
-						<Row>
-							<Col xs={12} sm={8}>
-								<h1>{name}</h1>
-								<p>{props.revision.get('description')}</p>
-							</Col>
-							<Col xs={12} sm={4} className="RevisionPage__user-container">
-								<Link to={`users/${props.user.get('id')}`}>
-									<b className="RevisionPage__username">
-										{props.user.get('displayName')}
-									</b>
-									<Avatar
-										className="RevisionPage__avatar"
-										// TODO: alt
-										// alt={translate('your_avatar')}
-										src={props.user.get('image')}
-									/>
-								</Link>
-							</Col>
-						</Row>
-						<Divider />
-						<Row>
-							<Col xs={12}>
-								<Tabs>
-									{
-										this.renderTabs()
-									}
-								</Tabs>
-								{/* <Paper zDepth={2}>
-									<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} className="col s12"></div>
-								</Paper> */}
-							</Col>
-						</Row>
-					</Grid>
+		return 	<PageWrapper className='RevisionPage'>
+					<Row>
+						<Col xs={12} sm={8}>
+							<h1>{name}</h1>
+							<p>{props.revision.get('description')}</p>
+						</Col>
+						<Col xs={12} sm={4} className="RevisionPage__user-container">
+							<Link to={`users/${props.user.get('id')}`}>
+								<b className="RevisionPage__username">
+									{props.user.get('displayName')}
+								</b>
+								<Avatar
+									className="RevisionPage__avatar"
+									// TODO: alt
+									// alt={translate('your_avatar')}
+									src={props.user.get('image')}
+								/>
+							</Link>
+						</Col>
+					</Row>
+					<Divider />
+					<Row>
+						<Col xs={12}>
+							<Tabs>
+								{
+									this.renderTabs()
+								}
+							</Tabs>
+							{/* <Paper zDepth={2}>
+								<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} className="col s12"></div>
+							</Paper> */}
+						</Col>
+					</Row>
 				</PageWrapper>
     }
 }
