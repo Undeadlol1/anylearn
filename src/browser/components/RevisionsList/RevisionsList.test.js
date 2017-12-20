@@ -11,7 +11,7 @@ chai.use(chaiEnzyme())
 describe('<RevisionsList />', () => {
 
   const props = {}
-  const wrapper = shallow(<RevisionsList {...props} />)
+  // const wrapper = shallow(<RevisionsList {...props} />)
 
   // it('has <div>', () => {
   //   const el = wrapper.find('div')
