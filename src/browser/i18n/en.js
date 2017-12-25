@@ -70,4 +70,5 @@ export default {
     description: 'Description',
     forum: 'forum',
     for_teachers: 'For teachers',
+    user_on_APP_NAME: 'User {username} on ' + process.env.APP_NAME,
 }
