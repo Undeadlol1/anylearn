@@ -69,5 +69,6 @@ export default {
     initial_revision: 'Первая версия',
     description: 'Описание',
     forum: 'форум',
-    for_teachers: 'Для учителей',    
+    for_teachers: 'Для учителей',
+    user_on_APP_NAME: 'Пользователь {username} на ' + process.env.APP_NAME,
 }
