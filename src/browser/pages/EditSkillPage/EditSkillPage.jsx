@@ -115,8 +115,9 @@ class EditSkillPage extends PureComponent {
     render() {
 		const { props, state } = this
 		return 	<PageWrapper
+					image={props.image}
 					className='EditSkillPage'
-					loading={props.loading}
+					title={`Редактировать навык "${props.name}"`}
 				>
 					<form onSubmit={this.handleSubmit}>
 						<SkillTabs
@@ -171,6 +172,8 @@ EditSkillPage.defaultProps = {
 
 EditSkillPage.propTypes = {
 	// skill: PropTypes.object.isRequired,
+	name: PropTypes.string.isRequired,
+	image: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
 	UserId: PropTypes.number.isRequired,
 	SkillId: PropTypes.string.isRequired,
@@ -182,12 +185,13 @@ export { EditSkillPage }
 export default
 connect(
 	(state, ownProps) => ({
-		// skill: state.skill,
+		...ownProps,
 		UserId: state.user.get('id'),
+		name: state.skill.get('name'),
+		image: state.user.get('image'),
 		SkillId: state.skill.get('id'),
 		previousId: state.skill.getIn(['revision', 'id']),
 		text: JSON.parse(state.skill.getIn(['revision', 'text'])),
-		...ownProps
 	}),
     (dispatch, ownProps) => ({
 		updateSkill: payload => dispatch(updateSkill(payload))
