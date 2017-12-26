@@ -33,7 +33,7 @@ export class LoginLogoutButton extends Component {
 
 LoginLogoutButton.propTypes = {
 	inline: PropTypes.bool,
-	userId: PropTypes.number,
+	userId: PropTypes.string,
 	logout: PropTypes.func.isRequired,
 	toggleDialog: PropTypes.func.isRequired,
 }

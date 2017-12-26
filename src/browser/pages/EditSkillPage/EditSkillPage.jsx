@@ -175,7 +175,7 @@ EditSkillPage.propTypes = {
 	name: PropTypes.string.isRequired,
 	image: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
-	UserId: PropTypes.number.isRequired,
+	UserId: PropTypes.string.isRequired,
 	SkillId: PropTypes.string.isRequired,
 	previousId: PropTypes.string.isRequired,
 }

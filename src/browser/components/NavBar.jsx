@@ -57,7 +57,7 @@ export class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-    UserId: PropTypes.number,
+    UserId: PropTypes.string,
     toggleSidebar: PropTypes.func.isRequired,
 }
 
