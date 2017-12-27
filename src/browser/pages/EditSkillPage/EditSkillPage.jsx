@@ -124,7 +124,7 @@ class EditSkillPage extends PureComponent {
 							readOnly={false}
 							text={props.text}
 							onChange={this.onEditorChange}
-							className="EdtiSkillPage__tabs" />
+							className="EditSkillPage__tabs" />
 						{/* {this.state.tabs} */}
 						<TextField
 							fullWidth
