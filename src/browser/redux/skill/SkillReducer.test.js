@@ -49,7 +49,7 @@ describe('skill reducer', async () => {
     slug: slugify(skillName),
     UserId: casual.integer(),
     image: faker.image.imageUrl(),
-
+    questions: [],
   }
 
   const skills = {

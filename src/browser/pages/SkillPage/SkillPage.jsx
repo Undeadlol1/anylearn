@@ -16,7 +16,9 @@ import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorStat
 // project files
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
+import ThreadsList from 'browser/components/ThreadsList'
 import { translate as t } from 'browser/containers/Translator'
+import CreateThreadForm from 'browser/components/CreateThreadForm'
 
 class SkillPage extends PureComponent {
 	render() {
@@ -24,11 +26,11 @@ class SkillPage extends PureComponent {
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
-					title={`Обучение навыку "${props.name}"`}
 					image={props.image}
 					className='SkillPage'
 					loading={props.loading}
 					description={description}
+					title={`Обучение навыку "${props.name}"`}
 				>
 					{/* TOP BUTTONS */}
 					<Row>
@@ -45,14 +47,9 @@ class SkillPage extends PureComponent {
 							</Link>
 						</Col>
 					</Row>
+					{/* TITLE AND IMAGE */}					
 					<Row>
 						<Col xs={12}>
-							{/* <VK apiId={Number(process.env.VK_ID)}>
-								<Like
-									options={{type: "full", verb: 1}}
-									onLike={quantity => console.log(quantity)}
-								/>
-							</VK> */}
 							<h1>{props.name}</h1>
 							{
 								props.image && <img
@@ -66,7 +63,10 @@ class SkillPage extends PureComponent {
 					<SkillTabs
 						readOnly={true}
 						text={props.text}
-						className="SkillPage__tabs" />
+						className="SkillPage__tabs"
+					/>
+					<CreateThreadForm parentId={props.SkillId} />
+					<ThreadsList threads={props.threads} />
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						className="SkillPage__edit-button"
@@ -85,6 +85,8 @@ SkillPage.propTypes = {
 	slug: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
 	image: PropTypes.string.isRequired,
+	threads: PropTypes.object.isRequired,
+	SkillId: PropTypes.string.isRequired,
 }
 
 export { SkillPage }
@@ -95,7 +97,9 @@ connect(
 		...ownProps,
 		name: skill.get('name'),
 		slug: skill.get('slug'),
+		SkillId: skill.get('id'),
 		image: skill.get('image'),
+		threads: skill.get('questions'),
 		text: JSON.parse(skill.getIn(['revision', 'text'])),
 	}),
 )(SkillPage)
