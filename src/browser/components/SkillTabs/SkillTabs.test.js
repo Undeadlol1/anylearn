@@ -3,6 +3,7 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import chaiEnzyme from 'chai-enzyme'
 import chai, { expect, assert } from 'chai'
+import { createEmptyRevisionText } from 'shared/helpers'
 import { SkillTabs } from 'browser/components/SkillTabs'
 import { translate as t } from 'browser/containers/Translator'
 import { convertFromHTML, convertToRaw, ContentState } from 'draft-js'
@@ -11,13 +12,7 @@ chai.use(chaiEnzyme())
 
 describe('<SkillTabs />', () => {
 
-  const emptyRawData = convertToRaw(ContentState.createFromText('<span>test</span>'))
-  const text = {
-    stage0: emptyRawData,
-    stage1: emptyRawData,
-    stage2: emptyRawData,
-    stage3: emptyRawData,
-  }
+  const text = createEmptyRevisionText()
   const props = {text}
   const wrapper = shallow(<SkillTabs {...props} />)
   const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]

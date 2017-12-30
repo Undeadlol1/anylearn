@@ -29,8 +29,11 @@ export class MoodsList extends Component {
 					return	<Col className="MoodsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={4} key={skill.get('id')}>
 								<Paper zDepth={5}>
 									<Link to={`/skill/${skill.get('slug')}`}>
-										<Card>
-											<CardMedia overlay={<CardTitle title={skill.get('name')} />}>
+										<Card className="MoodsList__card">
+											<CardMedia
+												className="MoodsList__imgContainer"
+												overlay={<CardTitle title={skill.get('name')} />}
+											>
 												<img alt={skill.get('name') + translate('things_image')} src={src} />
 											</CardMedia>
 										</Card>

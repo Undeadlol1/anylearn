@@ -1,7 +1,9 @@
 .MoodsList {
-    // .MoodsList__item {
-    //     margin-bottom: 1rem;
-    // }
+    .MoodsList__imgContainer {
+        height: 350px;
+        max-height: 350px;
+        overflow: hidden;
+    }
     .MoodsList__empty {
         text-align: center;
     }
