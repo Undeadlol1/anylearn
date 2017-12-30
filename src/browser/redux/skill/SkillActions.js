@@ -26,11 +26,12 @@ export const actions = createActions({
  * @param {object} payload content url
  */
 export const insertSkill = payload => (dispatch, getState) => {
+	dispatch(togglePageLoading(true))
 	return fetch(skillsUrl, headersAndBody(payload, 'POST'))
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(response => {
-			// dispatch(actions.toggleDialog())
+			dispatch(togglePageLoading(false))
 			return dispatch(actions.recieveSkill(response))
 		})
 }
@@ -40,10 +41,12 @@ export const insertSkill = payload => (dispatch, getState) => {
  * @param {object} payload content url
  */
 export const updateSkill = payload => (dispatch, getState) => {
+	dispatch(togglePageLoading(true))
 	return fetch(skillsUrl + payload.parentId, headersAndBody(payload, 'PUT'))
 		.then(checkStatus)
 		.then(parseJSON)
 		.then(response => {
+			dispatch(togglePageLoading(false))
 			return dispatch(actions.recieveSkill(response))
 		})
 }
