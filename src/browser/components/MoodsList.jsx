@@ -30,7 +30,10 @@ export class MoodsList extends Component {
 								<Paper zDepth={5}>
 									<Link to={`/skill/${skill.get('slug')}`}>
 										<Card className="MoodsList__card">
-											<CardMedia overlay={<CardTitle title={skill.get('name')} className="MoodsList__imgContainer" />}>
+											<CardMedia
+												className="MoodsList__imgContainer"
+												overlay={<CardTitle title={skill.get('name')} />}
+											>
 												<img alt={skill.get('name') + translate('things_image')} src={src} />
 											</CardMedia>
 										</Card>
