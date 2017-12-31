@@ -182,7 +182,8 @@ class CreateSkillPage extends PureComponent {
 								type="submit"
 								primary={true}
 								label={t('submit')}
-								disabled={Boolean(state.pristine || state.nameError || state.imageError)} />
+								className="CreateSkillPage__submit"
+								disabled={Boolean(state.validating || state.pristine || state.nameError || state.imageError)} />
 						</center>
 					</form>
 				</PageWrapper>
