@@ -47,7 +47,7 @@ class SkillPage extends PureComponent {
 							</Link>
 						</Col>
 					</Row>
-					{/* TITLE AND IMAGE */}					
+					{/* TITLE AND IMAGE */}
 					<Row>
 						<Col xs={12}>
 							<h1>{props.name}</h1>
@@ -65,8 +65,9 @@ class SkillPage extends PureComponent {
 						text={props.text}
 						className="SkillPage__tabs"
 					/>
-					<CreateThreadForm parentId={props.SkillId} />
-					<ThreadsList threads={props.threads} />
+					{/* USER QUESTIONS */}
+					{/* <CreateThreadForm parentId={props.SkillId} /> */}
+					{/* <ThreadsList threads={props.threads} /> */}
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						className="SkillPage__edit-button"
@@ -85,7 +86,7 @@ SkillPage.propTypes = {
 	slug: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
 	image: PropTypes.string.isRequired,
-	threads: PropTypes.object.isRequired,
+	// threads: PropTypes.object.isRequired,
 	SkillId: PropTypes.string.isRequired,
 }
 
@@ -99,7 +100,7 @@ connect(
 		slug: skill.get('slug'),
 		SkillId: skill.get('id'),
 		image: skill.get('image'),
-		threads: skill.get('questions'),
+		// threads: skill.get('questions'),
 		text: JSON.parse(skill.getIn(['revision', 'text'])),
 	}),
 )(SkillPage)
