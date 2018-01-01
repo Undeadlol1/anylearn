@@ -41,6 +41,7 @@ class SkillPage extends PureComponent {
 								className="SkillPage__button--left"
 							>
 								<Like
+									options={{type: "mini", verb: 1, height: 30}}
 									onLike={quantity => {
 										console.log(quantity);
 									}}
