@@ -72,9 +72,8 @@ class SkillPage extends PureComponent {
 					<Row>
 						<Col xs={12}>
 							<VK apiId={Number(process.env.VK_ID)}>
-								{process.env.BROWSER && <Comments />}
-								{/* onNewComment={handleNewComment} */}
-							</VK>
+								<Comments onNewComment={() => console.log('1')} />
+							</VK>	
 						</Col>
 					</Row>
 					{/* FLOATING EDIT BUTTON */}

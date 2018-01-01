@@ -20,6 +20,7 @@ import Translator from './containers/Translator'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { actions } from 'browser/redux/actions/UserActions'
 import { CookiesProvider } from 'react-cookie'
+import { VK } from 'react-vk'
 
 /* STYLES */
 if (process.env.BROWSER) require('./styles.scss')
@@ -54,11 +55,16 @@ class App extends Component {
                     {/* universal cookies */}
                     <CookiesProvider cookies={cookies}>
                       <Translator>
-                        {
-                          process.env.BROWSER
-                          ? <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
-                          : <RouterContext {...this.props} />
-                        }
+                        {/* provide context info for VK widgets */}
+                        {/* this also somehow helps to fix issue with error on multiple widgets loading */}
+                        {/* TODO: move this to boilerplate */}
+                        <VK apiId={Number(process.env.VK_ID)}>
+                          {
+                            process.env.BROWSER
+                            ? <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
+                            : <RouterContext {...this.props} />
+                          }
+                        </VK>
                       </Translator>
                     </CookiesProvider>
                   </ReduxProvider>
