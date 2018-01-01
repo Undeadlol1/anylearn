@@ -23,16 +23,20 @@ export const actions = createActions({
 
 /**
  * create a skill
- * @param {object} payload content url
+ * @param {object} payload content to create
  */
 export const insertSkill = payload => (dispatch, getState) => {
 	dispatch(togglePageLoading(true))
 	return fetch(skillsUrl, headersAndBody(payload, 'POST'))
-		.then(checkStatus)
-		.then(parseJSON)
+		// check status manually to set appropriate message in ui on error
 		.then(response => {
-			dispatch(togglePageLoading(false))
-			return dispatch(actions.recieveSkill(response))
+			if (response.status == 200) return response
+			else throw response
+		})
+		.then(parseJSON)
+		.then(skillData => {
+			// dispatch(togglePageLoading(false))
+			return dispatch(actions.recieveSkill(skillData))
 		})
 }
 
@@ -51,15 +55,19 @@ export const updateSkill = payload => (dispatch, getState) => {
 		})
 }
 
+export const getSkillRequest = slug => {
+	return fetch(skillsUrl + 'skill/' + slug)
+			.then(checkStatus)
+			.then(parseJSON)
+}
+
 /**
  * fetch skill using skill slug
  * @param {string} slug skill slug
  */
 export const fetchSkill = slug => (dispatch, getState) => {
 	dispatch(togglePageLoading(true))
-	return fetch(skillsUrl + 'skill/' + slug)
-		.then(checkStatus)
-		.then(parseJSON)
+	return getSkillRequest(slug)
 		.then(data => {
 			dispatch(actions.recieveSkill((data)))
 			return dispatch(togglePageLoading(false))

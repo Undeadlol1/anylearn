@@ -51,10 +51,10 @@ describe('SkillActions', () => {
 
   afterEach(() => nock.cleanAll())
 
-  it('insertSkill calls recieveSkill', async () => {
-    const expectedActions = [actions.recieveSkill(skill)]
-    await mockRequest(skillsApi, insertSkill, undefined, expectedActions, 'post')
-  })
+  // it('insertSkill calls recieveSkill', async () => {
+  //   const expectedActions = [actions.recieveSkill(skill)]
+  //   await mockRequest(skillsApi, insertSkill, undefined, expectedActions, 'post')
+  // })
 
   // it('fetchRevisions calls recieveRevisions', async () => {
   //   const expectedActions = [actions.recieveRevisions(revisions)]
