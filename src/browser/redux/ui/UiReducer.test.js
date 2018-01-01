@@ -36,6 +36,13 @@ describe('ui reducer', async () => {
     expect(newState).to.have.property('loading', true)
   })
 
+  it('should handle TOGGLE_LOADING action on setted state', async () => {
+    const oldState = initialState.set('loading', true)
+    const action = actions.toggleLoading(false)
+    const newState = reducer(oldState, action)
+    expect(newState).to.have.property('loading', false)
+  })
+
   // it('should handle RECIEVE_UIS action on initial state', () => {
   //   const action = actions.recieveUis(uis)
   //   const newState = reducer(undefined, action)
