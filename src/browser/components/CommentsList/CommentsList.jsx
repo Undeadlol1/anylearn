@@ -14,10 +14,13 @@ class CommentsList extends Component {
 		return 	<Row className={className}>
 					<Col xs={12}>
 						<Paper zDepth={3}>
-							<VK apiId={Number(process.env.VK_ID)}>
-								<Comments />
-								{/* onNewComment={() => console.log('1')}  */}
-							</VK>
+							{
+								process.env.BROWSER
+								&& 	<VK apiId={Number(process.env.VK_ID)}>
+										<Comments />
+										{/* onNewComment={() => console.log('1')}  */}
+									</VK>
+							}
 						</Paper>
 					</Col>
 				</Row>

@@ -1,7 +1,6 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import {VK, Comments} from 'react-vk'
 import React, { PureComponent } from 'react'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 // project files

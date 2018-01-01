@@ -97,7 +97,6 @@ export default class Layout extends React.Component {
 					//onTouchEnd={this.hideWhenIdle}
 					//onMouseStop={this.checker} // this useed to be here already commented out
 				>
-					<VK apiId={Number(process.env.VK_ID)}>
 					{!isMoodPage && <NavBar />}
 					<main>
 						{this.props.children}
@@ -107,18 +106,21 @@ export default class Layout extends React.Component {
 					{/* global page loading indicator */}
 					<PageLoading />
 					<ReduxToastr position="top-left" progressBar />
-					{/* <VK apiId={Number(process.env.VK_ID)}> */}
-						<CommunityMessages
-							groupId={groupId}
-							widgetPosition="left"
-							options={{
-								widgetPosition: 'left',
-								disableButtonTooltip: 1,
-								tooltipButtonText: 'Обратная связь',
-								onCanNotWrite: reason => console.log(reason),
-							}}
-						/>
-					</VK>
+					{
+						process.env.BROWSER
+						&&	<VK apiId={Number(process.env.VK_ID)}>
+								<CommunityMessages
+									groupId={groupId}
+									widgetPosition="left"
+									options={{
+										widgetPosition: 'left',
+										disableButtonTooltip: 1,
+										tooltipButtonText: 'Обратная связь',
+										onCanNotWrite: reason => console.log(reason),
+									}}
+								/>
+							</VK>
+					}
 				</div>
 	}
 }
