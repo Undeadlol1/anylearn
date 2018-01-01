@@ -18,7 +18,7 @@ describe('<SkillPage />', () => {
   const name = casual.title
   const props = {
                   name,
-                  threads: [],
+                  // threads: [],
                   SkillId: casual.uuid,
                   slug: slugify(name),
                   location: {pathname: 'some'},
@@ -40,17 +40,17 @@ describe('<SkillPage />', () => {
     })
   })
 
-  it('has <CreateThreadForm>', () => {
-    const el = wrapper.find('ReduxForm') 
-    expect(el).to.exist
-    expect(el).to.have.prop('parentId', props.SkillId)
-  })
+  // it('has <CreateThreadForm>', () => {
+  //   const el = wrapper.find('ReduxForm')
+  //   expect(el).to.exist
+  //   expect(el).to.have.prop('parentId', props.SkillId)
+  // })
 
-  it('has <ThreadsList>', () => {
-    const el = wrapper.find('Connect(ThreadsList)') 
-    expect(el).to.exist
-    expect(el).to.have.prop('threads', props.threads)
-  })
+  // it('has <ThreadsList>', () => {
+  //   const el = wrapper.find('Connect(ThreadsList)')
+  //   expect(el).to.exist
+  //   expect(el).to.have.prop('threads', props.threads)
+  // })
 
   // it('has <Row>', () => {
   //   expect(wrapper.find('Styled(Row)')).to.have.length(1);

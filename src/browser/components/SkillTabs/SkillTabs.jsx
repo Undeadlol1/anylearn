@@ -17,7 +17,7 @@ class SkillTabs extends Component {
 		const tabsClassNames = cls('SkillTabs__tabs', props.readOnly && 'SkillTabs__editor-readOnly')
 		return 	<Row className={className}>
 					<Col xs={12}>
-						<Paper zDepth={5}>
+						<Paper zDepth={3}>
 							<article>
 								<Tabs className={tabsClassNames}>
 									{

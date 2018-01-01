@@ -33,7 +33,7 @@ describe('<SkillTabs />', () => {
   it('has <Paper> and <article>', () => {
     const el = wrapper.find('Paper')
     expect(el).to.exist
-    expect(el.props().zDepth).to.eq(5)
+    expect(el.props().zDepth).to.eq(3)
     expect(el.find('article')).to.exist
   })
 
