@@ -1,5 +1,17 @@
 .SkillTabs {
     @media (max-width: 48rem) {
+        // full width images        
+        figure {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        // full width images
+        .rdw-image-imagewrapper {
+            width: 100%;
+            img {
+                width: 100%;                
+            }
+        }
         .SkillTabs__tab {
             font-size: 11px !important;
         }
