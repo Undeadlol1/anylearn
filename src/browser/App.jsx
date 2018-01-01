@@ -63,7 +63,7 @@ class App extends Component {
                           ? <VK apiId={Number(process.env.VK_ID)}>
                               <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
                             </VK>
-                          : <RouterContext {...this.props} />
+                          : <VK apiId={Number(process.env.VK_ID)}><RouterContext {...this.props} /></VK>
                         }
                       </Translator>
                     </CookiesProvider>
