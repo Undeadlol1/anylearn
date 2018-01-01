@@ -21,7 +21,6 @@ import Translator from './containers/Translator'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { actions } from 'browser/redux/actions/UserActions'
 import { CookiesProvider } from 'react-cookie'
-import { VK } from 'react-vk'
 
 /* STYLES */
 if (process.env.BROWSER) require('./styles.scss')
