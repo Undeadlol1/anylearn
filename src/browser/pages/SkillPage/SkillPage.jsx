@@ -37,7 +37,9 @@ class SkillPage extends PureComponent {
 					{/* TOP BUTTONS */}
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
-							<span className="SkillPage__button--left">
+						{
+							process.env.BROWSER && props.SkillId
+							? <span className="SkillPage__button--left">
 								<VK apiId={Number(process.env.VK_ID)}>
 									<Like
 										options={vkOptions}
@@ -47,6 +49,8 @@ class SkillPage extends PureComponent {
 									/>
 								</VK>
 							</span>
+							: null
+						}
 							<Link
 								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"
