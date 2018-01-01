@@ -1,5 +1,15 @@
 .DevPage {
     .RevisionsList {
         margin-bottom: 20px;
+        a {
+            text-decoration: none;
+        }
+    }
+    // mobile phones styles
+    // TODO: check if this is really a "xs" size or just "md"
+    @media (max-width: 48rem) {
+        .RevisionsList a {
+            text-align: center;
+        }
     }
 }
