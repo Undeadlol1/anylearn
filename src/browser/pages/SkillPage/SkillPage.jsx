@@ -42,6 +42,7 @@ class SkillPage extends PureComponent {
 							? <span className="SkillPage__button--left">
 								<VK apiId={Number(process.env.VK_ID)}>
 									<Like
+										page_id={props.SkillId}
 										options={vkOptions}
 										onLike={quantity => {
 											console.log(quantity);
