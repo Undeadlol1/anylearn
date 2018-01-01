@@ -72,7 +72,7 @@ class SkillPage extends PureComponent {
 					<Row>
 						<Col xs={12}>
 							<VK apiId={Number(process.env.VK_ID)}>
-								<Comments />
+								{process.env.BROWSER && <Comments />}
 								{/* onNewComment={handleNewComment} */}
 							</VK>
 						</Col>
