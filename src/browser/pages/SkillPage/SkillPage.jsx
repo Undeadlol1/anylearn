@@ -17,6 +17,7 @@ import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorStat
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import ThreadsList from 'browser/components/ThreadsList'
+import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
 import CreateThreadForm from 'browser/components/CreateThreadForm'
 
@@ -69,13 +70,7 @@ class SkillPage extends PureComponent {
 					{/* <CreateThreadForm parentId={props.SkillId} /> */}
 					{/* <ThreadsList threads={props.threads} /> */}
 					{/* VK COMMENTS */}
-					<Row>
-						<Col xs={12}>
-							<VK apiId={Number(process.env.VK_ID)}>
-								<Comments onNewComment={() => console.log('1')} />
-							</VK>	
-						</Col>
-					</Row>
+					<CommentsList />
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						className="SkillPage__edit-button"

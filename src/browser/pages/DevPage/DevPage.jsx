@@ -1,10 +1,12 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import {VK, Comments} from 'react-vk'
 import React, { PureComponent } from 'react'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
+import CommentsList from 'browser/components/CommentsList'
 import RevisionsList from 'browser/components/RevisionsList'
 import { translate as t } from 'browser/containers/Translator'
 
@@ -17,6 +19,8 @@ class DevPage extends PureComponent {
 							<RevisionsList SkillId={props.SkillId} />
 						</Col>
 					</Row>
+					{/* VK COMMENTS */}
+					<CommentsList />
 				</PageWrapper>
     }
 }
