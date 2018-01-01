@@ -60,9 +60,9 @@ class App extends Component {
                           /* provide context info for VK widgets */
                           /* this also somehow helps to fix issue with error on multiple widgets loading */
                           /* this code is placed here because otherwise it breaks SSR */
-                          ? <VK apiId={Number(process.env.VK_ID)}>
+                          ? //<VK apiId={Number(process.env.VK_ID)}>
                               <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
-                            </VK>
+                            //</VK>
                           : <RouterContext {...this.props} />
                         }
                       </Translator>
