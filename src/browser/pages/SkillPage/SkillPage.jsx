@@ -36,6 +36,16 @@ class SkillPage extends PureComponent {
 					{/* TOP BUTTONS */}
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
+							<VK
+								apiId={Number(process.env.VK_ID)}
+								className="SkillPage__button--left"
+							>
+								<Like
+									onLike={quantity => {
+										console.log(quantity);
+									}}
+								/>
+							</VK>
 							<Link
 								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"
