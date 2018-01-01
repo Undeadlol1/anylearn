@@ -25,6 +25,7 @@ class SkillPage extends PureComponent {
 	render() {
 		const { props } = this
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
+		const vkOptions = {type: "mini", verb: 1, height: 30, page_id: props.SkillId}
 		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
 					image={props.image}
@@ -39,7 +40,7 @@ class SkillPage extends PureComponent {
 							<span className="SkillPage__button--left">
 								<VK apiId={Number(process.env.VK_ID)}>
 									<Like
-										options={{type: "mini", verb: 1, height: 30}}
+										options={vkOptions}
 										onLike={quantity => {
 											console.log(quantity);
 										}}
