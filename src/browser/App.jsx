@@ -6,9 +6,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
 /* DEPENDENCIES */
-import React, { Component } from 'react';
+import { VK } from 'react-vk'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import Router from 'react-router/lib/Router'
 import RouterContext from 'react-router/lib/RouterContext'
 import browserHistory from 'react-router/lib/browserHistory'
