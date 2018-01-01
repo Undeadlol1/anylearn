@@ -26,7 +26,6 @@ export class UserPage extends Component {
 			{username: displayName},
 		)
 
-		console.log('title: ', title);
 		return 	<PageWrapper
 					title={title}
 					// description={}
