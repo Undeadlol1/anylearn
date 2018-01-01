@@ -6,6 +6,7 @@ import React, { PureComponent } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import { Editor } from 'react-draft-wysiwyg'
 import TextField from 'material-ui/TextField'
+import { checkForImageUrl } from 'shared/parsers'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
@@ -13,10 +14,11 @@ import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-
 import Loading from 'browser/components/Loading'
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
-import { insertSkill } from 'browser/redux/skill/SkillActions'
+import { togglePageLoading } from 'browser/redux/ui/UiActions'
 import { translate as t } from 'browser/containers/Translator'
 import { first, second, third, fourth } from 'browser/templates'
-import { WysiwygEditor } from 'browser/components/WysiwygEditor'
+import { WysiwygEditor, } from 'browser/components/WysiwygEditor'
+import { insertSkill, getSkillRequest } from 'browser/redux/skill/SkillActions'
 
 const defaultTexts = [first, second, third, fourth]
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
@@ -51,21 +53,20 @@ class CreateSkillPage extends PureComponent {
 	}
 
 	onLogoChange = (event, image) => {
-		this.setState({image})
+		const imageError = image && !checkForImageUrl(image) && t('something_wrong_with_this_url')
+		this.setState({image, imageError})
 	}
 
 	// TODO submit is activated before tabs are visited (on pressing enter key)
 	handleSubmit = event => {
-		event.preventDefault()
 		console.log('SUBMIT IS CALLED!!');
+		event.preventDefault()
 		const { state, props } = this
 		const { editor0, editor1, editor2, editor3 } = state
 		const 	firstHtml = convertFromHTML(first),
 				secondHtml = convertFromHTML(second),
 				thirdHtml = convertFromHTML(third),
 				fourthHtml = convertFromHTML(fourth)
-				// console.log('editor0: ', editor0);
-				// console.log('editor1: ', editor1);
 		const text = JSON.stringify({
 			stage0: editor0 || convertToRaw(ContentState.createFromBlockArray(firstHtml.contentBlocks, firstHtml.entityMap)),
 			stage1: editor1 || convertToRaw(ContentState.createFromBlockArray(secondHtml.contentBlocks, secondHtml.entityMap)),
@@ -80,12 +81,35 @@ class CreateSkillPage extends PureComponent {
 		// console.log('state', convertToRaw(payload.stage0))
 
 		console.log('payload: ', payload);
-		props
+		this.setState({validating: true})
+		props.toggleLoading(true)
+		return props
 			.insertSkill(payload)
 			.then(({payload}) => {
-				console.log('payload: ', payload);
-				console.log('then!')
-				this.props.router.push('/skill/' + payload.slug)
+				props.toggleLoading(false)
+				props.router.push('/skill/' + payload.slug)
+			})
+			// catch errors and depending on error status set error message
+			.catch(error => {
+				console.log('error: ', error);
+
+				let nameError = ""
+				switch (error.status) {
+					case 409:
+						nameError = t('skill_already_exists')
+						break;
+					case 401:
+						nameError = t('please_login')
+						break;
+					default:
+						nameError = t('error_occured')
+				}
+
+				props.toggleLoading(false)
+				this.setState({
+					nameError,
+					validating: false,
+				})
 			})
 	}
 
@@ -157,6 +181,7 @@ class CreateSkillPage extends PureComponent {
 							hintText={t('skill_logo_not_required')} />
 						{
 							state.image
+							&& !state.imageError
 							&& 	<center>
 									<Col xs={12} sm={6} md={4} lg={3}>
 										<img
@@ -203,6 +228,7 @@ connect(
 		...ownProps
 	}),
     (dispatch, ownProps) => ({
-		insertSkill: payload => dispatch(insertSkill(payload))
+		insertSkill: payload => dispatch(insertSkill(payload)),
+		toggleLoading: boolean => dispatch(togglePageLoading(boolean)),
 	})
 )(CreateSkillPage)
