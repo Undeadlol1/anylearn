@@ -71,4 +71,6 @@ export default {
     forum: 'forum',
     for_teachers: 'For teachers',
     user_on_APP_NAME: 'User {username} on ' + process.env.APP_NAME,
+    error_occured: 'Error occured',
+    skill_already_exists: 'Skill already exists',
 }

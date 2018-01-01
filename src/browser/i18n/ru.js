@@ -71,4 +71,6 @@ export default {
     forum: 'форум',
     for_teachers: 'Для учителей',
     user_on_APP_NAME: 'Пользователь {username} на ' + process.env.APP_NAME,
+    error_occured: 'Произошла ошибка',
+    skill_already_exists: 'Навык уже существует',
 }
