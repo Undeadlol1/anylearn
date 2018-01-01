@@ -25,7 +25,8 @@ export class UserPage extends Component {
 			{id: 'user_on_APP_NAME'},
 			{username: displayName},
 		)
-
+		console.log('process.env: ', process.env);
+		console.log('process.env.BROWSER: ', process.env.BROWSER);
 		return 	<PageWrapper
 					title={title}
 					// description={}
