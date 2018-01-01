@@ -40,6 +40,10 @@ describe('<SkillPage />', () => {
     })
   })
 
+  it('has <CommentsList>', () => {
+    const list = wrapper.find('Connect(CommentsList)')
+    expect(list).to.exist
+  })
   // it('has <CreateThreadForm>', () => {
   //   const el = wrapper.find('ReduxForm')
   //   expect(el).to.exist

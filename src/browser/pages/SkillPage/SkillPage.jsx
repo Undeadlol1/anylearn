@@ -1,12 +1,12 @@
 // dependencies
 import PropTypes from 'prop-types'
-import { VK, Like } from 'react-vk'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import Link from 'react-router/lib/Link'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
+import { VK, Like, Comments } from 'react-vk'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
@@ -17,6 +17,7 @@ import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorStat
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import ThreadsList from 'browser/components/ThreadsList'
+import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
 import CreateThreadForm from 'browser/components/CreateThreadForm'
 
@@ -68,6 +69,8 @@ class SkillPage extends PureComponent {
 					{/* USER QUESTIONS */}
 					{/* <CreateThreadForm parentId={props.SkillId} /> */}
 					{/* <ThreadsList threads={props.threads} /> */}
+					{/* VK COMMENTS */}
+					<CommentsList />
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						className="SkillPage__edit-button"

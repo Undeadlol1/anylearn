@@ -40,4 +40,9 @@ describe('<DevPage />', () => {
     expect(list).to.have.prop('SkillId', props.SkillId)
   })
 
+  it('has <CommentsList>', () => {
+    const list = wrapper.find('Connect(CommentsList)')
+    expect(list).to.exist
+  })
+
 })
