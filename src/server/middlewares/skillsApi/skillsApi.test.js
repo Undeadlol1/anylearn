@@ -13,7 +13,7 @@ chai.should();
 const   user = request.agent(server),
         username = users[0].username,
         password = users[0].password,
-        name = "random name",
+        name = "random name 1234 ;;;",
         slug = slugify(name),
         image = '/some.jpg',
         text  = JSON.stringify({
@@ -72,12 +72,12 @@ export default describe('/skills API', function() {
     it('POST skill', async function() {
         const user =    await User
                             .findOne({
+                                raw: true,
+                                nest: true,
                                 include: [{
                                     model: Local,
                                     where: {username},
                                 }],
-                                raw: true,
-                                nest: true,
                             })
         const agent =   await loginUser(username, password)
         const skill =   await agent
@@ -99,6 +99,18 @@ export default describe('/skills API', function() {
         revision.UserId.should.be.equal(user.id)
         revision.parentId.should.be.equal(skill.id)
         revision.name.should.be.equal('initial_revision')
+    })
+
+    it('POST skill fails if data already exists', async function() {
+        const agent = await loginUser(username, password)
+        await agent
+            .post('/api/skills')
+            .send({text, name, image})
+            .expect('Content-Type', /json/)
+            .expect(409)
+            .then(({body}) => {
+                expect(body).to.deep.eq({statusText: 'skill already exists'})
+            })
     })
 
     it('GET single skill', async function() {

@@ -124,6 +124,11 @@ export default Router()
       const SkillId = generateUuid()
       const RevisionId = generateUuid()
 
+      // check if skill already exists
+      if (await Skills.findOne({where: {slug}})) {
+        return res.status(409).send({statusText: 'skill already exists'})
+      }
+
       await Revisions
       .create({
         ...body,
@@ -145,7 +150,7 @@ export default Router()
       .then(skill => res.json(skill))
 
     } catch (error) {
-      console.log(error)
+      console.error(error)
       res.status(500).end(error)
     }
   })
