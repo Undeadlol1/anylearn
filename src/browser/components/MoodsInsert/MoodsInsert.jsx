@@ -41,7 +41,8 @@ export class MoodsInsert extends Component {
 	    return  <div className={classNames}>
 					{/* BUTTON */}
                     <FloatingActionButton
-                        secondary={true}
+						secondary={true}
+						title={translate('create_skill')}
                         onClick={this.changeRoute}
                     >
                         <ContentAdd />
@@ -51,9 +52,9 @@ export class MoodsInsert extends Component {
                         modal={false}
                         actions={actions}
                         open={dialogIsOpen}
-                        title={translate("add_your_own_mood")}
                         autoScrollBodyContent={true}
                         onRequestClose={toggleDialog}
+                        title={translate("add_your_own_mood")}
                     >
 						<form onSubmit={handleSubmit(insertMood)}>
 							<Row>

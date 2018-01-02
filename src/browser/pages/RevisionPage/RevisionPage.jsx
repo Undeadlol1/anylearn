@@ -88,7 +88,7 @@ class RevisionPage extends PureComponent {
 					<Divider />
 					<Row>
 						<Col xs={12}>
-							<Tabs>
+							<Tabs className="RevisionPage__tabs">
 								{
 									this.renderTabs()
 								}

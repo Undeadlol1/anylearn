@@ -1,4 +1,5 @@
 .RevisionPage {
+    padding-bottom: 200px;
     // line breaks for diff text
     white-space: pre-line;
     .RevisionPage__user-container{
@@ -9,6 +10,9 @@
             display: inline-block;
             transform: translateY(-15px);
         }
+    }
+    .RevisionPage__tabs {
+
     }
     .diff-delete {
         background-color: rgb(243, 0, 0)
