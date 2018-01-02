@@ -83,7 +83,10 @@ export const fetchCurrentUser = () => dispatch => {
 			return dispatch(recieveCurrentUser((user)))
 			// return dispatch(togglePageLoading())
 		})
-		.catch(err => console.error('fetchCurrentUser failed!', err)) // TODO add client side error handling
+		.catch(err => {
+			console.error('fetchCurrentUser failed!')
+			console.error(err);
+		}) // TODO add client side error handling
 }
 
 // TODO rename this to 'logoutUser'
