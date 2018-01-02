@@ -89,8 +89,9 @@ class SkillPage extends PureComponent {
 					<CommentsList />
 					{/* FLOATING EDIT BUTTON */}
 					<Link
-						className="SkillPage__edit-button"
+						title={t('edit')}
 						to={`/skill/${props.slug}/edit`}
+						className="SkillPage__edit-button"
 					>
 						<FloatingActionButton secondary={true}>
 							<EditIcon />
