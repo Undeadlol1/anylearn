@@ -15,6 +15,7 @@ export const actions = createActions({
   RECIEVE_SKILLS: skills => skills,
   RECIEVE_REVISION: revision => revision,
   RECIEVE_REVISIONS: revisions => revisions,
+  CHANGE_TAB: number => number,  
 //   UPDATE_SKILL: object => object,
 // TODO: ?????
   TOGGLE_SKILL_FETCHING: boolean => boolean,

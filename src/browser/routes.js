@@ -15,6 +15,7 @@ import {
   fetchSkills,
   fetchRevision,
   fetchRevisions,
+  actions as skillActions
 } from 'browser/redux/skill/SkillActions'
 import {
   fetchForum,
@@ -26,6 +27,13 @@ import {
 /**
  * fetching is done in router config in order to properly prefetch data in SSR
  */
+
+// reset active tab of SkillTabs
+// this is needed to prevent same active tab across all pages while
+// browsing through different skills
+function resetSkillTab() {
+  store.dispatch(skillActions.changeTab(0))
+}
 
 const routesConfig = {
   path: '/',
@@ -93,7 +101,14 @@ const routesConfig = {
     { path: 'login', component: LoginPage },
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
-    { path: 'create-skill', component: require('browser/pages/CreateSkillPage').default },
+    {
+      path: 'create-skill',
+      component: require('browser/pages/CreateSkillPage').default,
+      onEnter({params}, replace, done) {
+        resetSkillTab()
+        done()
+      }
+    },
     {
       path: 'skill/(:skillSlug)',
       component: require('browser/pages/SkillPage').default,
@@ -102,6 +117,7 @@ const routesConfig = {
         const fetchedSkillSlug = store.getState().skill.get('slug')
         if (fetchedSkillSlug == params.skillSlug) return done()
         else {
+          resetSkillTab()
           store
           .dispatch(fetchSkill(params.skillSlug))
           .then(action => {
@@ -122,6 +138,7 @@ const routesConfig = {
     const fetchedSkillSlug = store.getState().skill.get('slug')
     if (fetchedSkillSlug == params.skillSlug) return done()
     else {
+      resetSkillTab()
       store
       .dispatch(fetchSkill(params.skillSlug))
       .then(() => done())

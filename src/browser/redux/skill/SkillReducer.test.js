@@ -110,6 +110,12 @@ describe('skill reducer', async () => {
     const newState = reducer(undefined, action).toJS()
     expect(newState).to.deep.equal(initialState.toJS())
   })
+  
+  it('should handle CHANGE_TAB action', () => {
+    const action = actions.changeTab(2)
+    const newState = reducer(undefined, action).toJS()
+    expect(newState.currentTab).to.eq(2)
+  })
 
   // it('should handle REMOVE_SKILL action', () => {
   //   const action = actions.recieveSkills(skills)

@@ -39,6 +39,7 @@ export const initialState = fromJS({
 								currentPage: 0,
 								values:  [],
 							},
+							currentTab: 0,
 							loading: false,
 							dialogIsOpen: false,
 							...skillStructure
@@ -57,13 +58,11 @@ export default (state = initialState, {type, payload}) => {
 						skills: payload,
 					})
 		case 'RECIEVE_REVISION':
-			return state
-					.mergeDeep({revision: payload})
+			return state.mergeDeep({revision: payload})
 		// initial revisions are recieved in 'skill' object,
 		// later data is used for pagination change
 		case 'RECIEVE_REVISIONS':
-			return state
-					.merge({revisions: payload})
+			return state.merge({revisions: payload})
 		case 'TOGGLE_DIALOG':
 			return state.set('dialogIsOpen', !state.get('dialogIsOpen'))
 		case 'UNLOAD_SKILL':
@@ -71,6 +70,10 @@ export default (state = initialState, {type, payload}) => {
 				.merge(skillStructure)
 				// .merge({skills: List()})
 				.mergeDeep({loading: false,})
+		// TODO: move this to ui reducer?
+		// change tab of skill tabs
+		case 'CHANGE_TAB':
+			return state.set('currentTab', payload)
 		// remove skill from skills list
 		// case 'REMOVE_SKILL':
 		// 	return state

@@ -8,24 +8,6 @@ chai.use(chaiImmutable)
 
 describe('ui reducer', async () => {
 
-  const ui = {
-    // id: 1,
-    // UserId: 2,
-    // UiId: 3,
-    // type: 'video',
-    // contentId: 123,
-    // url: 'google.com',
-    // rating: '1.32332300',
-    // provider: 'youtube',
-    // Decision: {},
-  }
-
-  const uis = [
-    {id: 1},
-    {id: 2},
-    {id: 3},
-  ]
-
   it('should have initial state', () => {
     expect(reducer(undefined, {})).to.equal(initialState)
   })

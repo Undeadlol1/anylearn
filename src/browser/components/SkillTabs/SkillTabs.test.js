@@ -13,7 +13,11 @@ chai.use(chaiEnzyme())
 describe('<SkillTabs />', () => {
 
   const text = createEmptyRevisionText()
-  const props = {text}
+  const props = {
+    text,
+    currentTab: 0,
+    changeTab: () => {},
+  }
   const wrapper = shallow(<SkillTabs {...props} />)
   const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
   const tabs = wrapper.find('Tab')
@@ -39,8 +43,9 @@ describe('<SkillTabs />', () => {
 
   it('has <Tabs> container', () => {
     const el = wrapper.find('Tabs')
-    expect(el).to.exist
     expect(el).to.have.className('SkillTabs__tabs')
+    expect(el).to.have.prop('value', props.currentTab)
+    expect(el).to.have.prop('onChange', props.changeTab)
   })
 
   it("has 4 <Tab>'s", () => {
@@ -48,6 +53,8 @@ describe('<SkillTabs />', () => {
     tabs.map((tab, index) => {
       const editor = tab.find('t')
       expect(tab).to.have.props({
+        // TODO: comment
+        value: index,
         label: tabNames[index],
         className: 'SkillTabs__tab',
       })
