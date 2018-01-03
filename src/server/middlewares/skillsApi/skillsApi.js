@@ -40,8 +40,7 @@ export default Router()
   .get('/skill/:slug', async (req, res) => {
     const slug = selectn('params.slug', req)
     try {
-      return getSkill({slug})
-            .then(skill => res.json(skill))
+      return res.json(await getSkill({slug})) 
     } catch (error) {
       console.log(error)
       res.status(500).end(error)
@@ -69,6 +68,7 @@ export default Router()
   // update skill
   .put('/:parentId', mustLogin, async ({user, session, body, params}, res) => {
     /*
+      0) check if text is changed
       1) deactivate previous revision
       2) create new one
       3) ???
@@ -78,31 +78,37 @@ export default Router()
 
       const UserId = user.id
       const { parentId } = params
-      Revisions
-      .findOne({where: {
-        parentId,
-        active: true,
-      }})
-      .then(revision => revision.update({active: false}))
-      .then(previousRevision => {
-        return Revisions.create({
-          ...body,
-          UserId,
+      const currentRevision = await Revisions
+      .findOne({
+        where: {
           parentId,
           active: true,
-          // we need to set "previousId" to easily find difference after edit
-          previousId: previousRevision.id
-        })
-      })
+      }})
+      const newRevisionId = generateUuid()
+      // TODO: comment
+      const where = { id: parentId }
+      const newRevisionBody = {
+        ...body,
+        UserId,
+        parentId,
+        active: true,
+        id: newRevisionId,
+        // we need to set "previousId" to easily find difference after edit
+        previousId: currentRevision.id
+      }
+      // TODO: test
+      if (!body.name) return res.status(409).send({statusText: 'name can not be undefined'})
+      if (currentRevision.text === body.text) {
+        return res.status(409).send({statusText: 'text is the same'})      
+      }
+      // deactivate current revision
+      await currentRevision.update({active: false})
+      // create new one
+      await Revisions.create(newRevisionBody)
+      // update skill with new RevisionId
       // TODO: maybe i should get rid of RevisionId completely?
-      .then(createdRevision => {
-        return Skills.update(
-          {RevisionId: createdRevision.id},
-          {where: {id: createdRevision.parentId}}
-        )
-      })
-      .then(() => getSkill({id: parentId}))
-      .then(skill => res.json(skill))
+      await Skills.update({RevisionId: newRevisionId}, {where})
+      return res.json(await getSkill(where))
 
     } catch (error) {
       console.log(error)

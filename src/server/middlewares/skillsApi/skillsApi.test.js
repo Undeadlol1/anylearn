@@ -23,6 +23,24 @@ const   user = request.agent(server),
             stage3: '',
         })
 
+/**
+ * @param {object} body request body
+ * @param {string} skillId route param
+ * @param {number} status response status code
+ */
+async function makePutRequest(body, skillId, status) {
+    const username = users[1].username
+    const password = users[1].password
+    const agent = await loginUser(username, password)
+    const skill = await Skills.findOne({order: 'rand()'})
+    return await agent
+        .put('/api/skills/' + skillId )
+        .send(body)
+        .expect('Content-Type', /json/)
+        .expect(status)
+        .then(res => res.body)
+}
+
 export default describe('/skills API', function() {
 
     before(async function() {
@@ -133,10 +151,10 @@ export default describe('/skills API', function() {
         })
     })
 
-    // // TODO PUT test
     it('PUT skill', async function() {
         const username = users[1].username
         const password = users[1].password
+        const revisioName = 'Edititng test'
         const user =    await User
                             .findOne({
                                 include: [{
@@ -145,27 +163,20 @@ export default describe('/skills API', function() {
                                 }],
                                 raw: true,
                                 nest: true,
-                            })
-        const agent =   await loginUser(username, password)
-        const skill =   await Skills.findOne({order: 'rand()'})
+                            })        
         const newText = JSON.stringify({
             stage0: 'one',
             stage1: 'two',
             stage2: 'three',
             stage3: 'four',
         })
-        const revisioName = 'Edititng test'
-        const res   =   await agent
-                            .put('/api/skills/' + skill.id )
-                            .send({
-                                image: "",
-                                text: newText,
-                                description: "",
-                                name: revisioName,
-                            })
-                            .expect('Content-Type', /json/)
-                            .expect(200)
-                            .then((res) => res.body)
+        const skill =   await Skills.findOne({order: 'rand()'})        
+        const res   =   await makePutRequest({
+                            image: "",
+                            text: newText,
+                            description: "",
+                            name: revisioName,
+                        }, skill.id, 200)
         const oldRevision = await Revisions.findById(skill.RevisionId)
         const newRevision = await Revisions.findById(res.RevisionId)
         // there must only one "active" revision
@@ -184,12 +195,11 @@ export default describe('/skills API', function() {
         .then(revisions => revisions.should.have.length(2))
 
         const { revision, revisions } = res
-        res.id.should.be.equal(skill.id)
         // TODO: delete Skills.RevisionId (make migration and delete from code)
         // res.RevisionId.should.be.equal(newRevision.id)
         /* skill structure */
-        skill.id.should.be.eq(skill.id)
-        skill.name.should.be.eq(skill.name)
+        res.id.should.be.eq(skill.id)
+        res.name.should.be.eq(skill.name)
         // UserId must not change
         skill.UserId.should.be.eq(skill.UserId)
         /* revision structure */
@@ -208,6 +218,16 @@ export default describe('/skills API', function() {
         revisions.values.should.be.an('array')
         revisions.values.should.have.length(2)
         revisions.values.map(rev => rev.parentId.should.eq(skill.id))
+    })
+
+    it('fail to PUT if text is not changed', async function() {
+        const skill = await Skills.findOne({order: 'rand()'})
+        const oldRevision = await Revisions.findById(skill.RevisionId)        
+        await makePutRequest({
+            name: 'new revision',
+            text: oldRevision.text,
+        }, skill.id, 409)
+        .then(({statusText}) => assert(statusText, 'text is the same'))
     })
 
     it('fail to POST if not authorized', async function() {
