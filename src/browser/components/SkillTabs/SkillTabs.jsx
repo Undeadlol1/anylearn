@@ -16,7 +16,6 @@ class SkillTabs extends Component {
 		const className = cls(props.className, "SkillTabs")
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		const tabsClassNames = cls('SkillTabs__tabs', props.readOnly && 'SkillTabs__editor-readOnly')
-		console.log('props.currentTab: ', props.currentTab);
 		return 	<Row className={className}>
 					<Col xs={12}>
 						<Paper zDepth={3}>
