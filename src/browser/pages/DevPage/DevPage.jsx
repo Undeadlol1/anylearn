@@ -13,7 +13,7 @@ class DevPage extends PureComponent {
     render() {
 		const { props } = this
 		return 	<PageWrapper className='DevPage'>
-					<Row>
+					<Row center="xs">
 						<Col xs={12} sm={6} md={4}>
 							<RevisionsList SkillId={props.SkillId} />
 						</Col>
