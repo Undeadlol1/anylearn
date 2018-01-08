@@ -10,11 +10,22 @@ import { translate as t } from 'browser/containers/Translator'
 class CommentsList extends Component {
 	componentDidMount() {
 		if (process.env.BROWSER) {
+			console.log('componentDidMount browser');
 			VK.init({
 				onlyWidgets: true,
 				apiId: process.env.VK_ID,
 			})
-			VK.Widgets.Comments('vk_comments')
+			// window.url
+			console.log('window.url: ', window.URL);
+			window.location.href
+			console.log('window.location.href : ', window.location.href );
+			VK.Widgets.Comments(
+				'vk_comments',
+				{
+					pageUrl: window.location.href,
+				},
+				window.location.href
+			)
 		}
 	}
 	render() {
@@ -25,7 +36,7 @@ class CommentsList extends Component {
 						<Paper zDepth={3}>
 							{
 								process.env.BROWSER
-								&& 
+								&&
 								<div id="vk_comments"></div>
 								// && 	<VK apiId={Number(process.env.VK_ID)}>
 								// 		<Comments />
