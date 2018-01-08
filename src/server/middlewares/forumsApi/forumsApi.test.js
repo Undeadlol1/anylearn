@@ -43,7 +43,7 @@ export default describe('/forums API', function() {
     })
 
     it('GET single forum', async function() {
-        const forum = await Forums.findOne({sort: 'rand()'})
+        const forum = await Forums.findOne({order: 'rand()'})
         await user
             .get('/api/forums/forum/' + forum.slug )
             .expect('Content-Type', /json/)

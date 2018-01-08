@@ -1,18 +1,21 @@
 import 'babel-polyfill'
-import chai from 'chai'
 import slugify from 'slug'
 import request from 'supertest'
 import server from 'server/server'
+import generateUuid from 'uuid/v4'
+import chai, { expect } from 'chai'
 import users from 'server/data/fixtures/users'
 import { Skills, Revisions, User } from 'server/data/models'
 import { loginUser } from 'server/test/middlewares/authApi.test'
+chai.use(require('chai-properties'));
 chai.should();
 
 const   agent = request.agent(server),
         username = users[0].username,
         password = users[0].password,
         name = "random name",
-        slug = slugify(name)
+        slug = slugify(name),
+        revisionsApi = '/api/revisions/'
 
 export default describe('/revisions API', function() {
 
@@ -45,7 +48,7 @@ export default describe('/revisions API', function() {
                 values.should.be.a('array')
                 // TODO: sorting tests
             })
-            .catch(error => {throw new Error(error)})
+            .catch(error => {throw new Error(ererror)})
     })
 
     // it('POST revision', async function() {
@@ -63,17 +66,33 @@ export default describe('/revisions API', function() {
     //         })
     // })
 
-    // it('GET single revision', function(done) {
-    //     user
-    //         .get('/api/revisions/revision/' + slug )
-    //         .expect('Content-Type', /json/)
-    //         .expect(200)
-    //         .end(function(err, res) {
-    //             if (err) return done(err);
-    //             res.body.name.should.be.equal(revision)
-    //             done()
-    //         });
-    // })
+    it('GET single revision', async function() {
+        const user = await User.findOne({order: 'rand()'})
+        const props = {
+            name: 'd',
+            text: 't',
+            active: 1,
+            image: null,
+            UserId: user.id,
+            parentId: 'penis',
+            description: 'sde',
+            id: generateUuid(),
+        }
+
+        await Revisions.create(props)
+        await agent
+        .get( '/api/revisions/revision/' + props.id )
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(({body}) => {
+            body.should.have.properties({
+                ...props,
+                previousRevision: null,
+                User: {id: user.id}
+            })
+        })
+
+    })
 
     // // TODO PUT test
 
