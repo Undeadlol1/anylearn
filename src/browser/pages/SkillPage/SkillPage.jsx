@@ -6,7 +6,7 @@ import Link from 'react-router/lib/Link'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import { VK, Like, Comments } from 'react-vk'
+// import { VK, Like, Comments } from 'react-vk'
 import RaisedButton from 'material-ui/RaisedButton'
 import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
@@ -37,7 +37,7 @@ class SkillPage extends PureComponent {
 					{/* TOP BUTTONS */}
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
-						{
+						{/* {
 							process.env.BROWSER && props.SkillId
 							? <span className="SkillPage__button--left">
 								<VK apiId={Number(process.env.VK_ID)}>
@@ -51,7 +51,7 @@ class SkillPage extends PureComponent {
 								</VK>
 							</span>
 							: null
-						}
+						} */}
 							<Link
 								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"

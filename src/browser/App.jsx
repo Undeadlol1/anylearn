@@ -6,7 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
 /* DEPENDENCIES */
-import { VK } from 'react-vk'
+// import { VK } from 'react-vk'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -60,9 +60,9 @@ class App extends Component {
                           /* provide context info for VK widgets */
                           /* this also somehow helps to fix issue with error on multiple widgets loading */
                           /* this code is placed here because otherwise it breaks SSR */
-                          ? <VK apiId={Number(process.env.VK_ID)}>
-                              <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
-                            </VK>
+                          // ? <VK apiId={Number(process.env.VK_ID)}>
+                              ? <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
+                            // </VK>
                           : <RouterContext {...this.props} />
                         }
                       </Translator>

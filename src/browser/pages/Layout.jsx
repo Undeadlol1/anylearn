@@ -5,7 +5,7 @@ import styles from 'browser/theme'
 import { connect } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import NavBar from 'browser/components/NavBar'
-import {VK, CommunityMessages} from 'react-vk'
+// import {VK, CommunityMessages} from 'react-vk'
 import { Grid } from 'react-styled-flexboxgrid'
 import Sidebar from 'browser/components/Sidebar'
 import LoginDialog from 'browser/components/LoginDialog'
@@ -106,7 +106,7 @@ export default class Layout extends React.Component {
 					{/* global page loading indicator */}
 					<PageLoading />
 					<ReduxToastr position="top-left" progressBar />
-					{
+					{/* {
 						process.env.BROWSER
 						&&	<VK apiId={Number(process.env.VK_ID)}>
 								<CommunityMessages
@@ -120,7 +120,7 @@ export default class Layout extends React.Component {
 									}}
 								/>
 							</VK>
-					}
+					} */}
 				</div>
 	}
 }
