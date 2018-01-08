@@ -40,12 +40,12 @@ describe('<Sidebar />', () => {
     //   expect(link.props().children.props.children).to.eq(translate('search'))
     // })
 
-    it('has "forum" link', () => {
-      const link = wrapper.find('.Sidebar__forum-link');
-      expect(link).to.have.length(1)
-      expect(link.props().onClick).to.be.a('function')
-      expect(link.props().children.props.children).to.eq(translate("forum"))
-    })
+    // it('has "forum" link', () => {
+    //   const link = wrapper.find('.Sidebar__forum-link');
+    //   expect(link).to.have.length(1)
+    //   expect(link.props().onClick).to.be.a('function')
+    //   expect(link.props().children.props.children).to.eq(translate("forum"))
+    // })
 
     // it('has "about" link', () => {
     //   const link = wrapper.find('.Sidebar__about-link')

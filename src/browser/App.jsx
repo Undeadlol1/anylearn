@@ -6,10 +6,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin'
 injectTapEventPlugin();
 
 /* DEPENDENCIES */
-<<<<<<< HEAD
-// import { VK } from 'react-vk'
-=======
->>>>>>> f09cd9b6073a78131c483a1a75e84389d7cb3de4
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'

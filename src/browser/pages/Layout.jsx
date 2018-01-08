@@ -5,18 +5,13 @@ import styles from 'browser/theme'
 import { connect } from 'react-redux'
 import ReduxToastr from 'react-redux-toastr'
 import NavBar from 'browser/components/NavBar'
-// import {VK, CommunityMessages} from 'react-vk'
 import { Grid } from 'react-styled-flexboxgrid'
 import Sidebar from 'browser/components/Sidebar'
 import LoginDialog from 'browser/components/LoginDialog'
 import PageLoading from 'browser/components/PageLoading'
+import { Feedback } from 'browser/components/Feedback/Feedback'
 import LoginLogoutButton from 'browser/components/LoginLogoutButton'
 import { logoutCurrentUser } from 'browser/redux/actions/UserActions'
-<<<<<<< HEAD
-=======
-import styles from 'browser/theme'
-import { Feedback } from '../components/Feedback/Feedback';
->>>>>>> f09cd9b6073a78131c483a1a75e84389d7cb3de4
 
 let timeout = null
 
