@@ -43,15 +43,14 @@ export class Sidebar extends Component {
 						className="Sidebar__forum-link"
 						>
 						<MenuItem>{translate("forum")}</MenuItem>
+					</Link>
+					{/* <Link
+						to="about"
+						onClick={toggleSidebar}
+						className="Sidebar__about-link"
+					>
+						<MenuItem>{translate("about")}</MenuItem>
 					</Link> */}
-						{/* <Link
-							to="search"
-							onClick={toggleSidebar}
-							className="Sidebar__search-link"
-						>
-							<MenuItem>{translate("search")}</MenuItem>
-						</Link> */}
-					{/*<MenuItem><Link onClick={toggleSidebar} to="about">{translate("about")}</Link></MenuItem>*/}
 				</Drawer>
 	}
 }

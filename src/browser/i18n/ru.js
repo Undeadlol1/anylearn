@@ -74,4 +74,7 @@ export default {
     error_occured: 'Произошла ошибка',
     skill_already_exists: 'Навык уже существует',
     create_skill: 'Создать навык',
+    about_us: 'О нас',
+    forums_list: 'Список форумов',
+    feedback: 'Обратная связь',
 }

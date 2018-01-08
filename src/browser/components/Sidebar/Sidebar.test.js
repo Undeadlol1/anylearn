@@ -22,8 +22,8 @@ describe('<Sidebar />', () => {
     expect(wrapper.type()).to.eq(Drawer)
   })
 
-  describe('if user not logged component', () => {
-    it('has 0 menu items', () => {
+  describe('always', () => {
+    it('has 2 menu items', () => {
       const links = wrapper.find('Link')
       expect(wrapper.find('Link')).to.have.length(0)
       links.nodes.forEach(link => {
@@ -40,11 +40,21 @@ describe('<Sidebar />', () => {
     //   expect(link.props().children.props.children).to.eq(translate('search'))
     // })
 
-    // it('has "forum" link', () => {
-    //   const link = wrapper.find('.Sidebar__forum-link');
-    //   expect(link).to.have.length(1)
+    it('has "forum" link', () => {
+      const link = wrapper.find('.Sidebar__forum-link');
+      expect(link).to.have.length(1)
+      expect(link.props().onClick).to.be.a('function')
+      expect(link.props().children.props.children).to.eq(translate("forum"))
+    })
+
+    // it('has "about" link', () => {
+    //   const link = wrapper.find('.Sidebar__about-link')
+    //   const menuItem = link.find('MenuItem')
+    //   expect(link).to.exist
+    //   expect(menuItem).to.exist
+    //   expect(link).to.have.prop('to', 'about')
     //   expect(link.props().onClick).to.be.a('function')
-    //   expect(link.props().children.props.children).to.eq(translate("forum"))
+    //   expect(menuItem).to.have.prop('children', translate('about'))
     // })
   })
 

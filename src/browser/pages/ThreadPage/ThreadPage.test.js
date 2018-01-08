@@ -52,7 +52,7 @@ describe('<ThreadPage />', () => {
   })
 
   it('has <CommentsList>', () => {
-    expect(wrapper.find('Connect(CommentsList)')).to.have.length(1);
-})
+    expect(wrapper.find('Connect(CommentsList)')).to.exist
+  })
 
 })

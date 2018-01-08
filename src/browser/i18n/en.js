@@ -74,4 +74,7 @@ export default {
     error_occured: 'Error occured',
     skill_already_exists: 'Skill already exists',
     create_skill: 'Create skill',
+    about_us: 'About Us',
+    forums_list: 'Forums list',
+    feedback: 'Feedback',
 }

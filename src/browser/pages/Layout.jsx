@@ -12,6 +12,11 @@ import LoginDialog from 'browser/components/LoginDialog'
 import PageLoading from 'browser/components/PageLoading'
 import LoginLogoutButton from 'browser/components/LoginLogoutButton'
 import { logoutCurrentUser } from 'browser/redux/actions/UserActions'
+<<<<<<< HEAD
+=======
+import styles from 'browser/theme'
+import { Feedback } from '../components/Feedback/Feedback';
+>>>>>>> f09cd9b6073a78131c483a1a75e84389d7cb3de4
 
 let timeout = null
 
@@ -106,21 +111,7 @@ export default class Layout extends React.Component {
 					{/* global page loading indicator */}
 					<PageLoading />
 					<ReduxToastr position="top-left" progressBar />
-					{/* {
-						process.env.BROWSER
-						&&	<VK apiId={Number(process.env.VK_ID)}>
-								<CommunityMessages
-									groupId={groupId}
-									widgetPosition="left"
-									options={{
-										widgetPosition: 'left',
-										disableButtonTooltip: 1,
-										tooltipButtonText: 'Обратная связь',
-										onCanNotWrite: reason => console.log(reason),
-									}}
-								/>
-							</VK>
-					} */}
+					<Feedback />
 				</div>
 	}
 }

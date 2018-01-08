@@ -14,6 +14,7 @@
 @import "./pages/CreateSkillPage/CreateSkillPage.scss";
 @import "./pages/MoodPage.scss";
 @import "./pages/UserPage.scss";
+@import "./pages/AboutPage/AboutPage.scss";
 @import "./components/NavBar.scss";
 @import "./components/Video.scss";
 @import "./components/Loading.scss";
@@ -43,6 +44,8 @@
 @import "./pages/ForumsPage/ForumsPage.scss"; 
 @import "./components/SkillTabs/SkillTabs.scss";
 @import "./components/CommentsList/CommentsList.scss"; 
+@import "./components/SocialLike/SocialLike.scss"; 
+@import "./components/Feedback/Feedback.scss"; 
 // ⚠️ Hook for cli! Do not remove 💀
 /*
     common styles
