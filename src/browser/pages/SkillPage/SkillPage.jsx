@@ -17,6 +17,7 @@ import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorStat
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import ThreadsList from 'browser/components/ThreadsList'
+import SocialLike from 'browser/components/SocialLike'
 import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
 import CreateThreadForm from 'browser/components/CreateThreadForm'
@@ -37,21 +38,7 @@ class SkillPage extends PureComponent {
 					{/* TOP BUTTONS */}
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
-						{/* {
-							process.env.BROWSER && props.SkillId
-							? <span className="SkillPage__button--left">
-								<VK apiId={Number(process.env.VK_ID)}>
-									<Like
-										page_id={props.SkillId}
-										options={vkOptions}
-										onLike={quantity => {
-											console.log(quantity);
-										}}
-									/>
-								</VK>
-							</span>
-							: null
-						} */}
+							<SocialLike className="SkillPage__button--left" />
 							<Link
 								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"
