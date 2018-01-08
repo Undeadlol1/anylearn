@@ -3,12 +3,13 @@
     // line breaks for diff text
     white-space: pre-line;
     .RevisionPage__user-container{
-        padding-top: 30px;
+        padding-top: 20px;
         text-align: right;
         .RevisionPage__username {
             margin-right: 20px;
             display: inline-block;
             transform: translateY(-15px);
+            color: black;
         }
     }
     .RevisionPage__tabs {
@@ -23,4 +24,11 @@
     .diff-insert {
         background-color: rgb(17, 235, 17)
     }
+}
+
+// phone screens
+@media (max-width: 48rem) {
+	.RevisionPage__title {
+		text-align: center;
+	}
 }

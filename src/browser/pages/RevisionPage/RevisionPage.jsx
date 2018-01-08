@@ -68,19 +68,19 @@ class RevisionPage extends PureComponent {
 		return 	<PageWrapper className='RevisionPage'>
 					<Row>
 						<Col xs={12} sm={8}>
-							<h1>{name}</h1>
-							<p>{props.revision.get('description')}</p>
+							<h1 className="RevisionPage__title">{name}</h1>
+							<p className="RevisionPage__description">{props.revision.get('description')}</p>
 						</Col>
 						<Col xs={12} sm={4} className="RevisionPage__user-container">
 							<Link to={`users/${props.user.get('id')}`}>
-								<b className="RevisionPage__username">
+								<i className="RevisionPage__username">
 									{props.user.get('displayName')}
-								</b>
+								</i>
 								<Avatar
+									src={props.user.get('image')}
 									className="RevisionPage__avatar"
 									// TODO: alt
 									// alt={translate('your_avatar')}
-									src={props.user.get('image')}
 								/>
 							</Link>
 						</Col>
@@ -128,6 +128,7 @@ export default
 connect(
 	(state, ownProps) => {
 		const revision = state.skill.get('revision')
+		console.log('revision: ', revision.toJS());
 		return {
 			revision,
 			name: revision.get('name'),
