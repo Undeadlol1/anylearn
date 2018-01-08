@@ -13,6 +13,7 @@ import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { EditorState, ContentState, convertFromRaw } from 'draft-js'
 // project files
 import PageWrapper from 'browser/components/PageWrapper'
+import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
 
 // TODO: full text instead of single stage
@@ -55,7 +56,7 @@ class RevisionPage extends PureComponent {
 			const plainNewText = convertFromRaw(newText['stage' + index]).getPlainText()
 			const plainOriginalText = convertFromRaw(origionalText['stage' + index]).getPlainText()
 			return <Tab label={name} key={index}>
-						<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} />
+						<div className="RevisionPage__text" dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} />
 					</Tab>
 		})
 	}
@@ -88,16 +89,17 @@ class RevisionPage extends PureComponent {
 					<Divider />
 					<Row>
 						<Col xs={12}>
-							<Tabs className="RevisionPage__tabs">
-								{
-									this.renderTabs()
-								}
-							</Tabs>
+							<Paper className="RevisionPage__tabs" zDeptj={3}>
+								<Tabs>
+									{this.renderTabs()}
+								</Tabs>
+							</Paper>
 							{/* <Paper zDepth={2}>
 								<div dangerouslySetInnerHTML={this.createMarkup(plainOriginalText, plainNewText)} className="col s12"></div>
 							</Paper> */}
 						</Col>
 					</Row>
+					<CommentsList className="RevisionPage__comments" />
 				</PageWrapper>
     }
 }
