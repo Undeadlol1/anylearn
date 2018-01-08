@@ -61,7 +61,7 @@ class RevisionPage extends PureComponent {
 	}
 
     render() {
-		const { props } = this
+		const { props, props: {revision, user} } = this
 		const name 	= 	props.name == 'initial_revision'
 						? t('initial_revision')
 						: props.name
@@ -69,15 +69,15 @@ class RevisionPage extends PureComponent {
 					<Row>
 						<Col xs={12} sm={8}>
 							<h1 className="RevisionPage__title">{name}</h1>
-							<p className="RevisionPage__description">{props.revision.get('description')}</p>
+							<p className="RevisionPage__description">{revision.get('description')}</p>
 						</Col>
 						<Col xs={12} sm={4} className="RevisionPage__user-container">
-							<Link to={`users/${props.user.get('id')}`}>
+							<Link to={`users/${user.get('id')}`}>
 								<i className="RevisionPage__username">
-									{props.user.get('displayName')}
+									{user.get('displayName')}
 								</i>
 								<Avatar
-									src={props.user.get('image')}
+									src={user.get('image')}
 									className="RevisionPage__avatar"
 									// TODO: alt
 									// alt={translate('your_avatar')}
@@ -119,7 +119,8 @@ class RevisionPage extends PureComponent {
 
 // TODO: props
 RevisionPage.propTypes = {
-	name: PropTypes.string.isRequired,
+	name: PropTypes.string,
+	revision: PropTypes.object.isRequired,
 }
 
 export { RevisionPage }
@@ -128,7 +129,6 @@ export default
 connect(
 	(state, ownProps) => {
 		const revision = state.skill.get('revision')
-		console.log('revision: ', revision.toJS());
 		return {
 			revision,
 			name: revision.get('name'),

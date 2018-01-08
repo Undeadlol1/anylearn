@@ -25,11 +25,15 @@ export default Router()
   // get single revision
   .get('/revision/:revisionId', async ({params}, res) => {
     try {
-      const revision = await Revisions.findById(params.revisionId, {
-        raw: true,
-        nest: true,
-        include: [User]
-      })
+      const revision = await Revisions
+      .findById(
+        params.revisionId,
+        {
+          raw: true,
+          nest: true,
+          include: [User]
+        }
+      )
       revision.previousRevision = await Revisions.findById(revision.previousId)
       res.json(revision)
     } catch (error) {
