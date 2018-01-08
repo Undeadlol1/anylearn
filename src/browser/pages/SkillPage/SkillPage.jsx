@@ -26,7 +26,7 @@ class SkillPage extends PureComponent {
 	render() {
 		const { props } = this
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
-		const vkOptions = {type: "mini", verb: 1, height: 30, page_id: props.SkillId}
+		const likeOptions = {type: "mini", verb: 1, height: 30, page_id: props.SkillId}
 		const description = convertFromRaw(props.text.stage0).getFirstBlock().get('text')
 		return 	<PageWrapper
 					image={props.image}
@@ -38,7 +38,7 @@ class SkillPage extends PureComponent {
 					{/* TOP BUTTONS */}
 					<Row>
 						<Col xs={12} className="SkillPage__buttons">
-							<SocialLike className="SkillPage__button--left" />
+							<SocialLike options={likeOptions} className="SkillPage__button--left" />
 							<Link
 								to={`/skill/${props.slug}/dev`}
 								className="SkillPage__button--right"
