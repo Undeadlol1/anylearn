@@ -29,7 +29,7 @@ export class Sidebar extends Component {
 					{
 						UserId
 						?	<Link
-								to={`users/${UserId}`}
+								to={`/users/${UserId}`}
 								onClick={toggleSidebar}
 								className="Sidebar__profile-link"
 							>
