@@ -78,4 +78,6 @@ export default {
     forums_list: 'Forums list',
     feedback: 'Feedback',
     create_thread: 'Create thread',
+    ask_a_question: 'Ask a question',
+    questions: 'Questions',
 }

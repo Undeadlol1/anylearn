@@ -78,4 +78,6 @@ export default {
     forums_list: 'Список форумов',
     feedback: 'Обратная связь',
     create_thread: 'Создать тему',
+    ask_a_question: 'Задать вопрос',
+    questions: 'Вопросы',
 }
