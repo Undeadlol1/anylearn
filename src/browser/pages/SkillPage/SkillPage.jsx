@@ -69,10 +69,8 @@ class SkillPage extends PureComponent {
 						className="SkillPage__tabs"
 					/>
 					{/* USER QUESTIONS */}
-					{/* <CreateThreadForm parentId={props.SkillId} /> */}
-					{/* <ThreadsList threads={props.threads} /> */}
-					{/* VK COMMENTS */}
-					<CommentsList />
+					<CreateThreadForm parentId={props.SkillId} />
+					<ThreadsList threads={props.threads} />
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						title={t('edit')}
