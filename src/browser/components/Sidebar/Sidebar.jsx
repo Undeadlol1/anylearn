@@ -29,7 +29,7 @@ export class Sidebar extends Component {
 					{
 						UserId
 						?	<Link
-								to={`users/${UserId}`}
+								to={`/users/${UserId}`}
 								onClick={toggleSidebar}
 								className="Sidebar__profile-link"
 							>
@@ -38,21 +38,21 @@ export class Sidebar extends Component {
 						: 	null
 					}
 					{/* <Link
-						to="forum"
+						to="/forum"
 						onClick={toggleSidebar}
 						className="Sidebar__forum-link"
 						>
 						<MenuItem>{translate("forum")}</MenuItem>
 					</Link> */}
 						{/* <Link
-							to="search"
+							to="/search"
 							onClick={toggleSidebar}
 							className="Sidebar__search-link"
 						>
 							<MenuItem>{translate("search")}</MenuItem>
 						</Link> */}
 					<Link
-						to="about"
+						to="/about"
 						onClick={toggleSidebar}
 						className="Sidebar__about-link"
 					>
