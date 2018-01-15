@@ -67,7 +67,7 @@ Sidebar.defaultProps = {
 }
 
 Sidebar.propTypes = {
-	UserId: PropTypes.string,
+	UserId: PropTypes.number,
 	sidebarIsOpen: PropTypes.bool,
 	toggleSidebar: PropTypes.func.isRequired,
 }
