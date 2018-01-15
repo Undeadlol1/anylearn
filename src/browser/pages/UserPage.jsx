@@ -26,6 +26,7 @@ export class UserPage extends Component {
 			{username: displayName},
 		)
 		console.log('process.env: ', process.env);
+		console.log('process.env.DB_USER: ', process.env.DB_USER);
 		console.log('process.env.BROWSER: ', process.env.BROWSER);
 		return 	<PageWrapper
 					title={title}
