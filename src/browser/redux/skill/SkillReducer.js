@@ -1,6 +1,7 @@
 import isEmpty from 'lodash/isEmpty'
 import { Map, List, fromJS } from 'immutable'
 import { emptyUserObject } from 'browser/redux/reducers/UserReducer'
+
 const revisionStructure = 	{
 								id: '',
 								name: '',
@@ -39,6 +40,11 @@ export const initialState = fromJS({
 								currentPage: 0,
 								values:  [],
 							},
+							threads: {
+								totalPages: 0,
+								currentPage: 0,
+								values:  [],
+							},
 							currentTab: 0,
 							loading: false,
 							dialogIsOpen: false,
@@ -63,6 +69,8 @@ export default (state = initialState, {type, payload}) => {
 		// later data is used for pagination change
 		case 'RECIEVE_REVISIONS':
 			return state.merge({revisions: payload})
+		case 'RECIEVE_QUESTIONS':
+			return state.merge({threads: payload})
 		case 'TOGGLE_DIALOG':
 			return state.set('dialogIsOpen', !state.get('dialogIsOpen'))
 		case 'UNLOAD_SKILL':
@@ -74,14 +82,6 @@ export default (state = initialState, {type, payload}) => {
 		// change tab of skill tabs
 		case 'CHANGE_TAB':
 			return state.set('currentTab', payload)
-		// remove skill from skills list
-		// case 'REMOVE_SKILL':
-		// 	return state
-		// 		.merge({
-		// 			skills: state
-		// 					.get('skills')
-		// 					.filter(skill => skill.get('id') !== payload)
-		// 		})
 		default:
 			return state
 	}

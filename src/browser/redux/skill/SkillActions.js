@@ -6,6 +6,7 @@ import { checkStatus, parseJSON, headersAndBody } from'browser/redux/actions/act
 
 const skillsUrl = process.env.API_URL + 'skills/'
 const revisionsUrl = process.env.API_URL + 'revisions/'
+const threadsUrl = process.env.API_URL + 'threads/'
 
 export const actions = createActions({
   UNLOAD_SKILL: () => null,
@@ -15,7 +16,8 @@ export const actions = createActions({
   RECIEVE_SKILLS: skills => skills,
   RECIEVE_REVISION: revision => revision,
   RECIEVE_REVISIONS: revisions => revisions,
-  CHANGE_TAB: number => number,  
+  RECIEVE_QUESTIONS: questions => questions,
+  CHANGE_TAB: number => number,
 //   UPDATE_SKILL: object => object,
 // TODO: ?????
   TOGGLE_SKILL_FETCHING: boolean => boolean,
@@ -101,7 +103,20 @@ export const fetchRevisions = (parentId, page = 1) => (dispatch, getState) => {
 	return fetch(revisionsUrl + parentId + '/' + page)
 		.then(checkStatus)
 		.then(parseJSON)
-		.then(data => dispatch(actions.recieveRevisions((data))))
+		.then(data => dispatch(actions.recieveRevisions(data)))
+		.catch(err => console.error('fetchskills failed!', err))
+}
+
+/**
+ * fetch questions on pagination click
+ * @param {string} parentId
+ * @param {number} page revisions page (optional)
+ */
+export const fetchQuestions = (parentId, page = 1) => (dispatch, getState) => {
+	return fetch(threadsUrl + parentId + '/' + page)
+		.then(checkStatus)
+		.then(parseJSON)
+		.then(data => dispatch(actions.recieveQuestions(data)))
 		.catch(err => console.error('fetchskills failed!', err))
 }
 

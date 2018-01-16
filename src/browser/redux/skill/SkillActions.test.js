@@ -24,6 +24,11 @@ const revisions = {
   currentPage: 1,
   values: [{}, {}],
 }
+const threads = {
+  totalPages: 1,
+  currentPage: 1,
+  values: [{}, {}],
+}
 // TODO: export this function from somewhere
 /**
  * test async action by intercepting http call
