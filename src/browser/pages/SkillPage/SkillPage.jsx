@@ -109,11 +109,10 @@ connect(
 	({skill}, ownProps) => ({
 		...ownProps,
 		name: skill.get('name'),
-		threads: skill.get('threads'),
 		slug: skill.get('slug'),
 		SkillId: skill.get('id'),
 		image: skill.get('image'),
-		// threads: skill.get('questions'),
+		threads: skill.get('threads'),
 		text: JSON.parse(skill.getIn(['revision', 'text'])),
 	}),
 )(SkillPage)
