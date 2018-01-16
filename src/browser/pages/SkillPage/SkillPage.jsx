@@ -18,9 +18,10 @@ import SocialLike from 'browser/components/SocialLike'
 import PageWrapper from 'browser/components/PageWrapper'
 import ThreadsList from 'browser/components/ThreadsList'
 import CommentsList from 'browser/components/CommentsList'
-import { fetchQuestions } from 'browser/redux/SkillActions'
 import { translate as t } from 'browser/containers/Translator'
+import { fetchQuestions } from 'browser/redux/skill/SkillActions'
 import CreateThreadForm from 'browser/components/CreateThreadForm'
+
 class SkillPage extends PureComponent {
 	render() {
 		const { props } = this
@@ -108,6 +109,7 @@ connect(
 	({skill}, ownProps) => ({
 		...ownProps,
 		name: skill.get('name'),
+		threads: skill.get('threads'),
 		slug: skill.get('slug'),
 		SkillId: skill.get('id'),
 		image: skill.get('image'),
