@@ -1,4 +1,8 @@
 .RevisionsList {
+    padding: 20px 0;
+    .RevisionsList__title {
+        margin-bottom: 8px;
+    }
     .RevisionsList__pagination-wrapper {
         text-align: center;
     }

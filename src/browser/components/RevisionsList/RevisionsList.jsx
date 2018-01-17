@@ -43,7 +43,10 @@ export class RevisionsList extends Component {
 	render() {
 		const { props } = this
 		if (props.loading) return <Loading />
-		return  <section className="RevisionsList">
+		return  <Paper zDepth={3} className="RevisionsList">
+					<b className="RevisionsList__title">
+						<center>Список изменений:</center>
+					</b>
 					<List>
 						{this.renderItems()}
 					</List>
@@ -71,7 +74,7 @@ export class RevisionsList extends Component {
 							: null
 						}
 					</div>
-				</section>
+				</Paper>
 	}
 }
 

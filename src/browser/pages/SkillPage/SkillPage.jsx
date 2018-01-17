@@ -19,6 +19,7 @@ import PageWrapper from 'browser/components/PageWrapper'
 import ThreadsList from 'browser/components/ThreadsList'
 import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
+import { fetchQuestions } from 'browser/redux/skill/SkillActions'
 import CreateThreadForm from 'browser/components/CreateThreadForm'
 
 class SkillPage extends PureComponent {
@@ -83,10 +84,15 @@ class SkillPage extends PureComponent {
 						className="SkillPage__tabs"
 					/>
 					{/* USER QUESTIONS */}
-					{/* <CreateThreadForm parentId={props.SkillId} /> */}
-					{/* <ThreadsList threads={props.threads} /> */}
-					{/* VK COMMENTS */}
-					<CommentsList />
+					<CreateThreadForm title={t('ask_a_question')} parentId={props.SkillId} />
+					<b className="SkillPage__questionsTitle">
+						{`${t('questions')}:`}
+					</b>
+					<ThreadsList
+						threads={props.threads}
+						parentId={props.SkillId}
+						onChange={fetchQuestions}
+					/>
 					{/* FLOATING EDIT BUTTON */}
 					<Link
 						title={t('edit')}
@@ -120,7 +126,7 @@ connect(
 		slug: skill.get('slug'),
 		SkillId: skill.get('id'),
 		image: skill.get('image'),
-		// threads: skill.get('questions'),
+		threads: skill.get('threads'),
 		text: JSON.parse(skill.getIn(['revision', 'text'])),
 	}),
 )(SkillPage)

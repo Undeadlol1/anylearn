@@ -20,11 +20,13 @@ import FloatingActionButton from 'material-ui/FloatingActionButton'
 
 export class CreateForumForm extends Component {
 	render() {
+		// hide component if user is not admin
+		if (this.props.UserId != process.env.ADMIN_ID) return null
 		const { props } = this
-		const { valid, insertForum, handleSubmit, dialogIsOpen, isValid, asyncValidating, className } = props
-		const classNames = cls(className, "CreateForumForm")
-		const isDisabled = props.asyncValidating == 'name' || props.submitting
-	    return 	<Row>
+		const { insertForum, handleSubmit, asyncValidating } = props
+		const classNames = cls(props.className, "CreateForumForm")
+		const isDisabled = asyncValidating == 'name' || props.submitting
+	    return 	<Row className={classNames}>
 					<Col xs={12}>
 						<form onSubmit={handleSubmit(insertForum)}>
 							<Field
@@ -48,8 +50,8 @@ export class CreateForumForm extends Component {
 								<RaisedButton
 									type="submit"
 									primary={true}
-									label={translate('submit')}
-									disabled={!valid} />
+									disabled={!props.valid}
+									label={translate('submit')} />
 							</center>
 						</form>
 					</Col>
@@ -59,7 +61,7 @@ export class CreateForumForm extends Component {
 }
 
 CreateForumForm.propTypes = {
-	// parentId: PropTypes.string.isRequired,
+	UserId: PropTypes.number,
 }
 
 // TODO reorganize this for better testing
@@ -86,16 +88,16 @@ export default reduxForm({
 (connect(
 	(state, ownProps) => ({
 		...ownProps,
-		dialogIsOpen: state.mood.get('dialogIsOpen'),
+		UserId: state.user.get('id'),
 	}),
     (dispatch, ownProps) => ({
         insertForum(values) {
 			console.log('insertForum')
 			// values.parentId = ownProps.parentId
-			
-			function insertSucces(slug) {
+
+			function insertSucces(forum) {
 				ownProps.reset()
-				// browserHistory.push('/thread/' + slug);
+				// browserHistory.push('/forum/' + forum.slug);
 			}
             // dispatch(toggleDialog())
             dispatch(insertForum(values, insertSucces))

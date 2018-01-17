@@ -10,7 +10,7 @@ import chai, { expect, assert } from 'chai'
 import { shallow, mount, render } from 'enzyme'
 import { SkillPage } from 'browser/pages/SkillPage'
 import { createEmptyRevisionText } from 'shared/helpers'
-import { translate } from 'browser/containers/Translator'
+import { translate as t } from 'browser/containers/Translator'
 chai.should()
 chai.use(chaiEnzyme())
 
@@ -40,10 +40,18 @@ describe('<SkillPage />', () => {
     })
   })
 
-  it('has <CommentsList>', () => {
-    const list = wrapper.find('Connect(CommentsList)')
+  it('has "qustions" title>', () => {
+    const el = wrapper.find('.SkillPage__questionsTitle')
+    expect(el).to.exist
+    expect(el).to.be.type('b')
+    expect(el).to.have.text(t('questions') + ':')
+  })
+
+  it('has <ThreadsList>', () => {
+    const list = wrapper.find('Connect(ThreadsList)')
     expect(list).to.exist
   })
+
   // it('has <CreateThreadForm>', () => {
   //   const el = wrapper.find('ReduxForm')
   //   expect(el).to.exist

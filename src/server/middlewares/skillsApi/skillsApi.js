@@ -4,6 +4,7 @@ import { Router } from 'express'
 import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
 import { mustLogin } from 'server/services/permissions'
+import { getThreads } from 'server/middlewares/threadsApi'
 import { Skills, Revisions, User } from 'server/data/models'
 import { getRevisions } from 'server/middlewares/revisionsApi'
 
@@ -22,10 +23,10 @@ async function getSkill(where) {
       nest: true,
     })
     const previousRevision = await Revisions.findById(revision.previousId, {raw: true})
-    // const revisions = await Revisions.findAll({where: {parentId: skill.id}, raw: true})
 
     skill.revision = revision
     skill.revisions = await getRevisions(skill.id)
+    skill.threads = await getThreads(skill.id)
     skill.revision.previousRevision = previousRevision
 
     return skill
@@ -40,7 +41,7 @@ export default Router()
   .get('/skill/:slug', async (req, res) => {
     const slug = selectn('params.slug', req)
     try {
-      return res.json(await getSkill({slug})) 
+      return res.json(await getSkill({slug}))
     } catch (error) {
       console.log(error)
       res.status(500).end(error)
@@ -99,7 +100,7 @@ export default Router()
       // TODO: test
       if (!body.name) return res.status(409).send({statusText: 'name can not be undefined'})
       if (currentRevision.text === body.text) {
-        return res.status(409).send({statusText: 'text is the same'})      
+        return res.status(409).send({statusText: 'text is the same'})
       }
       // deactivate current revision
       await currentRevision.update({active: false})

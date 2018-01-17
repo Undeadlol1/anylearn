@@ -8,6 +8,7 @@
   "scripts": {
     "cli": "node core/scripts/cli.js",
     "migrate": "cross-env NODE_ENV=test sequelize db:migrate && cross-env NODE_ENV=development sequelize db:migrate",
+    "undo": "cross-env NODE_ENV=test sequelize db:migrate:undo && cross-env NODE_ENV=development sequelize db:migrate:undo",
     "test": "cross-env NODE_ENV=test webpack --config ./config/tests.config.js --watch",
     "start": "rimraf dist && cross-env NODE_ENV=development concurrently \"parallel-webpack --config ./config/targets.config.js --progress --profile --watch --hide-modules\" \"nodemon dist/server.js --watch dist/server.js\"",
     "production": "git pull && yarn && cross-env NODE_ENV=production sequelize db:migrate && rimraf dist && cross-env NODE_ENV=production parallel-webpack --config ./config/targets.config.js && npm rebuild node-sass && pm2 stop all && pm2 start dist/server.js --node-args='--expose-gc'",
@@ -141,7 +142,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.0",
     "express-handlebars": "^3.0.0",
-    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "faker": "^4.1.0",
     "file-loader": "^0.10.1",
     "friendly-errors-webpack-plugin": "^1.6.1",

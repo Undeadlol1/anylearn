@@ -120,6 +120,14 @@ class EditSkillPage extends PureComponent {
 					title={`Редактировать навык "${props.name}"`}
 				>
 					<form onSubmit={this.handleSubmit}>
+						{/* TITLE AND IMAGE */}
+						<Row>
+							<Col xs={12}>
+								<center>
+									<h1>{`${t('edit')} "${props.name}"`}</h1>
+								</center>
+							</Col>
+						</Row>
 						<SkillTabs
 							readOnly={false}
 							text={props.text}
@@ -172,7 +180,6 @@ EditSkillPage.defaultProps = {
 EditSkillPage.propTypes = {
 	// skill: PropTypes.object.isRequired,
 	name: PropTypes.string.isRequired,
-	image: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
 	UserId: PropTypes.string.isRequired,
 	SkillId: PropTypes.string.isRequired,
@@ -187,7 +194,6 @@ connect(
 		...ownProps,
 		UserId: state.user.get('id'),
 		name: state.skill.get('name'),
-		image: state.user.get('image'),
 		SkillId: state.skill.get('id'),
 		previousId: state.skill.getIn(['revision', 'id']),
 		text: JSON.parse(state.skill.getIn(['revision', 'text'])),

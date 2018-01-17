@@ -137,15 +137,22 @@ export default describe('/skills API', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .then(function(res) {
-            const { body, body: {revisions, revision} } = res
+            const { body, body: {revisions, revision, threads} } = res
             body.name.should.be.equal(name)
             body.slug.should.be.equal(slug)
             revision.id.should.be.an('string')
-            // TODO comment
+            // revisions
             revisions.totalPages.should.eq(1)
             revisions.currentPage.should.eq(1)
             revisions.values.should.be.an('array')
             revisions.values.should.be.sorted(
+                (prev, next) => prev.createdAt < next.createdAt
+            )
+            // for "questions" section
+            threads.totalPages.should.eq(1)
+            threads.currentPage.should.eq(1)
+            threads.values.should.be.an('array')
+            threads.values.should.be.sorted(
                 (prev, next) => prev.createdAt < next.createdAt
             )
         })
@@ -163,14 +170,14 @@ export default describe('/skills API', function() {
                                 }],
                                 raw: true,
                                 nest: true,
-                            })        
+                            })
         const newText = JSON.stringify({
             stage0: 'one',
             stage1: 'two',
             stage2: 'three',
             stage3: 'four',
         })
-        const skill =   await Skills.findOne({order: 'rand()'})        
+        const skill =   await Skills.findOne({order: 'rand()'})
         const res   =   await makePutRequest({
                             image: "",
                             text: newText,
@@ -222,7 +229,7 @@ export default describe('/skills API', function() {
 
     it('fail to PUT if text is not changed', async function() {
         const skill = await Skills.findOne({order: 'rand()'})
-        const oldRevision = await Revisions.findById(skill.RevisionId)        
+        const oldRevision = await Revisions.findById(skill.RevisionId)
         await makePutRequest({
             name: 'new revision',
             text: oldRevision.text,

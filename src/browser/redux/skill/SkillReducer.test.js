@@ -38,19 +38,6 @@ describe('skill reducer', async () => {
     previousRevision: {},
   }
 
-  const skill = {
-    revision,
-    RevisionId,
-    revisions: [{name: 'first'}, {name: 'second'}],
-    name: skillName,
-    // TODO: this
-    rating: '',
-    id: skillId,
-    slug: slugify(skillName),
-    UserId: casual.integer(),
-    image: faker.image.imageUrl(),
-  }
-
   const skills = {
     totalPages: 1,
     currentPage: 1,
@@ -67,6 +54,28 @@ describe('skill reducer', async () => {
     values: [{}, {}],
   }
 
+  const threads = {
+    totalPages: 1,
+    currentPage: 1,
+    values: [{}, {}],
+  }
+
+  const skill = {
+    revision,
+    revisions,
+    skills,
+    threads,
+    RevisionId,
+    revisions: [{name: 'first'}, {name: 'second'}],
+    name: skillName,
+    // TODO: this
+    rating: '',
+    id: skillId,
+    slug: slugify(skillName),
+    UserId: casual.integer(),
+    image: faker.image.imageUrl(),
+  }
+
   it('should have initial state', () => {
     expect(reducer(undefined, {})).to.equal(initialState)
   })
@@ -75,15 +84,23 @@ describe('skill reducer', async () => {
     const action = actions.recieveSkill(skill)
     const newState = reducer(undefined, action).toJS()
     expect(newState).to.have.property('id', skill.id)
+    expect(newState.skills).to.deep.equal(skill.skills)
     expect(newState.revision).to.deep.equal(revision)
     expect(newState.revision.User.id).to.equal(User.id)
     expect(newState.revisions).to.deep.equal(skill.revisions)
+    expect(newState.threads).to.deep.equal(skill.threads)
   })
 
   it('should handle RECIEVE_SKILLS action on initial state', () => {
     const action = actions.recieveSkills(skills)
     const newState = reducer(undefined, action).toJS()
     expect(newState.skills).to.deep.equal(skills)
+  })
+
+  it('should handle RECIEVE_QUESTIONS action on initial state', () => {
+    const action = actions.recieveQuestions(threads)
+    const newState = reducer(undefined, action).toJS()
+    expect(newState.threads).to.deep.equal(threads)
   })
 
   it('should handle RECIEVE_REVISION action on initial state', () => {
@@ -110,7 +127,7 @@ describe('skill reducer', async () => {
     const newState = reducer(undefined, action).toJS()
     expect(newState).to.deep.equal(initialState.toJS())
   })
-  
+
   it('should handle CHANGE_TAB action', () => {
     const action = actions.changeTab(2)
     const newState = reducer(undefined, action).toJS()

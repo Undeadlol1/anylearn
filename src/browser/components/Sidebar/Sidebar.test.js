@@ -36,7 +36,7 @@ describe('<Sidebar />', () => {
       const menuItem = link.find('MenuItem')
       expect(link).to.exist
       expect(menuItem).to.exist
-      expect(link).to.have.prop('to', 'about')
+      expect(link).to.have.prop('to', '/about')
       expect(link.props().onClick).to.be.a('function')
       expect(menuItem).to.have.prop('children', translate('about'))
     })

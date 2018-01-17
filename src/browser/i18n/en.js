@@ -75,4 +75,9 @@ export default {
     skill_already_exists: 'Skill already exists',
     create_skill: 'Create skill',
     about_us: 'About Us',
+    forums_list: 'Forums list',
+    feedback: 'Feedback',
+    create_thread: 'Create thread',
+    ask_a_question: 'Ask a question',
+    questions: 'Questions',
 }
