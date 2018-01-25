@@ -12,7 +12,7 @@ class IndexPage extends PureComponent {
     render() {
 		const { props } = this
 		return 	<PageWrapper className='IndexPage'>
-					<WelcomeCard />
+					{/* <WelcomeCard /> */}
 					<MoodsInsert />
 					<MoodTabs />
 				</PageWrapper>
