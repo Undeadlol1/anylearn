@@ -9,10 +9,7 @@ chai.should()
 chai.use(chaiEnzyme())
 
 describe('<IndexPage />', () => {
-  const props = {
-                  loading: false,
-                  location: {pathname: 'some'},
-                }
+  const props = {}
   const wrapper = shallow(<IndexPage {...props} />)
 
   it('has className and tagName', () => {
@@ -21,12 +18,16 @@ describe('<IndexPage />', () => {
   });
 
   // it('has <WelcomeCard>', () => {
-  //   expect(wrapper.find('withCookies(WelcomeCard)')).to.have.length(1);
+  //   expect(wrapper.find('withCookies(WelcomeCard)')).to.exist
   // });
 
-  // it('has <MoodsInsert>', () => {
-  //   // TODO 'ReduxForm' does not seems right
-  //   expect(wrapper.find('ReduxForm')).to.have.length(1);
-  // });
+  it('has <MoodsInsert>', () => {
+    // TODO 'ReduxForm' does not seems right
+    expect(wrapper.find('ReduxForm')).to.exist
+  });
+
+  it('has <MoodTabs>', () => {
+    expect(wrapper.find('Connect(MoodTabs)')).to.exist
+  });
 
 });

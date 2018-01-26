@@ -20,7 +20,7 @@ import ThreadsList from 'browser/components/ThreadsList'
 import CommentsList from 'browser/components/CommentsList'
 import { translate as t } from 'browser/containers/Translator'
 import { fetchQuestions } from 'browser/redux/skill/SkillActions'
-import CreateThreadForm from 'browser/components/CreateThreadForm'
+import CreateThreadFormOrButton from 'browser/components/CreateThreadFormOrButton'
 
 class SkillPage extends PureComponent {
 	render() {
@@ -84,7 +84,11 @@ class SkillPage extends PureComponent {
 						className="SkillPage__tabs"
 					/>
 					{/* USER QUESTIONS */}
-					<CreateThreadForm title={t('ask_a_question')} parentId={props.SkillId} />
+					<CreateThreadFormOrButton
+						parentId={props.SkillId}
+						label={t('ask_a_question')}
+						title={t('ask_a_question')}
+					/>
 					<b className="SkillPage__questionsTitle">
 						{`${t('questions')}:`}
 					</b>

@@ -70,6 +70,7 @@ export default {
     description: 'Description',
     forum: 'forum',
     for_teachers: 'For teachers',
+    image_of_user_username: 'Image of user {username}',
     user_on_APP_NAME: 'User {username} on ' + process.env.APP_NAME,
     error_occured: 'Error occured',
     skill_already_exists: 'Skill already exists',

@@ -3,6 +3,7 @@ import selectn from 'selectn'
 import { Router } from 'express'
 import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
+import isEqual from 'lodash/isEqual'
 import { mustLogin } from 'server/services/permissions'
 import { getThreads } from 'server/middlewares/threadsApi'
 import { Skills, Revisions, User } from 'server/data/models'
@@ -10,6 +11,10 @@ import { getRevisions } from 'server/middlewares/revisionsApi'
 
 const limit = 12
 
+/**
+ * get single skill with all of it's children (revision, revisions, threads)
+ * @param {object} where sequelize model selector
+ */
 async function getSkill(where) {
   try {
     const skill = await Skills.findOne({where, raw: true})
@@ -67,7 +72,7 @@ export default Router()
   })
 
   // update skill
-  .put('/:parentId', mustLogin, async ({user, session, body, params}, res) => {
+  .put('/:parentId', mustLogin, async ({user, body, params}, res) => {
     /*
       0) check if text is changed
       1) deactivate previous revision
@@ -79,12 +84,11 @@ export default Router()
 
       const UserId = user.id
       const { parentId } = params
-      const currentRevision = await Revisions
-      .findOne({
-        where: {
-          parentId,
-          active: true,
-      }})
+      const currentRevision = await Revisions.findOne({
+                                where: {
+                                  parentId,
+                                  active: true,
+                              }})
       const newRevisionId = generateUuid()
       // TODO: comment
       const where = { id: parentId }
@@ -99,7 +103,8 @@ export default Router()
       }
       // TODO: test
       if (!body.name) return res.status(409).send({statusText: 'name can not be undefined'})
-      if (currentRevision.text === body.text) {
+      // if text is not changed respond with error
+      if (isEqual(currentRevision.text, body.text)) {
         return res.status(409).send({statusText: 'text is the same'})
       }
       // deactivate current revision

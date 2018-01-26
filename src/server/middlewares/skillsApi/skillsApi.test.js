@@ -68,7 +68,7 @@ export default describe('/skills API', function() {
                 })
         })
 
-        it('with "page" params', function(done) {
+        it('with "page" param', function(done) {
             request(server)
                 .get('/api/skills/' + 2)
                 .expect('Content-Type', /json/)
@@ -234,7 +234,14 @@ export default describe('/skills API', function() {
             name: 'new revision',
             text: oldRevision.text,
         }, skill.id, 409)
-        .then(({statusText}) => assert(statusText, 'text is the same'))
+        .then(({statusText}) => assert.equal(statusText, 'text is the same'))
+    })
+
+    it('fail to PUT there is no name', async function() {
+        const skill = await Skills.findOne({order: 'rand()'})
+        const oldRevision = await Revisions.findById(skill.RevisionId)
+        await makePutRequest({name: ''}, skill.id, 409)
+        .then(({statusText}) => assert.equal(statusText, 'name can not be undefined'))
     })
 
     it('fail to POST if not authorized', async function() {

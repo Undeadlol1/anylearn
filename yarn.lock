@@ -2792,11 +2792,11 @@ diff-match-patch@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/diff-match-patch/-/diff-match-patch-1.0.0.tgz#1cc3c83a490d67f95d91e39f6ad1f2e086b63048"
 
-diff@3.2.0, diff@^3.1.0:
+diff@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.2.0.tgz#c9ce393a4b7cbd0b058a725c93df299027868ff9"
 
-diff@^3.4.0:
+diff@^3.1.0, diff@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/diff/-/diff-3.4.0.tgz#b1d85507daf3964828de54b37d0d73ba67dda56c"
 
@@ -8211,6 +8211,13 @@ react-redux@^5.0.3:
     lodash "^4.2.0"
     lodash-es "^4.2.0"
     loose-envify "^1.1.0"
+    prop-types "^15.5.10"
+
+react-reveal@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/react-reveal/-/react-reveal-0.7.3.tgz#4b7265b48251813acf735ab862d1687ad85d4570"
+  dependencies:
+    babel-runtime "^6.26.0"
     prop-types "^15.5.10"
 
 react-router-redux@^4.0.8:
