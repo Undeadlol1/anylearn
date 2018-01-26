@@ -10,6 +10,10 @@ import { getRevisions } from 'server/middlewares/revisionsApi'
 
 const limit = 12
 
+/**
+ * get single skill with all of it's children (revision, revisions, threads)
+ * @param {object} where sequelize model selector
+ */
 async function getSkill(where) {
   try {
     const skill = await Skills.findOne({where, raw: true})

@@ -68,7 +68,7 @@ export default describe('/skills API', function() {
                 })
         })
 
-        it('with "page" params', function(done) {
+        it('with "page" param', function(done) {
             request(server)
                 .get('/api/skills/' + 2)
                 .expect('Content-Type', /json/)
