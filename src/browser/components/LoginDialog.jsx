@@ -50,6 +50,7 @@ export class LoginDialog extends Component {
 								icon={<Icon name="twitter" style={iconStyle} />} />
 						</Col>
 					</Row>
+					{/* login htrough email + password is disabled until email verification is fixed */}
 					{/* <Divider />
 					<LoginForm /> */}
 				</Dialog>

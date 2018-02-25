@@ -1,8 +1,6 @@
 import Layout from './pages/Layout';
 import IndexPage from './pages/IndexPage';
-import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
-import MoodPage from './pages/MoodPage';
 import SearchPage from './pages/SearchPage';
 import AboutPage from './pages/AboutPage';
 import NotFound from './pages/NotFound';
@@ -71,19 +69,6 @@ const routesConfig = {
   },
   childRoutes: [
     {
-      path: 'mood/(:moodSlug)',
-      component: MoodPage,
-      // fetch data
-      onEnter({params}, replace, done) {
-        Promise
-        .all([
-          store.dispatch(fetchMood(params.moodSlug)),
-          store.dispatch(fetchNodes(params.moodSlug)),
-        ])
-        .then(() => done())
-      }
-    },
-    {
       path: 'users/(:username)',
       component: UserPage,
       onEnter({params}, replace, done) {
@@ -98,7 +83,6 @@ const routesConfig = {
         }
       }
     },
-    { path: 'login', component: LoginPage },
     { path: 'search', component: SearchPage },
     { path: 'about', component: AboutPage },
     {

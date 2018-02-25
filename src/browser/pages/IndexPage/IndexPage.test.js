@@ -15,7 +15,7 @@ describe('<IndexPage />', () => {
   it('has className and tagName', () => {
     expect(wrapper).to.have.className('IndexPage')
     expect(wrapper.type().name).to.eq('PageWrapper')
-  });
+  })
 
   // it('has <WelcomeCard>', () => {
   //   expect(wrapper.find('withCookies(WelcomeCard)')).to.exist
@@ -30,4 +30,4 @@ describe('<IndexPage />', () => {
     expect(wrapper.find('Connect(MoodTabs)')).to.exist
   });
 
-});
+})

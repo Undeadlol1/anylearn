@@ -8,7 +8,6 @@ import configureStore from 'redux-mock-store'
 import { translate } from 'browser/containers/Translator'
 import { LoginDialog, dispatchToProps } from 'browser/components/LoginDialog'
 
-
 chai.should()
 chai.use(chaiEnzyme())
 
@@ -35,6 +34,7 @@ describe('<LoginDialog />', () => {
       expect(props.children).to.be.not.empty
   })
 
+// temporary disabled
 //   it('has <LoginForm>', () => {
 //       expect(wrapper.find('LoginForm')).to.have.length(1)
 //   })

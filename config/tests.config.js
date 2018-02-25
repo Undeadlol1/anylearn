@@ -32,7 +32,6 @@ var clientConfig =  merge(commonConfig, {
         "react/lib/ExecutionEnvironment": 'react',
     },
     target: 'web',
-    // TODO do wee need mocha!?
     entry: ['babel-polyfill', path.resolve('mocha!', __dirname, '../', 'src/browser/browser.tests.entry.js')],
     output : {
         publicPath: '/',
@@ -47,13 +46,12 @@ var clientConfig =  merge(commonConfig, {
     ],
     // nodeExternals required for client because some modules throw errors otherwise
     externals: [nodeExternals({
-        whitelist: ['webpack/hot/dev-server', /^lodash/, 'react-router-transition/src/presets']
+        whitelist: ['webpack/hot/dev-server', /^lodash/]
     })],
 });
 
 var serverConfig =   merge(commonConfig, {
     target: 'node',
-    // TODO do wee need mocha!?
     entry: ['babel-polyfill', path.resolve('mocha!', __dirname, '../', 'src/server/server.tests.entry.js')],
     node: {
         __filename: true,
@@ -70,7 +68,7 @@ var serverConfig =   merge(commonConfig, {
     // this is important. Without nodeModules in "externals" bundle will throw and error
     // bundling for node requires modules not to be packed on top of bundle, but to be found via "require"
     externals: [nodeExternals({
-        whitelist: ['webpack/hot/dev-server', /^lodash/, 'react-router-transition/src/presets']
+        whitelist: ['webpack/hot/dev-server', /^lodash/]
     })],
 });
 
@@ -80,7 +78,6 @@ var serverConfig =   merge(commonConfig, {
  */
 var coreConfig =   merge(commonConfig, {
     target: 'node',
-    // TODO do wee need mocha!?
     entry: ['babel-polyfill', path.resolve('mocha!', __dirname, '../', 'core/core.tests.entry.js')],
     node: {
         __filename: true,
@@ -97,7 +94,7 @@ var coreConfig =   merge(commonConfig, {
     // this is important. Without nodeModules in "externals" bundle will throw and error
     // bundling for node requires modules not to be packed on top of bundle, but to be found via "require"
     externals: [nodeExternals({
-        whitelist: ['webpack/hot/dev-server', /^lodash/, 'react-router-transition/src/presets']
+        whitelist: ['webpack/hot/dev-server', /^lodash/]
     })],
 });
 
