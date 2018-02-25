@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import Link from 'react-router/lib/Link'
+import { convertFromRaw } from 'draft-js'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import React, { PureComponent } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
@@ -12,7 +13,6 @@ import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
 import ListIcon from 'material-ui/svg-icons/action/view-list'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import { ContentState, convertFromHTML, convertToRaw, convertFromRaw, EditorState } from 'draft-js'
 // project files
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
@@ -78,6 +78,7 @@ class SkillPage extends PureComponent {
 							}
 						</Col>
 					</Row>
+					{/* SKILL TABS */}
 					<SkillTabs
 						readOnly={true}
 						text={props.text}
@@ -116,7 +117,7 @@ SkillPage.propTypes = {
 	slug: PropTypes.string.isRequired,
 	text: PropTypes.object.isRequired,
 	image: PropTypes.string.isRequired,
-	// threads: PropTypes.object.isRequired,
+	threads: PropTypes.object.isRequired,
 	SkillId: PropTypes.string.isRequired,
 }
 

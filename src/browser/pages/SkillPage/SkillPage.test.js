@@ -18,7 +18,7 @@ describe('<SkillPage />', () => {
   const name = casual.title
   const props = {
                   name,
-                  // threads: [],
+                  threads: {},
                   SkillId: casual.uuid,
                   slug: slugify(name),
                   location: {pathname: 'some'},
