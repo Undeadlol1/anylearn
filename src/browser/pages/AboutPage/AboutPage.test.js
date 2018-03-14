@@ -25,6 +25,7 @@ describe('<AboutPage />', () => {
       expect(header.find('Styled(Row)')).to.exist
       expect(header.find('Styled(Col)')).to.exist
       expect(header.find('Styled(Col)').props().xs).to.eq(12)
+      expect(header.find('Styled(Col)').props().lg).to.eq(5)
     })
 
     it('has <h1>', () => {

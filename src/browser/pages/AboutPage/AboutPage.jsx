@@ -79,7 +79,7 @@ class AboutPage extends PureComponent {
 		const { props } = this
 		return 	<PageWrapper className='AboutPage'>
 					<Row className="AboutPage__header">
-						<Col xs={12}>
+						<Col xs={12} lgOffset={3} lg={5}>
 							<h1 className="AboutPage__title">{t('about_us')}</h1>
 							<section>
 								<p><b>AnyLearn</b> - сайт с самыми лучшими обучающими материалами на планете. Здесь будут создавать самые лучшие инструкции по обучению, написаннные "коллективным разумом" многих экспертов области. Или просто людей, которые преуспели в этом навыке.</p>
