@@ -45,9 +45,7 @@ class SkillPage extends PureComponent {
 									<Like
 										page_id={props.SkillId}
 										options={vkOptions}
-										onLike={quantity => {
-											console.log(quantity);
-										}}
+										onLike={quantity => console.log(quantity)}
 									/>
 								</VK>
 							</span>
@@ -123,8 +121,7 @@ SkillPage.propTypes = {
 
 export { SkillPage }
 
-export default
-connect(
+export default connect(
 	({skill}, ownProps) => ({
 		...ownProps,
 		name: skill.get('name'),
