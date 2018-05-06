@@ -42,48 +42,48 @@ async function makePutRequest(body, skillId, status) {
 }
 
 export default describe('/skills API', function() {
-
-    before(async function() {
-        // TODO add logout? to test proper user login?
-        // Kill supertest server in watch mode to avoid errors
-        server.close()
-    })
-
-
+    // Kill supertest server in watch mode to avoid errors
+    before(() => server.close())
+    /**
+     * Get paginated data about all of the skills
+     * Route can be called with or without "page" parameter.
+     */
     describe('GET skills', function() {
-
-        it('without "page" param', function(done) {
-            request(server)
+        /**
+         * Route must return first 10 skills
+         * if parameter was not provided.
+         */
+        it('without "page" param', () => {
+            return request(server)
                 .get('/api/skills/')
-                .expect('Content-Type', /json/)
                 .expect(200)
-                .end(function(err, res) {
-                    const { body } = res
-                    if (err) return done(err)
+                .expect('Content-Type', /json/)
+                .then(({ body }) => {
+                    console.log('body: ', body);
                     body.values.should.be.a('array')
                     body.values.should.have.length(1)
                     body.totalPages.should.equal(1)
                     body.currentPage.should.equal(1)
-                    done()
                 })
         })
-
-        it('with "page" param', function(done) {
-            request(server)
+        /**
+         * Route must return proper documents
+         * according to "page" parameter.
+         */
+        it('with "page" param', () => {
+            return request(server)
                 .get('/api/skills/' + 2)
-                .expect('Content-Type', /json/)
                 .expect(200)
-                .end(function(err, res) {
-                    const { body } = res
-                    if (err) return done(err)
+                .expect('Content-Type', /json/)
+                .then(({ body }) => {
+                    console.log(2222)
+                    console.log('body: ', body)
                     body.values.should.be.a('array')
                     body.values.should.have.length(0)
                     body.totalPages.should.equal(1)
                     body.currentPage.should.equal(2)
-                    done()
                 })
         })
-
     })
 
 
