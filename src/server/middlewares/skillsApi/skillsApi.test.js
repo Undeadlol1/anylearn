@@ -59,7 +59,6 @@ export default describe('/skills API', function() {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .then(({ body }) => {
-                    console.log('body: ', body);
                     body.values.should.be.a('array')
                     body.values.should.have.length(1)
                     body.totalPages.should.equal(1)
@@ -76,8 +75,6 @@ export default describe('/skills API', function() {
                 .expect(200)
                 .expect('Content-Type', /json/)
                 .then(({ body }) => {
-                    console.log(2222)
-                    console.log('body: ', body)
                     body.values.should.be.a('array')
                     body.values.should.have.length(0)
                     body.totalPages.should.equal(1)

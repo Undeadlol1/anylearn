@@ -57,18 +57,18 @@ export default Router()
   .get('/:page?', async (req, res) => {
     try {
       const { page } = req.params
+      // Oldest first.
+      // TODO: this needs to be tested
+      const order = [["createdAt", "DESC"]]
       const skillsCount = await Skills.count()
       const offset = page ? limit * (page -1) : 0
       res.json({
-        currentPage: Number(page) || 1 ,
+        currentPage: Number(page) || 1,
         totalPages: Math.ceil(skillsCount / limit),
-        values: await Skills.findAll({limit, offset}),
+        values: await Skills.findAll({limit, offset, order}),
       })
     }
-    catch (error) {
-      console.log(error);
-      res.status(500).end(error)
-    }
+    catch (error) {res.status(500).end(error.message)}
   })
 
   // update skill
