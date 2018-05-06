@@ -59,7 +59,7 @@ export default Router()
       const { page } = req.params
       // Oldest first.
       // TODO: this needs to be tested
-      const order = [["createdAt", "DESC"]]
+      const order = [["createdAt", "ASC"]]
       const skillsCount = await Skills.count()
       const offset = page ? limit * (page -1) : 0
       res.json({
