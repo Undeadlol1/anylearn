@@ -32,19 +32,23 @@ export default describe('/externals API', function() {
             it('fails without "selector"', async function() {
                 await user.get(`${route}?`).expect(400)
             })
-            it('gets response properly', async function() {
-                const query = stringify({query: 'highly suspect'})
-                await user
-                        .get(`${route}?${query}`)
-                        .expect(200)
-                        .expect('Content-Type', /json/)
-                        .then(({body}) => {
-                            expect(body.length).to.be.equal(4)
-                            body.map(video => {
-                                return expect(video.id.videoId).to.be.an('string')
-                            })
-                        })
-            })
+            /**
+             * This test is commented out until mocking of external resource is done properly.
+             * (Currently we do call real youtube api in tests which is bad).
+             */
+            // it('gets response properly', async function() {
+            //     const query = stringify({query: 'highly suspect'})
+            //     await user
+            //             .get(`${route}?${query}`)
+            //             .expect(200)
+            //             .expect('Content-Type', /json/)
+            //             .then(({body}) => {
+            //                 expect(body.length).to.be.equal(4)
+            //                 body.map(video => {
+            //                     return expect(video.id.videoId).to.be.an('string')
+            //                 })
+            //             })
+            // })
         } catch (error) {
             throw new Error(error)
         }
