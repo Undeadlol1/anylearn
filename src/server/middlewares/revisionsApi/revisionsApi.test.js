@@ -4,7 +4,7 @@ import slugify from 'slug'
 import request from 'supertest'
 import server from 'server/server'
 import users from 'server/data/fixtures/users'
-import { Skills, Revisions, User } from 'server/data/models'
+import { Skills, Revisions, User, sequelize } from 'server/data/models'
 import { loginUser } from 'server/test/middlewares/authApi.test'
 chai.should();
 
@@ -31,7 +31,7 @@ export default describe('/revisions API', function() {
     it('GET revisions', async function() {
         const skill =   await Skills.findOne({
                             where: {},
-                            order: 'rand()',
+                            order: sequelize.random(),
                         })
         await agent
             .get('/api/revisions/123', )

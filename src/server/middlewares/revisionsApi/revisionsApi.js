@@ -15,7 +15,7 @@ export async function getRevisions(parentId, page) {
     limit,
     offset,
     where: {parentId},
-    order: 'createdAt DESC',
+    order: [['createdAt', 'DESC']],
   })
   return { values, totalPages, currentPage }
 }

@@ -6,7 +6,7 @@ import assertArrays from 'chai-arrays'
 import chai, { assert, expect } from 'chai'
 import users from 'server/data/fixtures/users'
 import { loginUser } from 'server/test/middlewares/authApi.test'
-import { Skills, Revisions, User, Local } from 'server/data/models'
+import { Skills, Revisions, User, Local, sequelize } from 'server/data/models'
 chai.use(assertArrays);
 chai.should();
 
@@ -32,7 +32,7 @@ async function makePutRequest(body, skillId, status) {
     const username = users[1].username
     const password = users[1].password
     const agent = await loginUser(username, password)
-    const skill = await Skills.findOne({order: 'rand()'})
+    const skill = await Skills.findOne({order: sequelize.random()})
     return await agent
         .put('/api/skills/' + skillId )
         .send(body)
@@ -174,7 +174,7 @@ export default describe('/skills API', function() {
             stage2: 'three',
             stage3: 'four',
         })
-        const skill =   await Skills.findOne({order: 'rand()'})
+        const skill =   await Skills.findOne({order: sequelize.random()})
         const res   =   await makePutRequest({
                             image: "",
                             text: newText,
@@ -225,7 +225,7 @@ export default describe('/skills API', function() {
     })
 
     it('fail to PUT if text is not changed', async function() {
-        const skill = await Skills.findOne({order: 'rand()'})
+        const skill = await Skills.findOne({order: sequelize.random()})
         const oldRevision = await Revisions.findById(skill.RevisionId)
         await makePutRequest({
             name: 'new revision',
@@ -235,7 +235,7 @@ export default describe('/skills API', function() {
     })
 
     it('fail to PUT there is no name', async function() {
-        const skill = await Skills.findOne({order: 'rand()'})
+        const skill = await Skills.findOne({order: sequelize.random()})
         const oldRevision = await Revisions.findById(skill.RevisionId)
         await makePutRequest({name: ''}, skill.id, 409)
         .then(({statusText}) => assert.equal(statusText, 'name can not be undefined'))
