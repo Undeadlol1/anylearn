@@ -49,23 +49,23 @@ const routesConfig = {
   indexRoute: {
     component: IndexPage,
     // fetch data
-    onEnter({params}, replace, done) {
+    // onEnter({params}, replace, done) {
       // check if fetching is needed
-      const newSkills = store.getState().skill.getIn(['skills', 'values'])
-      if (newSkills && newSkills.size) return done()
-      else {
-        store
-        .dispatch(fetchSkills())
-        .then(() => done())
-        // Promise
-        // .all([
-        //   store.dispatch(fetchMoods('new')),
-        //   store.dispatch(fetchMoods('random')),
-        //   store.dispatch(fetchMoods('popular')),
-        // ])
-        // .then(() => done())
-      }
-    }
+      // const fetchedForums = store.getState().forum.getIn(['forums', 'values'])
+      // if (fetchedForums.size) return done()
+      // else {
+      //   store
+      //   .dispatch(fetchForums())
+      //   .then(() => done())
+      //   // Promise
+      //   // .all([
+      //   //   store.dispatch(fetchMoods('new')),
+      //   //   store.dispatch(fetchMoods('random')),
+      //   //   store.dispatch(fetchMoods('popular')),
+      //   // ])
+      //   // .then(() => done())
+      // }
+    // }
   },
   childRoutes: [
     {

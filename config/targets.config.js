@@ -14,14 +14,15 @@ var commonConfig = require('./common.config.js')
 var config = require('../config.js')
 var CompressionPlugin = require('compression-webpack-plugin');
 var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const NodemonPlugin = require('nodemon-webpack-plugin')
 
 // TODO
+// https://www.npmjs.com/package/nodemon-browsersync-webpack-plugin
 // https://survivejs.com/webpack/optimizing/minifying/#enabling-a-performance-budget
 
-const NODE_ENV = process.env.NODE_ENV
-const isDevelopment = NODE_ENV === 'development'
-const isProduction = NODE_ENV === 'production'
-const isTest = NODE_ENV === 'test'
+const   NODE_ENV        = process.env.NODE_ENV,
+        isDevelopment   = NODE_ENV === 'development',
+        isProduction    = NODE_ENV === 'production'
 
 // variables to exclude from leaking to client
 const notSafeVariables = [
@@ -82,23 +83,31 @@ const serverProductionPlugins = isProduction ? [
     new webpack.optimize.UglifyJsPlugin({minimize: true}), //minify everything
 ] : []
 
+const serverDevelopmentPlugins = isDevelopment ? [
+    // If webpack is in watch mode, this module will start server via nodemon.
+    // Nodemon restarts server automatically after each bundle change.
+    //https://www.npmjs.com/package/nodemon-webpack-plugin
+    new NodemonPlugin()
+]
+: []
+
 const clientDevelopmentPlugins = isDevelopment ? [
-                                    new BrowserSyncPlugin({
-                                        open: false,
-                                        proxy: {
-                                            target: config.URL,
-                                            cookies: { stripDomain: false }
-                                        },
-                                        // reload delay is needed to wait till webpack finishes compiling
-                                        reloadDelay: 2000,
-                                        // rest of config have not been tested carefully.
-                                        // it's here for convenience, it's might be usefull
-                                        watchOptions: {
-                                            ignored: ['*'],
-                                            ignoreInitial: true,
-                                        },
-                                        files: ['../dist/public/scripts.js']
-                                    }),
+                                    // new BrowserSyncPlugin({
+                                    //     open: false,
+                                    //     proxy: {
+                                    //         target: config.URL,
+                                    //         cookies: { stripDomain: false }
+                                    //     },
+                                    //     // reload delay is needed to wait till webpack finishes compiling
+                                    //     reloadDelay: 2000,
+                                    //     // rest of config have not been tested carefully.
+                                    //     // it's here for convenience, it's might be usefull
+                                    //     watchOptions: {
+                                    //         ignored: ['*'],
+                                    //         ignoreInitial: true,
+                                    //     },
+                                    //     files: ['../dist/public/scripts.js']
+                                    // }),
                                 ]
                                 : []
 
@@ -121,6 +130,7 @@ var serverConfig = merge(commonConfig, {
             from: 'src/server/public',
             to: 'public'
         }]),
+        ...serverDevelopmentPlugins,
         ...serverProductionPlugins
     ],
     // this is important. Without nodeModules in "externals" bundle will throw and error

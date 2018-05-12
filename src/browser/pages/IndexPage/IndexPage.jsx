@@ -1,4 +1,5 @@
 // dependencies
+import logger from 'debug-logger'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import React, { Component } from 'react'
@@ -7,6 +8,8 @@ import MoodTabs from 'browser/components/MoodTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import WelcomeCard from 'browser/components/WelcomeCard'
 import MoodsInsert from 'browser/components/MoodsInsert'
+
+const debug = logger('IndexPage')
 
 class IndexPage extends Component {
     render() {

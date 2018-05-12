@@ -33,8 +33,9 @@ const emptyTwitterObject = {
 	displayName: '',
 }
 
-export const emptyUserObject = {
-	id: '',
+const emptyUserObject = {
+	// use "undfined" to avoid proptypes errors
+	id: undefined,
 	role: '',
 	image: '',
 	displayName: '',

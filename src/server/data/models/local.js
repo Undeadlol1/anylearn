@@ -1,5 +1,8 @@
 'use strict';
-var bcrypt   = require('bcrypt-nodejs');
+const bcrypt   = require('bcrypt-nodejs');
+
+// TODO: password hash must not be leaked to client.
+// Add default scope without "password" field.
 
 module.exports = function(sequelize, DataTypes) {
   var Local = sequelize.define('Local', {
@@ -35,29 +38,38 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     tableName: 'locals',
     freezeTableName: true,
-    classMethods: {
-      generateHash: function(password) {
-        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-      },
-      // associations can be defined here
-      associate: function(models) {
-        Local.belongsTo(models.User, {foreignKey: 'UserId', targetKey: 'id'})
+    /**
+     * In default scope we must exclude emails
+     * and password informaiton so it wont accidentaly be leaked to hackers.
+     */
+    defaultScope: {
+      where: {},
+      attributes: {
+        exclude: ['password', 'email']
       }
     },
-    instanceMethods: {
-      validPassword: function(password) {
-        return bcrypt.compareSync(password, this.password)
+    scopes: {
+      /**
+       * This scope allows us to manipulate
+       * sensitive data in APIs.
+       */
+      all: {
+        where: {},
+        attributes: {exclude: []}
       }
-    },
-    // defaultScope: {
-    //   // where: {},
-    //   // attributes: { exclude: ['password'] },
-    // },
-    // scopes: {
-    //   protected: {
-    //     where: {},
-    //   }
-    // }
-  });
+    }
+  })
+  // Class Methods
+  Local.associate = function (models) {
+    // associations can be defined here
+    Local.belongsTo(models.User, { foreignKey: 'UserId', targetKey: 'id' })
+  }
+  Local.generateHash = function (password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  }
+  // Instance Methods
+  Local.prototype.validPassword = function (password) {
+    return bcrypt.compareSync(password, this.password)
+  }
   return Local;
 };

@@ -1,6 +1,9 @@
 // missing colors in terminal was spotted on windows machines
 // this line allows packages like "colors" and "chalk" work as intendent
 process.stdout.isTTY = true
+// Make unhandled promise rejections fail loudly instead of the default silent fail.
+// https://www.npmjs.com/package/loud-rejection
+if (process.env.NODE_ENV != 'production') require('loud-rejection')()
 // this prevents babel to parse css as javascript
 import csshook from 'css-modules-require-hook/preset'
 import path from 'path'
@@ -8,7 +11,6 @@ import express from 'express'
 import boom from 'express-boom' // "boom" library for express responses
 import compression from 'compression'
 import bodyParser from 'body-parser'
-import session from 'express-session'
 import errorhandler from 'errorhandler'
 import cookieParser from 'cookie-parser'
 import cookieSession from 'cookie-session'
@@ -18,7 +20,6 @@ import nodesApi from './middlewares/nodesApi'
 import usersApi from './middlewares/usersApi'
 import decisionsApi from './middlewares/decisionsApi'
 import externalsApi from './middlewares/externalsApi'
-import { mustLogin } from './services/permissions'
 import authApi, { passport } from './middlewares/authApi'
 import 'source-map-support/register' // do we actually need this?
 import morgan from 'morgan'
@@ -27,41 +28,43 @@ import helmet from 'helmet'
 import createLocaleMiddleware from 'express-locale';
 import RateLimiter from 'express-rate-limit'
 import exphbs from 'express-handlebars'
+import graphqlHTTP from 'express-graphql'
+import { graphqlExpress, graphiqlExpress } from 'apollo-server-express'
+import schema from './middlewares/graphql'
 
 // const RedisStore = require('connect-redis')(session)
 // const cache = require('express-redis-cache')();
 
 const port = process.env.PORT,
       app = express(),
+      { engine } = exphbs.create({}),
       publicUrl = path.resolve('./dist', 'public'), // TODO: or use server/public?
-      cookieExpires = 100 * 60 * 24 * 100, // 100 days
-      { engine } = exphbs.create({})
+      cookieExpires = 100 * 60 * 24 * 100, // 100 days,
+      isTest = process.env.NODE_ENV === 'test',
+      isProduction = process.env.NODE_ENV === 'production',
+      isDevelopment = process.env.NODE_ENV === 'development'
 
+/**
+ *  Common middlewares.
+ */
+app.use(compression())
+app.use(cookieParser())
+app.use(express.static(publicUrl))
 /*
   Some routes return 304 if multiple calls to same route are made.
   For example: while validating user info in signup form
 */
 app.disable('etag');
-
-// middlewares
 // detect accepted languages for i18n
 app.use(createLocaleMiddleware())
-app.use(compression())
-app.use(express.static(publicUrl))
-app.use(cookieParser())
 app.set('query parser', 'simple');
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieSession({
   name: 'session',
   // store: new RedisStore(),
+  maxAge: cookieExpires,
   keys: [process.env.SESSION_KEY || 'keyboard cat'],
-  maxAge: 24 * 60 * 60 * 1000 * 30 * 3, // 3 months
-  resave: false,
-  saveUninitialized: true,
-  genid: function(req) {
-    return generateUuid()
-  },
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -71,9 +74,18 @@ app.use(helmet()) // security
 app.engine('handlebars', engine);
 app.set('view engine', 'handlebars');
 app.set('views', path.resolve(__dirname, './public'));
-
-// development only middlewares
-if (process.env.NODE_ENV === 'development') {
+// Cors permissions.
+// (almost everything is allowed)
+app.options("/*", function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  res.send(200);
+});
+/**
+ * Development only middlewares.
+ */
+if (isDevelopment) {
   // better request errors
   app.use(errorhandler())
   // request logger
@@ -84,9 +96,10 @@ if (process.env.NODE_ENV === 'development') {
     next();
   })
 }
-
-// production only middlewares
-if (process.env.NODE_ENV === 'production') {
+/**
+ * Production only middlewares.
+ */
+if (isProduction) {
   app.use(morgan('dev')) // logger
   // rate limiter
   // only if you're behind a reverse proxy (Heroku, Bluemix, AWS if you use an ELB, custom Nginx setup, etc)
@@ -104,17 +117,42 @@ if (process.env.NODE_ENV === 'production') {
 // http://expressjs.com/en/guide/error-handling.html
 // https://medium.com/@Abazhenov/using-async-await-in-express-with-node-8-b8af872c0016
 
+/**
+ * GRAPHQL entry point.
+ * (NOTE: both express implementations are used to
+ * determine which is performs better)
+ */
+/**
+ * Development only degug stack traces for graphQL.
+ * https://www.npmjs.com/package/express-graphql#debugging-tips
+ */
+/**
+ * NOTE: if you are going to change graphql context
+ * don't forget to also change it in SSR middleware.
+ * It is because schema is used directly there without
+ * firing the network requests and context is manually provided.
+ */
+function formatError(error) {
+  return ({
+    path: error.path,
+    message: error.message,
+    locations: error.locations,
+    stack: error.stack ? error.stack.split('\n') : [],
+  })
+}
+// app.use('/graphql', graphqlExpress({ schema }))
+// // if you want GraphiQL enabled
+// app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }))
 
-// CORS PERMISSIONS
-// (almost everything is allowed)
-app.options("/*", function(req, res, next){
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-  res.send(200);
-});
-
-// REST API
+app.use('/graphql', graphqlHTTP({
+  graphiql: true,
+  schema: schema,
+  // Development only debug stack traces.
+  formatError: isDevelopment && formatError
+}))
+/**
+ * REST API.
+ */
 app.use('/api/auth', authApi)
 app.use('/api/users', usersApi)
 app.use('/api/moods', moodsApi)
@@ -127,14 +165,16 @@ app.use('/api/votes', require('./middlewares/votesApi').default)
 app.use('/api/forums', require('./middlewares/forumsApi').default)
 app.use('/api/threads', require('./middlewares/threadsApi').default)
 app.use('/api/comments', require('./middlewares/commentsApi').default)
+app.use('/api/subscriptions', require('./middlewares/subscriptionsApi').default)
 // ⚠️ Hook for cli! Do not remove 💀
-
-// SPA
+/**
+ * SPA.
+ */
 app.use(SSR)
 
 // export app to use in test suits
 export default app.listen(port, () => {
-    if (process.env.NODE_ENV != 'test') {
+    if (!isTest) {
       console.info(`Environment is: ${process.env.NODE_ENV}!`)
       console.info(`Server listening on port ${port}!`)
     }

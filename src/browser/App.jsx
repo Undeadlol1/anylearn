@@ -7,6 +7,7 @@ injectTapEventPlugin();
 
 /* DEPENDENCIES */
 import { VK } from 'react-vk'
+import ReactGA from 'react-ga' // google analytics
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import React, { Component } from 'react'
@@ -21,6 +22,11 @@ import Translator from './containers/Translator'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { actions } from 'browser/redux/actions/UserActions'
 import { CookiesProvider } from 'react-cookie'
+// Apollo-client stuff.
+import { HttpLink, createHttpLink } from 'apollo-link-http'
+import { ApolloClient } from 'apollo-client'
+import { ApolloProvider } from 'react-apollo'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
 /* STYLES */
 if (process.env.BROWSER) require('./styles.scss')
@@ -34,38 +40,66 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 customMuiTheme.userAgent = navigator.userAgent
 const muiTheme = getMuiTheme(customMuiTheme)
 
-// scroll to top of the page on route change
-function scrollToTop () {
-  return window.scrollTo(0, 0)
-}
+const isServer = process.env.SERVER
+const isBrowser = process.env.BROWSER
+
+// Graphql client.
+// TODO:: https://github.com/apollographql/apollo-link-persisted-queries
+export const apolloClient = new ApolloClient({
+  // To use cookies in request we need to specify credentials.
+  link: createHttpLink({
+    credentials: 'same-origin',
+    uri: process.env.URL + 'graphql',
+  }),
+  // Start appolo client with data from SSR.
+  cache: isServer
+    ? new InMemoryCache()
+    : new InMemoryCache().restore(window.__APOLLO_STATE__),
+  ssr: isServer,
+})
 
 class App extends Component {
-  // if SSR provided logged in user, put object in state
   componentWillMount() {
+    // if SSR provided logged in user, put object in state
     store.dispatch(
       actions.recieveCurrentUser(this.props.user)
     )
+    // initialize Google Analytics in browser and only in production
+    if (process.env.BROWSER && process.env.NODE_ENV == 'production') {
+      ReactGA.initialize(process.env.GOOGLE_ANALYTICS)
+      ReactGA.pageview(window.location.pathname + window.location.search)
+    }
   }
 
   render() {
-    const cookies = process.env.SERVER ? this.props.cookies : null
+    const { props } = this
+    const cookies = process.env.SERVER ? props.cookies : null
     return  <MuiThemeProvider muiTheme={muiTheme}>
                 <ThemeProvider theme={BASE_CONF}>
                   <ReduxProvider store={store} key="provider">
                     {/* universal cookies */}
                     <CookiesProvider cookies={cookies}>
-                      <Translator>
-                        {
-                          process.env.BROWSER
-                          /* provide context info for VK widgets */
-                          /* this also somehow helps to fix issue with error on multiple widgets loading */
-                          /* this code is placed here because otherwise it breaks SSR */
-                          ? <VK apiId={Number(process.env.VK_ID)}>
-                              <Router history={syncHistoryWithStore(browserHistory, store)} routes={routesConfig} onUpdate={scrollToTop} />
-                            </VK>
-                          : <RouterContext {...this.props} />
-                        }
-                      </Translator>
+                      {/* While SSR is active use provided client. */}
+                      {/* This way data will be fetched faster and nothing will break. */}
+                      <ApolloProvider client={isBrowser ? apolloClient : props.apolloClient}>
+                        <Translator>
+                          {
+                            isBrowser
+                            /* provide context info for VK widgets */
+                            /* this also somehow helps to fix issue with error on multiple widgets loading */
+                            /* this code is placed here because otherwise it breaks SSR */
+                            ? <VK apiId={Number(process.env.VK_ID)}>
+                                <Router
+                                  routes={routesConfig}
+                                  // scroll to top of the page on route change
+                                  onUpdate={() => window.scrollTo(0, 0)}
+                                  history={syncHistoryWithStore(browserHistory, store)}
+                                />
+                              </VK>
+                            : <RouterContext {...props} />
+                          }
+                        </Translator>
+                      </ApolloProvider>
                     </CookiesProvider>
                   </ReduxProvider>
                 </ThemeProvider>
@@ -76,7 +110,10 @@ class App extends Component {
 if (process.env.BROWSER) ReactDOM.render(<App />, document.getElementById('react-root'));
 
 App.propTypes = {
-  user: PropTypes.object
+  user: PropTypes.object,
+  // Uiversal cookies passed down from SSR.
+  cookies: PropTypes.object,
+  apolloClient: PropTypes.object,
 }
 
 export default App

@@ -1,7 +1,7 @@
 import chai, { assert, expect } from 'chai'
 import request from 'supertest'
 import server from '../../server.js'
-import { User, Local, Profile } from '../../data/models'
+import { User, Local, Profile, sequelize } from '../../data/models'
 import select from 'selectn'
 import { loginUser } from './authApi.test'
 import users from '../../data/fixtures/users'
@@ -9,62 +9,53 @@ chai.should();
 
 export default describe('/users API', function() {
 
-    before(function() {
-        // TODO add logout? to test proper user login?
-        // Kill supertest server in watch mode to avoid errors
-        server.close()
-    })
+    // Kill supertest server in watch mode to avoid errors
+    before(() => server.close())
+    after(() => server.close())
 
-    after(function() {
-        server.close()
-    })
+    it('get single user', async function() {
+        const { id } = await User.findOne({order: sequelize.random()})
+        await request(server)
+            .get(`/api/users/user/${id}`)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then(req => {
+                const user = req.body
+                assert.equal(user.id, id)
+                assert.typeOf(user.Profile, 'Object')
+                // "Local' model has passwords hashes and shall not be send over internet.
+                assert.notProperty(user, 'Local.email')
+                assert.notProperty(user, 'Local.password')
+                // Incase "Local" is going to be renamed to "local"
+                // make sure tests will still work.
+                assert.notProperty(user, 'local.email')
+                assert.notProperty(user, 'local.password')
+                expect(user.moods).to.be.a('array')
 
-    it('get one user', async function() {
-        try {
-            const user = await User.findOne({order: 'rand()'})
-            await request(server)
-                .get(`/api/users/user/${user.id}`)
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .then(function({body}) {
-                    assert(body.id, 'must have an id')
-                    assert(body.Profile, 'must have Profile')
-                    expect(body.moods).to.be.a('array')
-                    // assert(select('moods[0].UserId', body) == body.id)
-                    // TODO
-                    // assert(!body.Local, 'must not have Local')
-                })
-        }
-        catch (error) {
-            console.error(error)
-            throw new Error(error)
-        }
+                // assert(body.moods[0].UserId == body.id)
+                // TODO
+                // assert(!body.Local, 'must not have Local')
+            })
     })
 
     it('update user profile', async function() {
-        try {
-            const {username, password} = users[0]
-            const localAuth = await Local.findOne({where: {username}})
-            const agent = await loginUser(username, password)
-            await agent
-                .put(`/api/users/user/${localAuth.UserId}`)
-                .send({language: 'fr'})
-                .expect(200)
-                .expect('Content-Type', /json/)
-                .then(function(res) {
-                    const language = select('body.Profile.language', res)
-                    assert(language == 'fr', 'changed language improperly')
-                })
-        }
-        catch (error) {
-            console.error(error)
-            throw new Error(error)
-        }
+        const {username, password} = users[0]
+        const localAuth = await Local.findOne({where: {username}})
+        const agent = await loginUser(username, password)
+        await agent
+            .put(`/api/users/user/${localAuth.UserId}`)
+            .send({language: 'fr'})
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .then(function(res) {
+                const language = select('body.Profile.language', res)
+                assert(language == 'fr', 'changed language improperly')
+            })
     })
 
     // it('must fail to update other user', async function() {
     //     try {
-    //         const user = await User.findOne({order: 'rand()', include: [Profile]})
+    //         const user = await User.findOne({order: sequelize.random(), include: [Profile]})
     //         await request(server)
     //             .put(`/api/users/user/${user.username + 'not_me'}`)
     //             .send({language: 'fr'})
