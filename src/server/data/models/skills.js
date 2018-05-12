@@ -38,30 +38,34 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
     },
   }, {
-    classMethods: {
       tableName: 'skills',
       freezeTableName: true,
       defaultScope: {
         include: [{
-          model: require('./revisions'),
+          model: require('./index').Revisions,
           where: {active: true},
         }],
-      },
-      associate: function(models) {
-        Skills.belongsTo(models.User, {
-          // onDelete: "CASCADE", // TODO implement this?
-          foreignKey: {
-            allowNull: false
-          }
-        });
-        // Skills.hasMany(models.Revisions)
-      },
-      findIdBySlug: function(slug) {
-        return Skills
-                .findOne({ where: { slug } })
-                .then(skill => skill && skill.get('id'))
       }
-    }
   });
+  // Class Methods.
+  Skills.associate = function (models) {
+      Skills.belongsTo(models.User, {
+        // onDelete: "CASCADE", // TODO implement this?
+        foreignKey: {
+          allowNull: false
+        }
+      });
+      Skills.hasMany(models.Revisions, {
+        sourceKey: 'id',
+        foreignKey: 'parentId',
+      })
+  }
+  Skills.findIdBySlug = function (slug) {
+    return Skills
+      .findOne({
+        where: {slug}
+      })
+      .then(skill => skill && skill.get('id'))
+  }
   return Skills;
 };

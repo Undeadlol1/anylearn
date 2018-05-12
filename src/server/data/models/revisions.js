@@ -53,25 +53,27 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
     },
   }, {
-    classMethods: {
       tableName: 'revisions',
       freezeTableName: true,
-      associate: function(models) {
-        Revisions.belongsTo(models.User, {
-          // onDelete: "CASCADE", // TODO implement this?
-          foreignKey: {
-            allowNull: false
-          }
-        });
-        // Revisions.hasOne(models.Skills)
-      },
-      // TODO
-      findIdBySlug: function(slug) {
-        return Revisions
-                .findOne({ where: { slug } })
-                .then(revision => revision && revision.get('id'))
-      }
-    }
   });
+  // Class Methods.
+  Revisions.associate = function (models) {
+      Revisions.belongsTo(models.User, {
+        // onDelete: "CASCADE", // TODO implement this?
+        foreignKey: {
+          allowNull: false
+        }
+      });
+      Revisions.belongsTo(models.Skills, {
+        foreignKey: 'parentId',
+      })
+  }
+  Revisions.findIdBySlug = function (slug) {
+    return Revisions
+      .findOne({
+        where: {slug}
+      })
+      .then(revision => revision && revision.get('id'))
+  }
   return Revisions;
 };
