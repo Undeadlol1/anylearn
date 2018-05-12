@@ -39,7 +39,10 @@
     "cookie-session": "^2.0.0-beta.1",
     "cookies-js": "^1.2.3",
     "css-modules-require-hook": "^4.0.6",
+<<<<<<< HEAD
     "diff": "^3.4.0",
+=======
+>>>>>>> e2cd0fb69c0fa2ef005a52b478a4d7f3fec1418d
     "debug": "^3.1.0",
     "draft-js": "^0.10.1",
     "draft-js-diff": "git://github.com/wuzzzzaah/draft-js-diff#fix/module-usage",
