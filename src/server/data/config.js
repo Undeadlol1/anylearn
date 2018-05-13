@@ -42,7 +42,7 @@ module.exports = {
     "logging": false,
     "dialect": "mysql",
     "username": "root",
-    "database": "boilerplate_dev",
+    "database": "anylearn_dev",
     // In docker containers database will have special host.
     // In non-container it will be connected through localhost.
     "host": isDocker ? "db" : "127.0.0.1",
@@ -53,7 +53,7 @@ module.exports = {
     "password": null,
     "dialect": "mysql",
     "username": "root",
-    "database": "boilerplate_test",
+    "database": "anylearn_test",
     // In docker containers database will have special host.
     // In non-container it will be connected through localhost.
     "host": isDocker ? "db" : "127.0.0.1",
