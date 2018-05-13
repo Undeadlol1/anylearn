@@ -1,24 +1,21 @@
 // dependencies
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Paper from 'material-ui/Paper'
 import React, { PureComponent } from 'react'
 import { Tabs, Tab } from 'material-ui/Tabs'
-import { Editor } from 'react-draft-wysiwyg'
 import TextField from 'material-ui/TextField'
+import { Col } from 'react-styled-flexboxgrid'
 import { checkForImageUrl } from 'shared/parsers'
 import RaisedButton from 'material-ui/RaisedButton'
-import { Grid, Row, Col } from 'react-styled-flexboxgrid'
 import { EditorState, ContentState, convertFromHTML, convertToRaw } from 'draft-js'
 // project files
-import Loading from 'browser/components/Loading'
 import SkillTabs from 'browser/components/SkillTabs'
 import PageWrapper from 'browser/components/PageWrapper'
 import { togglePageLoading } from 'browser/redux/ui/UiActions'
 import { translate as t } from 'browser/containers/Translator'
+import { insertSkill } from 'browser/redux/skill/SkillActions'
 import { first, second, third, fourth } from 'browser/templates'
-import { WysiwygEditor, } from 'browser/components/WysiwygEditor'
-import { insertSkill, getSkillRequest } from 'browser/redux/skill/SkillActions'
+import { WysiwygEditor } from 'browser/components/WysiwygEditor'
 
 const defaultTexts = [first, second, third, fourth]
 const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
@@ -157,8 +154,8 @@ class CreateSkillPage extends PureComponent {
     render() {
 		const { props, state } = this
 		return 	<PageWrapper
-					className='CreateSkillPage'
 					loading={props.loading}
+					className='CreateSkillPage'
 				>
 					<form onSubmit={this.handleSubmit}>
 						<TextField
