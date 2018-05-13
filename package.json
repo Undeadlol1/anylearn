@@ -190,7 +190,7 @@
     "nightmare": "^2.10.0",
     "nock": "^9.0.13",
     "node-sass": "^4.5.2",
-    "nodemon": "^1.14.11",
+    "nodemon": "^1.17.4",
     "nodemon-webpack-plugin": "^0.1.6",
     "parallel-webpack": "^1.6.1",
     "pluralize": "^7.0.0",
