@@ -97,6 +97,16 @@ SkillsList.defaultProps = {
 	currentPage: 0,
 }
 
+// /**
+//  * Wrap component with data fetching container.
+//  * @param {Object} ownProps
+//  */
+// const withQuery = (ownProps) => (
+// 	<Query query={getSkills}>
+// 		{response => <SkillsList {...ownProps} {...response} />}
+// 	</Query>
+// )
+
 export default connect(
 	// stateToProps
 	({skill}, ownProps) => ({
