@@ -5,6 +5,8 @@ import {
 import user from './queries/user'
 import viewer from './queries/viewer'
 import forum from './queries/forum'
+import skill from './queries/skill'
+import skills from './queries/skills'
 import forums from './queries/forums'
 import thread from './queries/thread'
 import threads from './queries/threads'
@@ -24,6 +26,8 @@ const schema = new GraphQLSchema({
             forums,
             thread,
             threads,
+            skill,
+            skills,
         }),
     }),
     /**
