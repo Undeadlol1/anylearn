@@ -48,3 +48,16 @@ export const getForums = gql`
     }
   }
 `
+/**
+ * Query to get skills.
+ * @export
+ */
+export const getSkills = gql `
+  query getSkills {
+    skills {
+      id
+      name
+      slug
+    }
+  }
+`
