@@ -8,8 +8,10 @@ import { fromJS, List, Map } from 'immutable'
 import { convertFromRaw } from 'draft-js'
 import Link from 'react-router/lib/Link'
 import React, { Component } from 'react'
+import { getSkills } from '../graphql'
 import Paper from 'material-ui/Paper'
 import { connect } from 'react-redux'
+import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
 import selectn from 'selectn'
 
@@ -28,15 +30,14 @@ export class MoodsList extends Component {
 					const src = nodeContent
 								? nodeContent
 								: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
-					// const description = convertFromRaw(JSON.parse(skill.getIn(['revision', 'text'])).stage0).getFirstBlock().get('text')
-					// console.log('description: ', description);
+					const subtitle = convertFromRaw(JSON.parse(skill.getIn(['revision', 'text'])).stage0).getFirstBlock().get('text')
 					return	<Col className="MoodsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={4} key={skill.get('id')}>
 								<Paper zDepth={5}>
 									<Link to={`/skill/${skill.get('slug')}`}>
 										<Card className="MoodsList__card">
 											<CardMedia
 												className="MoodsList__imgContainer"
-												overlay={<CardTitle title={skill.get('name')} />}
+												overlay={<CardTitle title={skill.get('name')} subtitle={subtitle} />}
 											>
 												<img alt={skill.get('name') + translate('things_image')} src={src} />
 											</CardMedia>
@@ -103,6 +104,20 @@ MoodsList.defaultProps = {
 	currentPage: 0,
 	skills: Map({ values: List() }),
 }
+/**
+ * Add apollo wrapper to fetch current user.
+ * @param {Object} props
+ */
+const withQuery = props => (
+	<Query query={fetchSkills}>
+		{({ data, error, loading }) => {
+			console.log('data: ', data);
+			const properties = { data, error, loading, ...props }
+			return <NavBar {...properties} />
+		}
+		}
+	</Query>
+)
 
 export default connect(
 	// stateToProps
