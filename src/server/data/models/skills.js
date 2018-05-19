@@ -20,11 +20,11 @@ module.exports = function(sequelize, DataTypes) {
     },
     UserId: {
       allowNull: false,
-      type: DataTypes.INTEGER
+      type: DataTypes.INTEGER,
     },
     RevisionId: {
       allowNull: false,
-      type: DataTypes.UUID
+      type: DataTypes.UUID,
     },
     // TODO do we need this?
     image: {
@@ -52,7 +52,7 @@ module.exports = function(sequelize, DataTypes) {
       Skills.belongsTo(models.User, {
         // onDelete: "CASCADE", // TODO implement this?
         foreignKey: {
-          allowNull: false
+          allowNull: false,
         }
       });
       Skills.hasMany(models.Revisions, {

@@ -61,7 +61,7 @@ module.exports = function(sequelize, DataTypes) {
       Revisions.belongsTo(models.User, {
         // onDelete: "CASCADE", // TODO implement this?
         foreignKey: {
-          allowNull: false
+          allowNull: false,
         }
       });
       Revisions.belongsTo(models.Skills, {
@@ -71,7 +71,7 @@ module.exports = function(sequelize, DataTypes) {
   Revisions.findIdBySlug = function (slug) {
     return Revisions
       .findOne({
-        where: {slug}
+        where: {slug},
       })
       .then(revision => revision && revision.get('id'))
   }
