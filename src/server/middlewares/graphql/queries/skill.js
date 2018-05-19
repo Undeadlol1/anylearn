@@ -1,25 +1,49 @@
-import { GraphQLObjectType } from 'graphql'
 import {
     resolver,
+    defaultArgs,
     attributeFields,
-    defaultArgs as attributesToArgs,
 } from 'graphql-sequelize'
 import assign from 'lodash/assign'
-import { Skills } from '../../../data/models'
+import { revisionType } from './revision'
+import { GraphQLObjectType } from 'graphql'
+import { Skills, Revisions } from '../../../data/models'
 
-const description = "Skill works in a similar way as article in wikipedia."
-
-const skillType = new GraphQLObjectType({
-    description,
-    name: 'skill',
-    // Get fields from sequelize model.
-    fields: assign(attributeFields(Skills, { commentToDescription: true })),
-})
+const description = "Skill works in a similar way as an article in wikipedia."
 /**
  * Graphql type representing a skill object.
  * @export
  */
-export { skillType }
+export const skillType = new GraphQLObjectType({
+    description,
+    name: 'skill',
+    fields: assign(
+        // Get fields from sequelize model.
+        attributeFields(Skills, {
+            // Comments in model definition > graphql descriptions.
+            commentToDescription: true,
+        }),
+        // Add extra fields.
+        {
+            revision: {
+                type: revisionType,
+                description: 'Current active revision document.',
+                async resolve(skill, args) {
+                    try {
+                        // TODO: refactor to "skill.getRevision()"
+                        return await Revisions.findOne({
+                            where: {
+                                active: true,
+                                parentId: skill && skill.id,
+                            },
+                        })
+                    } catch (err) {
+                        throw err.message
+                    }
+                },
+            },
+        }
+    ),
+})
 /**
  * This is a full query interface for a Skill.
  * @export
@@ -29,5 +53,5 @@ export default {
     type: skillType,
     resolve: resolver(Skills),
     // All of the models attributes are searchable fields.
-    args: assign(attributesToArgs(Skills)),
+    args: assign(defaultArgs(Skills)),
 }
