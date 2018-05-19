@@ -70,9 +70,7 @@ module.exports = function(sequelize, DataTypes) {
   }
   Revisions.findIdBySlug = function (slug) {
     return Revisions
-      .findOne({
-        where: {slug},
-      })
+      .findOne({where: {slug}})
       .then(revision => revision && revision.get('id'))
   }
   return Revisions;

@@ -23,7 +23,7 @@ export class MoodsList extends Component {
 		const { props } = this
 		if(props.skills.size) {
 			return props.skills.map( skill => {
-				console.log('skill: ', skill.toJS());
+				// console.log('skill: ', skill.toJS());
 					const nodeContent = skill.get('image')
 					const src = nodeContent
 								? nodeContent

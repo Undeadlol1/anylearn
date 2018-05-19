@@ -42,8 +42,8 @@ module.exports = function(sequelize, DataTypes) {
       freezeTableName: true,
       defaultScope: {
         include: [{
-          model: require('./index').Revisions,
           where: {active: true},
+          model: require('./index').Revisions,
         }],
       }
   });
@@ -62,9 +62,7 @@ module.exports = function(sequelize, DataTypes) {
   }
   Skills.findIdBySlug = function (slug) {
     return Skills
-      .findOne({
-        where: {slug}
-      })
+      .findOne({where: {slug}})
       .then(skill => skill && skill.get('id'))
   }
   return Skills;

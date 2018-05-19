@@ -48,7 +48,7 @@ export const initialState = fromJS({
 							currentTab: 0,
 							loading: false,
 							dialogIsOpen: false,
-							...skillStructure
+							...skillStructure,
 						})
 
 export default (state = initialState, {type, payload}) => {
