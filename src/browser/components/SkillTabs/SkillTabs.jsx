@@ -17,7 +17,8 @@ class SkillTabs extends Component {
 		const tabNames = [t('novice'), t('scholar'), t('trainee'), t('master')]
 		const tabsClassNames = cls('SkillTabs__tabs', props.readOnly && 'SkillTabs__editor-readOnly')
 		return 	<Row className={className}>
-					<Col xs={12}>
+					{/* Make text narrow on wider screens. */}
+					<Col xs={12} md={12} lgOffset={3} lg={6}>
 						<Paper zDepth={3}>
 							<article>
 								<Tabs className={tabsClassNames} onChange={props.changeTab} value={props.currentTab}>
@@ -59,7 +60,7 @@ export default connect(
 	// stateToProps
 	(state, ownProps) => ({
 		...ownProps,
-		currentTab: state.skill.get('currentTab'), 
+		currentTab: state.skill.get('currentTab'),
 	 }),
 	// dispatchToProps
     (dispatch, ownProps) => ({

@@ -5,6 +5,7 @@ import { translate } from 'browser/containers/Translator'
 import { Row, Col } from 'react-styled-flexboxgrid'
 import Loading from 'browser/components/Loading'
 import { fromJS, List, Map } from 'immutable'
+import { convertFromRaw } from 'draft-js'
 import Link from 'react-router/lib/Link'
 import React, { Component } from 'react'
 import Paper from 'material-ui/Paper'
@@ -22,10 +23,13 @@ export class MoodsList extends Component {
 		const { props } = this
 		if(props.skills.size) {
 			return props.skills.map( skill => {
+				console.log('skill: ', skill.toJS());
 					const nodeContent = skill.get('image')
 					const src = nodeContent
 								? nodeContent
 								: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
+					// const description = convertFromRaw(JSON.parse(skill.getIn(['revision', 'text'])).stage0).getFirstBlock().get('text')
+					// console.log('description: ', description);
 					return	<Col className="MoodsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={4} key={skill.get('id')}>
 								<Paper zDepth={5}>
 									<Link to={`/skill/${skill.get('slug')}`}>
