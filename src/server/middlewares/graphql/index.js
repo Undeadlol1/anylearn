@@ -10,6 +10,7 @@ import skills from './queries/skills'
 import forums from './queries/forums'
 import thread from './queries/thread'
 import threads from './queries/threads'
+import revision from './queries/revision'
 import * as mutations from './mutations'
 
 const schema = new GraphQLSchema({
@@ -28,6 +29,7 @@ const schema = new GraphQLSchema({
             threads,
             skill,
             skills,
+            revision,
         }),
     }),
     /**
