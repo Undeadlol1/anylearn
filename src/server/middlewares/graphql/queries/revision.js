@@ -15,7 +15,7 @@ const description = `Revision represents change in a document.
  * Graphql type representing a revision object.
  * @export
  */
-const revisionType = new GraphQLObjectType({
+export const revisionType = new GraphQLObjectType({
     description,
     name: 'revision',
     // Get fields from sequelize model.
