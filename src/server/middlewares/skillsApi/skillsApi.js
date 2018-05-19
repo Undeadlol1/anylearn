@@ -1,5 +1,6 @@
 import slugify from 'slug'
 import selectn from 'selectn'
+import Promise from 'bluebird'
 import { Router } from 'express'
 import sequelize from 'sequelize'
 import generateUuid from 'uuid/v4'
@@ -8,6 +9,7 @@ import { mustLogin } from 'server/services/permissions'
 import { getThreads } from 'server/middlewares/threadsApi'
 import { Skills, Revisions, User } from 'server/data/models'
 import { getRevisions } from 'server/middlewares/revisionsApi'
+import { getSkills } from '../../../browser/graphql';
 
 const limit = 12
 
@@ -62,10 +64,22 @@ export default Router()
       const order = [["createdAt", "ASC"]]
       const skillsCount = await Skills.count()
       const offset = page ? limit * (page -1) : 0
+      // Every skills must include current active revision.
+      // TODO: refactor via "defaultScope" or associations in model definition.
+      const skills = await Skills.findAll({
+        limit,
+        offset,
+        order,
+      })
+      // This is a lazy way to add revision to a skill.
+      // TODO: rework in the future.
+      const values = await Promise.all(
+        skills.map(skill => getSkill({id: skill.id}))
+      )
       res.json({
+        values,
         currentPage: Number(page) || 1,
         totalPages: Math.ceil(skillsCount / limit),
-        values: await Skills.findAll({limit, offset, order}),
       })
     }
     catch (error) {res.status(500).end(error.message)}

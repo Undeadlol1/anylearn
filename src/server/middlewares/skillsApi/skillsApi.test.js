@@ -63,6 +63,11 @@ export default describe('/skills API', function() {
                     body.values.should.have.length(1)
                     body.totalPages.should.equal(1)
                     body.currentPage.should.equal(1)
+                    // Skills must include current revision.
+                    assert.isObject(
+                        body.values[0].revision,
+                        'Revision was not included',
+                    );
                 })
         })
         /**
