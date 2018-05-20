@@ -72,7 +72,7 @@ class RevisionPage extends PureComponent {
 							<p>{props.revision.get('description')}</p>
 						</Col>
 						<Col xs={12} sm={4} className="RevisionPage__user-container">
-							<Link to={`users/${props.user.get('id')}`}>
+							<Link to={`/users/${props.user.get('id')}`}>
 								<b className="RevisionPage__username">
 									{props.user.get('displayName')}
 								</b>
