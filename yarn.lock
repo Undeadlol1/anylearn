@@ -1799,6 +1799,7 @@ caniuse-db@^1.0.30000529, caniuse-db@^1.0.30000634, caniuse-db@^1.0.30000639:
   resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000832.tgz#afe34c9f7c62139fd1c607db2ab7308bbb6a5158"
 
 capture-stack-trace@^1.0.0, cardinal@1.0.0:
+  name cardinal
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/capture-stack-trace/-/capture-stack-trace-1.0.0.tgz#4a6fa07399c26bba47f0b2496b4d0fb408c5550d"
 
@@ -8924,6 +8925,10 @@ react-transition-group@^1.1.2:
     prop-types "^15.5.6"
     warning "^3.0.0"
 
+react-truncate@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/react-truncate/-/react-truncate-2.3.0.tgz#d469b355aff1f83ae9e0f2fed0d47dfd061e5d2e"
+
 react-ultimate-pagination-material-ui@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-ultimate-pagination-material-ui/-/react-ultimate-pagination-material-ui-1.2.0.tgz#1ddfa1ab3afe85eeea5efeef643392937e2864bf"
@@ -8949,7 +8954,16 @@ react-youtube@^7.3.0:
     prop-types "^15.5.3"
     youtube-player "^5.4.0"
 
-"react@^15.0.0-rc || ^14.0.0", react@^15.3.2, react@^15.5.4, "react@^15.6.2 || ^16.0":
+react@15.5.4:
+  version "15.5.4"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.5.4.tgz#fa83eb01506ab237cdc1c8c3b1cea8de012bf047"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.7"
+
+"react@^15.0.0-rc || ^14.0.0", react@^15.3.2, "react@^15.6.2 || ^16.0":
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
   dependencies:

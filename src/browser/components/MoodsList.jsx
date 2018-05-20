@@ -13,7 +13,7 @@ import Paper from 'material-ui/Paper'
 import { connect } from 'react-redux'
 import { Query } from 'react-apollo'
 import PropTypes from 'prop-types'
-import selectn from 'selectn'
+import Truncate from 'react-truncate'
 
 const itemStyles = {
 	marginBottom: '1rem'
@@ -25,19 +25,20 @@ export class MoodsList extends Component {
 		const { props } = this
 		if(props.skills.size) {
 			return props.skills.map( skill => {
-				// console.log('skill: ', skill.toJS());
 					const nodeContent = skill.get('image')
 					const src = nodeContent
 								? nodeContent
 								: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/2000px-No_image_available.svg.png'
 					const subtitle = convertFromRaw(JSON.parse(skill.getIn(['revision', 'text'])).stage0).getFirstBlock().get('text')
+					// Show only 3 rows of text on any device.
+					const truncatedSubtitle = <Truncate lines={3}>{subtitle}</Truncate>
 					return	<Col className="MoodsList__item" style={itemStyles} xs={12} sm={6} md={4} lg={4} key={skill.get('id')}>
 								<Paper zDepth={5}>
 									<Link to={`/skill/${skill.get('slug')}`}>
 										<Card className="MoodsList__card">
 											<CardMedia
 												className="MoodsList__imgContainer"
-												overlay={<CardTitle title={skill.get('name')} subtitle={subtitle} />}
+												overlay={<CardTitle title={skill.get('name')} subtitle={truncatedSubtitle} />}
 											>
 												<img alt={skill.get('name') + translate('things_image')} src={src} />
 											</CardMedia>
@@ -109,11 +110,14 @@ MoodsList.defaultProps = {
  * @param {Object} props
  */
 const withQuery = props => (
-	<Query query={fetchSkills}>
-		{({ data, error, loading }) => {
-			console.log('data: ', data);
-			const properties = { data, error, loading, ...props }
-			return <NavBar {...properties} />
+	<Query query={getSkills}>
+		{respomse => {
+			console.log('respomse: ', respomse);
+		{/* {({ data, error, loading }) => { */}
+			// console.log('data: ', data);
+			// const properties = { data, error, loading, ...props }
+			return null
+			// return <MoodsList {...properties} />
 		}
 		}
 	</Query>
