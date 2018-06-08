@@ -1,5 +1,6 @@
 // dependencies
 import PropTypes from 'prop-types'
+import { fromJS } from 'immutable'
 import { connect } from 'react-redux'
 import Paper from 'material-ui/Paper'
 import { diffTrimmedLines } from 'diff'
@@ -131,7 +132,8 @@ connect(
 		return {
 			revision,
 			name: revision.get('name'),
-			user: revision.get('User'),
+			// Somehow in SSR user can be undefined.
+			user: revision.get('User') || fromJS({}),
 			previousRevision: revision.get('previousRevision'),
 			...ownProps
 		}

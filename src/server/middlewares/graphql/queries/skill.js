@@ -2,10 +2,11 @@ import {
     resolver,
     defaultArgs,
     attributeFields,
+    defaultListArgs,
 } from 'graphql-sequelize'
 import assign from 'lodash/assign'
 import { revisionType } from './revision'
-import { GraphQLObjectType } from 'graphql'
+import { GraphQLObjectType, GraphQLList } from 'graphql'
 import { Skills, Revisions } from '../../../data/models'
 
 const description = "Skill works in a similar way as an article in wikipedia."
@@ -41,7 +42,16 @@ export const skillType = new GraphQLObjectType({
                     }
                 },
             },
-        }
+            revisions: {
+                description: 'Revisions of this skill.',
+                args: defaultListArgs(Revisions),
+                type: new GraphQLList(revisionType),
+                resolve: resolver(Skills.hasMany(Revisions, {
+                    sourceKey: 'id',
+                    foreignKey: 'parentId',
+                })),
+            },
+        },
     ),
 })
 /**

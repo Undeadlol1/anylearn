@@ -8,26 +8,42 @@ import { AboutPage } from 'browser/pages/AboutPage'
 import { translate } from 'browser/containers/Translator'
 chai.should()
 chai.use(chaiEnzyme())
+chai.use(require('chai-properties'))
 
 describe('<AboutPage />', () => {
   const props = {}
   const wrapper = shallow(<AboutPage {...props} />)
-
+  /*
+   * Common page properties.
+   */
   it('has className and tagName', () => {
     expect(wrapper).to.have.className('AboutPage')
     expect(wrapper.type().name).to.eq('PageWrapper')
   })
-
+  /*
+   * Header tests.
+   */
   describe('header', () => {
     const header = wrapper.find('.AboutPage__header')
-
+    const row = header.find('Styled(Row)')
+    const col = header.find('Styled(Col)')
+    /*
+     * Page must have proper grid configuration.
+     */
     it('has <Row> and <Col>', () => {
-      expect(header.find('Styled(Row)')).to.exist
-      expect(header.find('Styled(Col)')).to.exist
-      expect(header.find('Styled(Col)').props().xs).to.eq(12)
-      expect(header.find('Styled(Col)').props().lg).to.eq(5)
+      expect(row).to.exist
+      expect(col).to.exist
+      // Make sure column has proper width values.
+      expect(col.props()).to.have.properties({
+        xs: 12,
+        md: 12,
+        lg: 6,
+        lgOffset: 3,
+      })
     })
-
+    /*
+     * Page must have a header text.
+     */
     it('has <h1>', () => {
       const el = header.find('h1')
       expect(el).to.exist

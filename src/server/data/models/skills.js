@@ -61,8 +61,9 @@ module.exports = function(sequelize, DataTypes) {
         foreignKey: {
           allowNull: false,
         }
-      });
-      Skills.hasMany(models.Revisions, {
+      })
+      // TODO: comment
+      Skills.Revisions = Skills.hasMany(models.Revisions, {
         sourceKey: 'id',
         foreignKey: 'parentId',
       })

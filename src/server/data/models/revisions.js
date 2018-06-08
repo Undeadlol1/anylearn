@@ -78,6 +78,7 @@ module.exports = function(sequelize, DataTypes) {
       Revisions.belongsTo(models.Skills, {
         foreignKey: 'parentId',
       })
+      Revisions.hasOne(models.Skills)
   }
   Revisions.findIdBySlug = function (slug) {
     return Revisions

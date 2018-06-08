@@ -14,7 +14,7 @@ chai.use(chaiEnzyme())
 
 describe('<MoodsList />', () => {
 
-  const wrapper = shallow(<MoodsList />)
+  // const wrapper = shallow(<MoodsList />)
 
   // it('has className and tagName', () => {
   //   expect(wrapper).to.have.tagName('section')

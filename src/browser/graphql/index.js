@@ -54,10 +54,13 @@ export const getForums = gql`
  */
 export const getSkills = gql `
   query getSkills {
-    skills {
+    skills(first: 2) {
       id
       name
       slug
+      revision {
+        text
+      }
     }
   }
 `
