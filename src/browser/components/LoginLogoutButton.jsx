@@ -15,12 +15,30 @@ import {
 } from 'browser/redux/actions/UserActions'
 /**
  * Conditionally render 'login' or 'logout' button.
- * Can be used as inline text or as a block button.
+ * On 'login' click the dialog is shown
+ * which asks user for their credentials.
+ * On 'logout' click user is logged out.
+ * Component can be used as inline text or as a block button.
  * @export
  */
 export class LoginLogoutButton extends Component {
+	/**
+	 * Props are self-explanatory.
+	 */
+	static propTypes = {
+		// Should component be inline or not.
+		inline: PropTypes.bool,
+		// Id of a current user.
+		UserId: PropTypes.number,
+		// Apollo "logout" mutation.
+		logout: PropTypes.func.isRequired,
+		// Toggle dialog which prompts user to login.
+		// This is a redux action.
+		toggleDialog: PropTypes.func.isRequired,
+	}
+
 	render() {
-		const { className, logout, toggleDialog, inline, } = this.props
+		const { className, logout, toggleDialog, inline } = this.props
 		const UserId = get(this.props, 'data.viewer.id')
 		const label = translate(UserId ? "logout" : "login")
 		const inlineStyles = {display: 'block', textAlign: "center"}
@@ -35,35 +53,23 @@ export class LoginLogoutButton extends Component {
 			inline ? {style: inlineStyles} : { label },
 		)
 		if (inline) return <span {...properties}>{label}</span>
-		return <RaisedButton {...properties} />
+		else return <RaisedButton {...properties} />
 	}
-}
-
-LoginLogoutButton.propTypes = {
-	inline: PropTypes.bool,
-	UserId: PropTypes.number,
-	logout: PropTypes.func.isRequired,
-	toggleDialog: PropTypes.func.isRequired,
 }
 /**
  * Map redux state to component properties.
- * NOTE: data fetching is moved to apollo,
- * but this is still kep here just incase.
- * TODO: remove in the future.
  */
-export const stateToProps = ({ user }, ownProps) => ({
-	// UserId: user.get('id'),
+export const stateToProps = (state, ownProps) => ({
 	...ownProps,
 })
 /**
- * Pass down "toggleSidebar" action.
+ * Pass down "toggleSidebar" redux action.
  */
 export const dispatchToProps = (dispatch, ownProps) => ({
-	// logout: () => dispatch(logoutCurrentUser()),
 	toggleDialog: () => dispatch(toggleLoginDialog()),
 })
 /**
- * Add graphql mutation functionality to component.
+ * Add graphql mutation functionality to a component.
  * Mutation logs out current user and then updates apollo cache.
  * @param {Object} ownProps
  */
@@ -103,5 +109,8 @@ const withQuery = props => (
 		}}
 	</Query>
 )
-
+/**
+ * LoginLogoutButton button wrapped in redux and Apollo.
+ * @exports
+ */
 export default connect(stateToProps, dispatchToProps)(withQuery)
