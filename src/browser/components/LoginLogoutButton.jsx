@@ -1,6 +1,5 @@
 import get from 'lodash/get'
 import PropTypes from 'prop-types'
-import { compose } from 'recompose'
 import classNames from 'classnames'
 import extend from 'lodash/assignIn'
 import { connect } from 'react-redux'
@@ -9,10 +8,7 @@ import { Mutation, Query } from 'react-apollo'
 import RaisedButton from 'material-ui/RaisedButton'
 import { getCurrentUser, logoutUser } from '../graphql'
 import { translate } from 'browser/containers/Translator'
-import {
-	toggleLoginDialog,
-	logoutCurrentUser,
-} from 'browser/redux/actions/UserActions'
+import { toggleLoginDialog } from 'browser/redux/actions/UserActions'
 /**
  * Conditionally render 'login' or 'logout' button.
  * On 'login' click the dialog is shown
