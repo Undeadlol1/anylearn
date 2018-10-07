@@ -6,25 +6,12 @@ import { createPagination } from '../../services/utils'
 import { mustLogin } from 'server/services/permissions'
 import { handleValidationErrors } from '../../services/errors'
 import { matchedData, sanitize } from 'express-validator/filter'
-
-const limit = 12
-const debug = require('debug-logger')('threadsApi')
-
 /**
- * Get paginated threads by parentId
- * @param {String} parentId parent UUID
- * @param {Number} [currentPage=1] page number
- * @export
+ * Threads work similarly to threads in a forum.
+ * They are basically a container for comments.
+ * This is a basic CRUD API for them.
+ * @exports
  */
-export async function getThreads(parentId, currentPage=1) {
-  return await createPagination({
-    limit,
-    model: Threads,
-    page: currentPage,
-    where: {parentId},
-  })
-}
-
 export default Router()
   /*
     Get single thread by slug.
@@ -36,13 +23,16 @@ export default Router()
     handleValidationErrors,
     async (req, res) => {
       try {
+        // Get sanitized data.
         const params = matchedData(req)
+        // Create the thread.
         const thread = await Threads.findOne({
           raw: true,
           nest: true,
           include: [User],
           where: { slug: params.slug },
         })
+        // Respond with created thread.
         res.json(thread)
       } catch (error) {
         console.log(error)
@@ -63,7 +53,6 @@ export default Router()
     async (req, res) => {
       try {
         const params = matchedData(req)
-        // TODO: user proper params
         res.json(
           await getThreads(params.parentId, params.page)
         )
@@ -88,16 +77,15 @@ export default Router()
     // handle route
     async (req, res) => {
       try {
-        // TODO: validated data
+        // Prepare data.
         const UserId = req.user.id,
               bodyData = matchedData(req, { locations: ['body'] }),
               {threadsId} = matchedData(req, { locations: ['params'] }),
               thread = await Threads.findById(threadsId)
-        // FIXME: add same checker to "apiName" template
-        // FIXME: add tests about this one
-        // NOTE: maybe should use customg validator?
+        // Send error if thread doesn't exist.
         if (!thread) return res.status(204).end()
-        // check permissions
+        // Check permissions.
+        // Only an owner can update a thread.
         if (thread.UserId != UserId) res.status(403).end()
         else res.json(await thread.update(bodyData))
 
@@ -135,3 +123,20 @@ export default Router()
         res.status(500).end(error)
       }
   })
+
+  /**
+   * Get paginated threads by parentId
+   * @param {String} parentId parent UUID
+   * @param {Number} [currentPage=1] page number
+   * @export
+   */
+  export async function getThreads(parentId, currentPage = 1) {
+    return await createPagination({
+      limit: 12,
+      model: Threads,
+      page: currentPage,
+      where: {
+        parentId,
+      },
+    })
+  }

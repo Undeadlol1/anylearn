@@ -10,7 +10,7 @@ import { Threads, Forums, User } from 'server/data/models'
 import { loginUser } from 'server/test/middlewares/authApi.test'
 chai.should()
 chai.use(require('chai-properties'))
-
+// Prepare constants.
 const   agent = request(server),
         username = users[0].username,
         password = users[0].password,
@@ -53,7 +53,9 @@ export default describe('/threads API', function() {
             })
             .catch(error => { throw error})
     })
-
+    /**
+     * GET must return paginated response.
+     */
     it('GET threads', async function() {
         await agent
             .get('/api/threads/' + forumId)
@@ -66,7 +68,10 @@ export default describe('/threads API', function() {
                 body.values.should.have.length(1)
             })
     })
-
+    /**
+     * Make sure endpoint responses with proper
+     * thread object on singular GET request.
+     */
     it('GET single thread', async () => {
         await agent
             .get('/api/threads/thread/' + slug )
@@ -78,7 +83,11 @@ export default describe('/threads API', function() {
                 res.body.User.id.should.be.defined
             })
     })
-
+    /**
+     * Test updating of thread.
+     * Only the owner of a thread can update it.
+     * Make sure user cannot update "id" of a thread.
+     */
     it('PUT thread', async function() {
         const oldThread = await Threads.findOne({where: {parentId: forumId}})
         const user = await loginUser(username, password)
@@ -86,7 +95,6 @@ export default describe('/threads API', function() {
         const newId = generateUuid()
         await user
             .put('/api/threads/' + oldThread.id)
-            // TODO: must not be able to update id (add tests)
             .send({id: newId, text: newText})
             .expect(200)
             .expect('Content-Type', /json/)
@@ -94,9 +102,10 @@ export default describe('/threads API', function() {
                 const updatedThread = await Threads.findById(oldThread.id)
                 // make sure response has updated document
                 body.id.should.eq(updatedThread.id)
-                // FIXME: should i move this checks to different test?
-                // FIXME: comment
+                // make sure user cannot update "id" property
+                // NOTE: move this to a different test?
                 body.id.should.not.eq(newId)
+                // make sure response contains updated data
                 body.text.should.eq(updatedThread.text)
                 // make sure document is updated in database
                 expect(updatedThread).to.have.property("text", newText)
@@ -104,9 +113,9 @@ export default describe('/threads API', function() {
             })
             .catch(error => {throw error})
     })
-
     /*
         FAILURE TESTS
+        (The error messages and test names are self - explanatory)
     */
     describe('fails to PUT if', () => {
         it('id was not provided', async () => await agent.put('/api/threads').expect(404))
@@ -128,8 +137,6 @@ export default describe('/threads API', function() {
             const user = await loginUser(username, password)
             await Promise.each(
                 [
-                    // FIXME: what about nulls?
-                    // {property: 'name', value: null, error: 'Name is required'},
                     { property: 'text', value: undefined, error: 'Is required' },
                     { property: 'text', value: '', error: 'Text should be atleast 5 characters long' },
                     { property: 'text', value: ' ', error: 'Text should be atleast 5 characters long' },
@@ -155,9 +162,6 @@ export default describe('/threads API', function() {
             const user = await loginUser(username, password)
             await Promise.each(
                 [
-                    // FIXME: what about nulls?
-                    // NOTE: this might help http://sequelize.readthedocs.io/en/v3/docs/models-definition/#validations
-                    // {property: 'name', value: null, error: 'Name is required'},
                     { property: 'name', value: undefined, error: 'Name is required' },
                     { property: 'name', value: '', error: 'Name must be between 5 and 100 characters long' },
                     { property: 'name', value: ' ', error: 'Name must be between 5 and 100 characters long' },
