@@ -23,15 +23,7 @@ import {
 const debug = logger('mutations')
 
 /**
- * Check if exists and throw error if not.
- * This function is used in graphql resolvers.
- * @param {Object} user user object from request.
- */
-function mustLogin(user) {
-    if (isEmpty(user)) throw new Error('You must be logged in to do this.')
-}
-/**
- * Mutation which reates forum.
+ * Mutation to create a forum.
  * Forum is a container for threads.
  * Only admins can create forums.
  * @export
@@ -39,7 +31,7 @@ function mustLogin(user) {
 export const createForum = {
     type: forumType,
     description: 'Create a forum.',
-    // Only "name" is ruquired to create forum.
+    // Only "name" is ruquired to create a forum.
     args: {
         name: {
             type: new GraphQLNonNull(GraphQLString)
@@ -55,10 +47,11 @@ export const createForum = {
             const   UserId  = get(user, 'id'),
                     // Remove repeated whitespace and trim.
                     name = condenseWhitespace(args.name),
-                    payload = extend({name}, {
+                    payload = {
+                        name,
                         UserId,
-                        slug: slugify(args.name),
-                    })
+                        slug: slugify(name),
+                    }
             // Verify permissions.
             if (isEmpty(user)) throw new Error('You must be logged in to do this.')
             if (UserId !== process.env.ADMIN_ID) throw new Error('You must be an admin to do this.')
@@ -74,8 +67,8 @@ export const createForum = {
     }
 }
 /**
- * Mutation which creates thread.
- * Thread is a container for a comments.
+ * Mutation to create a thread.
+ * Thread is a container for comments.
  * @export
  */
 export const createThread = {
@@ -104,10 +97,8 @@ export const createThread = {
                 slug: slugify(args.name),
             })
             // Verify permissions.
-            // TODO: add tests for permissions.
             if (isEmpty(user)) throw new Error('You must be logged in to do this.')
             // Validate input.
-            // TODO: add tests for arguments.
             if (!args.text || !args.name || !args.parentId) throw new Error('Missing arguments')
             // Create document and send it back.
             return await Threads.create(payload)
@@ -117,11 +108,11 @@ export const createThread = {
     },
 }
 /**
- * Logout current user mutation.
+ * Logout current user.
  * @export
  */
 export const logoutUser = {
-    type: GraphQLBoolean, // Return nothing.
+    type: GraphQLBoolean, // Returns nothing.
     description: 'Logout current user.',
     resolve: (source, args, req) => logout(req),
 }
